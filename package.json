@@ -10,10 +10,11 @@
         "test:e2e": "vue-cli-service test:e2e"
     },
     "dependencies": {
-        "@smallwei/avue": "^1.1.19",
+        "@smallwei/avue": "^1.1.20-beta1",
         "avue-plugin-transfer": "^0.0.2",
         "avue-plugin-ueditor": "^0.0.1",
         "axios": "^0.18.0",
+        "babel-loader": "^8.0.2",
         "babel-plugin-transform-runtime": "^6.23.0",
         "babel-polyfill": "^6.26.0",
         "classlist-polyfill": "^1.2.0",

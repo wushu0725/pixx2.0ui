@@ -5,6 +5,7 @@
  */
 // 引入axios以及element ui中的loading和message组件
 import axios from 'axios'
+import router from '../router/router'
 import store from '../store'
 import { getToken } from '@/util/auth'
 import NProgress from 'nprogress' // progress bar
@@ -43,6 +44,9 @@ axios.interceptors.response.use(data => {
         message: errorCode[code] || errorCode['default'],
         type: 'error'
     })
+    store.dispatch("LogOut").then(() => {
+        router.push({ path: "/login" });
+    });
     return Promise.reject(new Error(error))
 
 })

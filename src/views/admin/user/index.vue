@@ -100,6 +100,8 @@ import { fetchList, getObj, addObj, putObj, delObj } from "@/api/user";
 import { deptRoleList, fetchDeptTree } from "@/api/role";
 import { tableOption } from '@/const/crud/user';
 import { mapGetters } from "vuex";
+import { constants } from 'fs';
+import { connect } from 'tls';
 
 export default {
   name: "table_user",
