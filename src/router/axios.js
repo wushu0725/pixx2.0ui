@@ -44,9 +44,6 @@ axios.interceptors.response.use(data => {
         message: errorCode[code] || errorCode['default'],
         type: 'error'
     })
-    store.dispatch("LogOut").then(() => {
-        router.push({ path: "/login" });
-    });
     return Promise.reject(new Error(error))
 
 })
