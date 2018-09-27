@@ -194,6 +194,14 @@ table {
     top: 0;
 }
 
+.iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
 .text-white {
     color: #fff;
 }
@@ -227,6 +235,7 @@ table {
 }
 
 .app-container {
+    height: 100%;
     padding: 20px;
     box-sizing: border-box;
 }

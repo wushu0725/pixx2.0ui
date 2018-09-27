@@ -19,4 +19,14 @@ export default [{
         component: () =>
             import ( /* webpackChunkName: "views" */ '@/views/crud/index')
     }]
+}, {
+    path: '/activti',
+    component: Layout,
+    redirect: '/activti/detail',
+    children: [{
+        path: 'detail/:id',
+        component: () =>
+            import ( /* webpackChunkName: "views" */ '@/views/admin/activiti/detail')
+    }]
+
 }]

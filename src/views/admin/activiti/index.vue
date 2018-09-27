@@ -98,12 +98,12 @@ export default {
     },
     handleView (row, index) {
       const name = `模型id为${row.id}的${row.name}流程图`,
-        src = `${this.actUrl}${row.id}`;
+        src = `/activti/detail/${row.id}`;
       this.$router.push({
-        path: this.$router.$avueRouter.getPath({
-          name: name,
-          src: src
-        })
+        path: src,
+        query: {
+          name: name
+        }
       })
     },
     handleDel (row, index) {
