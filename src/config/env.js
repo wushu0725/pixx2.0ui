@@ -1,9 +1,10 @@
 // 配置编译环境和线上环境之间的切换
 
-let baseUrl = '';
-let iconfontVersion = ['567566_r22zi6t8noas8aor', '567566_qo5lxgtishg', '599693_dfa50fge714', '667895_2ek3wqcg8w1', '667895_w0ofbdzuuir']
+let baseUrl = 'http://192.168.0.20:9999';
+let iconfontVersion = ['567566_r22zi6t8noas8aor', '567566_qo5lxgtishg', '599693_dfa50fge714', '667895_2ek3wqcg8w1', '667895_bywepfixwj8']
 let iconfontUrl = `//at.alicdn.com/t/font_$key.css`;
 let codeUrl = `${baseUrl}/code`
+let activitiUrl = `${baseUrl}/act`
 const env = process.env
 if (env.NODE_ENV == 'development') {
     baseUrl = ``; // 开发环境地址

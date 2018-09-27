@@ -1,4 +1,4 @@
-const url = 'http://pigx.pigx.top'
+const url = 'http://192.168.0.20:9999'
 module.exports = {
     lintOnSave: true,
     productionSourceMap: false,
@@ -55,6 +55,13 @@ module.exports = {
                 ws: true,
                 pathRewrite: {
                     '^/tx': '/tx'
+                }
+            },
+            '/act': {
+                target: url,
+                ws: true,
+                pathRewrite: {
+                    '^/act': '/act'
                 }
             },
         }

@@ -338,7 +338,7 @@ export default {
       })
     },
     handlePermission (row) {
-      fetchRoleTree(row.roleCode)
+      fetchRoleTree(row.roleId)
         .then(response => {
           this.checkedKeys = response.data
           return fetchTree()
@@ -451,7 +451,7 @@ export default {
         fetchTree()
           .then(response => {
             this.treeData = response.data
-            return fetchRoleTree(roleCode)
+            return fetchRoleTree(roleId)
           })
           .then(response => {
             this.checkedKeys = response.data
