@@ -1,5 +1,6 @@
 let RouterPlugin = function() {
     this.$router = null;
+    this.$store = null;
 };
 RouterPlugin.install = function(router, store) {
     this.$router = router;
@@ -13,6 +14,8 @@ RouterPlugin.install = function(router, store) {
         return result.join('&');
     }
     this.$router.$avueRouter = {
+        //全局配置
+        $website: this.$store.getters.website,
         // 设置标题
         setTitle: function(title) {
             title = title ? `${title}——Avue 通用管理 系统快速开发框架` : 'Avue 通用管理 系统快速开发框架';
@@ -55,16 +58,21 @@ RouterPlugin.install = function(router, store) {
         //动态路由
         formatRoutes: function(aMenu, first) {
             const aRouter = []
+            const propsConfig = this.$website.menu.props;
+            const propsDefault = {
+                label: propsConfig.label || 'label',
+                path: propsConfig.path || 'path',
+                icon: propsConfig.icon || 'icon',
+                children: propsConfig.children || 'children'
+            }
             aMenu.forEach(oMenu => {
-                const {
-                    path,
-                    component,
-                    name,
-                    icon,
-                    children
-                } = oMenu
+                const path = oMenu[propsDefault.path],
+                    component = oMenu.component,
+                    name = oMenu[propsDefault.label],
+                    icon = oMenu[propsDefault.icon],
+                    children = oMenu[propsDefault.children];
                 if (component) {
-                    const isChild = children.length !== 0
+                    const isChild = children.length !== 0;
                     const oRouter = {
                         path: path,
                         component(resolve) {

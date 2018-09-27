@@ -669,9 +669,9 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz#54c5a964462be3d4d78af631363c18d6fa91ac26"
 
-"@smallwei/avue@^1.1.17":
-  version "1.1.17"
-  resolved "https://registry.yarnpkg.com/@smallwei/avue/-/avue-1.1.17.tgz#b0ac20dec1ca37ae56aa161e07f6fdca96ca5b9f"
+"@smallwei/avue@^1.1.18":
+  version "1.1.18"
+  resolved "https://registry.yarnpkg.com/@smallwei/avue/-/avue-1.1.18.tgz#4950f0b958168c4604b696fc2e0c23694cbb406c"
   dependencies:
     async-validator "~1.8.1"
     axios "^0.16.2"

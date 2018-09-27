@@ -46,8 +46,7 @@
           <avue-form :option="formOption"
                      ref="formData"
                      v-model="formData"
-                     @submit="gen()"
-          >
+                     @submit="gen()">
           </avue-form>
         </div>
       </el-dialog>
@@ -61,7 +60,7 @@ import { tableOption, formOption } from '@/const/crud/gen'
 import { mapGetters } from 'vuex'
 export default {
   name: 'client',
-  data() {
+  data () {
     return {
       tableData: [],
       formData: {},
@@ -81,15 +80,15 @@ export default {
       formOption: formOption
     }
   },
-  created() {
+  created () {
     this.getList()
   },
-  mounted: function() { },
+  mounted: function () { },
   computed: {
     ...mapGetters(['permissions'])
   },
   methods: {
-    getList() {
+    getList () {
       this.tableLoading = true
       fetchList(this.listQuery).then(response => {
         this.tableData = response.data.records
@@ -97,32 +96,31 @@ export default {
         this.tableLoading = false
       })
     },
-    currentChange(val) {
+    currentChange (val) {
       this.page.currentPage = val
       this.listQuery.page = val
       this.getList()
     },
-    sizeChange(val) {
+    sizeChange (val) {
       this.page.pageSize = val
       this.listQuery.limit = val
       this.getList()
     },
-    handleDown: function(row, index) {
+    handleDown: function (row, index) {
       this.formData.tableName = row.tableName
       this.box = true
     },
     /**
      * 刷新回调
      */
-    refreshChange() {
+    refreshChange () {
       this.getList()
     },
-    searchChange(form) {
+    searchChange (form) {
       this.listQuery.tableName = form.tableName
       this.getList()
     },
-    gen(form) {
-      console.log(this.formData)
+    gen (form) {
       handleDown(this.formData).then(response => {
         this.box = true
       })

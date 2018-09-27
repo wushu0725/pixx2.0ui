@@ -18,14 +18,15 @@
 <template>
   <div class="app-container pull-auto">
     <basic-container>
-      <avue-crud :data="data" :option="option"/>
+      <avue-crud :data="data"
+                 :option="option" />
     </basic-container>
   </div>
 </template>
 <script>
 import request from '@/router/axios'
 export default {
-  data() {
+  data () {
     return {
       obj: {},
       data: [],
@@ -48,13 +49,12 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     request({
       url: '/tx/admin/avueSetting',
       method: 'get'
     }).then((resp) => {
       this.data = resp.data
-      console.log(resp.data)
     })
   }
 }

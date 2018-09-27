@@ -201,3 +201,37 @@ table {
 .grayMode {
     filter: grayscale(100%);
 }
+
+.clearfix {
+    &:after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0;
+    }
+} //main-container全局样式
+.app-main {
+    min-height: 100%
+}
+
+.filter-container {
+    padding-bottom: 10px;
+    .filter-item {
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+}
+
+.app-container {
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.pagination-container {
+    padding: 20px 0;
+    float: right;
+}

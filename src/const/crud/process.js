@@ -15,45 +15,46 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 export const tableOption = {
-  'border': true,
-  'index': true,
-  'indexLabel': '序号',
-  'stripe': true,
-  'menuAlign': 'center',
-  'menuWidth': 150,
-  'align': 'center',
-  'refreshBtn': true,
-  'showClomnuBtn': false,
-  'searchSize': 'mini',
-  'addBtn': false,
-  'editBtn': false,
-  'delBtn': false,
-  'column': [{
-      label: '流程ID',
-      prop: 'processonDefinitionId'
-  }, {
-      label: '模型标识',
-      prop: 'key',
-      editDisabled: true
-  },{
-    label: '流程分类',
-    prop: 'category',
-    search: true
-  }, {
-    label: '模型名称',
-    prop: 'name'
-  }, {
-    label: '版本号',
-    prop: 'revision',
-    editDisabled: true,
-    addVisdiplay: false
-  }, {
-    label: '部署时间',
-    prop: 'deploymentTime',
-    type: 'datetime',
-    format: 'yyyy-MM-dd HH:mm',
-    valueFormat: 'yyyy-MM-dd HH:mm:ss',
-    editDisabled: true,
-    addVisdiplay: false
-  }]
+    border: true,
+    index: true,
+    indexLabel: '序号',
+    stripe: true,
+    menuAlign: 'center',
+    menuWidth: 150,
+    menuBtn: true,
+    align: 'center',
+    addBtn: false,
+    editBtn: false,
+    delBtn: false,
+    searchShow: false,
+    column: [{
+        fixed: true,
+        label: '流程ID',
+        prop: 'processonDefinitionId'
+    }, {
+        fixed: true,
+        label: '模型标识',
+        prop: 'key',
+        editDisabled: true
+    }, {
+        label: '流程分类',
+        prop: 'category',
+        search: true
+    }, {
+        label: '模型名称',
+        prop: 'name'
+    }, {
+        label: '版本号',
+        prop: 'revision',
+        editDisabled: true,
+        addVisdiplay: false
+    }, {
+        label: '部署时间',
+        prop: 'deploymentTime',
+        type: 'datetime',
+        format: 'yyyy-MM-dd HH:mm',
+        valueFormat: 'yyyy-MM-dd HH:mm:ss',
+        editDisabled: true,
+        addVisdiplay: false
+    }]
 }

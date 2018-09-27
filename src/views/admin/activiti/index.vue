@@ -30,20 +30,17 @@
                  @row-save="handleSave"
                  @row-del="rowDel">
         <template slot-scope="scope"
-                  slot="menu">
-          <a :href="actUrl + scope.row.id" target="_blank" type="primary" icon="el-icon-view">模型图</a>
-          <el-button type="success"
-                     v-if="permissions.sys_log_del"
-                     icon="el-icon-upload"
-                     size="mini"
-                     plain
-                     @click="handleDeploy(scope.row,scope.index)">部署</el-button>
-          <el-button type="danger"
-                     v-if="permissions.sys_log_del"
-                     icon="el-icon-delete"
-                     size="mini"
-                     plain
-                     @click="handleDel(scope.row,scope.index)">删除</el-button>
+                  slot="dropMenu">
+          <el-dropdown-item divided
+                            v-if="permissions.sys_log_del"
+                            @click.native="handleView(scope.row,scope.index)">模型图</el-dropdown-item>
+          <el-dropdown-item divided
+                            v-if="permissions.sys_log_del"
+                            @click.native="handleDeploy(scope.row,scope.index)">部署</el-dropdown-item>
+          <el-dropdown-item divided
+                            v-if="permissions.sys_log_del"
+                            @click.native="handleDel(scope.row,scope.index)">删除</el-dropdown-item>
+
         </template>
       </avue-crud>
     </basic-container>
@@ -51,131 +48,139 @@
 </template>
 
 <script>
-  import { fetchList, delObj, addObj, deploy } from '@/api/activiti'
-  import { tableOption } from '@/const/crud/activiti'
-  import { mapGetters } from 'vuex'
-  export default {
-    name: 'activiti',
-    data() {
-      return {
-        actUrl: '',
-        tableData: [],
-        page: {
-          total: 0, // 总页数
-          currentPage: 1, // 当前页数
-          pageSize: 20 // 每页显示多少条
-        },
-        listQuery: {
-          page: 1,
-          limit: 20,
-          category: undefined
-        },
-        tableLoading: false,
-        tableOption: tableOption
-      }
+import { fetchList, delObj, addObj, deploy } from '@/api/activiti'
+import { tableOption } from '@/const/crud/activiti'
+import { mapGetters } from 'vuex'
+export default {
+  name: 'activiti',
+  data () {
+    return {
+      tableData: [],
+      page: {
+        total: 0, // 总页数
+        currentPage: 1, // 当前页数
+        pageSize: 20 // 每页显示多少条
+      },
+      listQuery: {
+        page: 1,
+        limit: 20,
+        category: undefined
+      },
+      tableLoading: false,
+      tableOption: tableOption
+    }
+  },
+  created () {
+    this.getList()
+  },
+  mounted: function () { },
+  computed: {
+    ...mapGetters(['permissions'])
+  },
+  methods: {
+    getList () {
+      this.tableLoading = true
+      this.listQuery.orderByField = 'create_time'
+      this.listQuery.isAsc = false
+      fetchList(this.listQuery).then(response => {
+        this.tableData = response.data.records
+        this.page.total = response.data.total
+        this.tableLoading = false
+      })
     },
-    created() {
-      this.actUrl = `http://192.168.0.20:9999/act/modeler.html?modelId=`
+    currentChange (val) {
+      this.listQuery.page = val
       this.getList()
     },
-    mounted: function() { },
-    computed: {
-      ...mapGetters(['permissions'])
+    sizeChange (val) {
+      this.listQuery.limit = val
+      this.getList()
     },
-    methods: {
-      getList() {
-        this.tableLoading = true
-        this.listQuery.orderByField = 'create_time'
-        this.listQuery.isAsc = false
-        fetchList(this.listQuery).then(response => {
-          this.tableData = response.data.records
-          this.page.total = response.data.total
-          this.tableLoading = false
+    handleView (row, index) {
+      const name = `模型id为${row.id}的${row.name}流程图`,
+        src = `${this.actUrl}${row.id}`;
+      this.$router.push({
+        path: this.$router.$avueRouter.getPath({
+          name: name,
+          src: src
         })
-      },
-      currentChange(val) {
-        this.listQuery.page = val
-        this.getList()
-      },
-      sizeChange(val) {
-        this.listQuery.limit = val
-        this.getList()
-      },
-      handleDel(row, index) {
-        this.$refs.crud.rowDel(row, index)
-      },
-      handleDeploy: function(row, index) {
-        var _this = this
-        this.$confirm('是否确认部署ID为"' + row.id + '"的模型?', '警告', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-        }).then(function() {
-                return deploy(row.id)
-            })
-            .then(data => {
-                this.getList()
-                _this.$message({
-                    showClose: true,
-                    message: '部署成功',
-                    type: 'success'
-                })
-            })
-            .catch(function(err) { })
-      },
-      rowDel: function(row, index) {
-        var _this = this
-        this.$confirm('是否确认删除ID为"' + row.id + '"的模型?', '警告', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+      })
+    },
+    handleDel (row, index) {
+      this.$refs.crud.rowDel(row, index)
+    },
+    handleDeploy: function (row, index) {
+      var _this = this
+      this.$confirm('是否确认部署ID为"' + row.id + '"的模型?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function () {
+        return deploy(row.id)
+      })
+        .then(data => {
+          this.getList()
+          _this.$message({
+            showClose: true,
+            message: '部署成功',
+            type: 'success'
+          })
         })
-          .then(function() {
-            return delObj(row.id)
+        .catch(function (err) { })
+    },
+    rowDel: function (row, index) {
+      var _this = this
+      this.$confirm('是否确认删除ID为"' + row.id + '"的模型?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(function () {
+          return delObj(row.id)
+        })
+        .then(data => {
+          this.getList()
+          _this.$message({
+            showClose: true,
+            message: '删除成功',
+            type: 'success'
           })
-          .then(data => {
-            this.getList()
-            _this.$message({
-              showClose: true,
-              message: '删除成功',
-              type: 'success'
-            })
-          })
-          .catch(function(err) { })
-      },
-      /**
-       * @title 数据添加
-       * @param row 为当前的数据
-       * @param done 为表单关闭函数
-       *
-       **/
-      handleSave: function(row, done) {
-          addObj(row).then(data => {
-              this.tableData.push(Object.assign({}, row))
-              this.$message({
-                  showClose: true,
-                  message: '添加成功',
-                  type: 'success'
-              })
-              done()
-              this.getList()
-          })
-      },
-      /**
-       * 搜索回调
-       */
-      searchChange(form) {
-        this.listQuery.category = form.category
+        })
+        .catch(function (err) { })
+    },
+    /**
+     * @title 数据添加
+     * @param row 为当前的数据
+     * @param done 为表单关闭函数
+     *
+     **/
+    handleSave: function (row, done) {
+      addObj(row).then(data => {
+        this.tableData.push(Object.assign({}, row))
+        this.$message({
+          showClose: true,
+          message: '添加成功',
+          type: 'success'
+        })
+        done()
         this.getList()
-      },
-      /**
-       * 刷新回调
-       */
-      refreshChange() {
-        this.getList()
-      }
+      })
+    },
+    /**
+     * 搜索回调
+     */
+    searchChange (form) {
+      this.listQuery.category = form.category
+      this.getList()
+    },
+    /**
+     * 刷新回调
+     */
+    refreshChange () {
+      this.getList()
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

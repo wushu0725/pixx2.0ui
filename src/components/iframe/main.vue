@@ -82,8 +82,8 @@ export default {
           list.length > 0 ? `?list` : ''
           }`
       }
-      //超时3s自动隐藏等待狂，加强用户体验
-      let time = 3
+      //超时5s自动隐藏等待框，加强用户体验
+      let time = 5
       const timeFunc = setInterval(() => {
         time--
         if (time == 0) {

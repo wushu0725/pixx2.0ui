@@ -2,17 +2,24 @@ import { setToken, removeToken } from '@/util/auth'
 import { setStore, getStore } from '@/util/store'
 import { logout, loginByUsername, loginBySocial, getUserInfo } from '@/api/login'
 import { encryption } from '@/util/util'
+import webiste from '@/const/website';
 import { GetMenu } from '@/api/menu'
 
 function addPath(ele) {
-    ele.children.forEach(child => {
-        const isChild = ele.children.length !== 0;
-        if (isChild) {
-            if (!child.path.includes('http') && !child.path.includes('https')) {
-                child.path = `${ele.path}/${child.path?child.path:'index'}`
-            }
-            addPath(child);
+    const propsConfig = webiste.menu.props;
+    const propsDefault = {
+        label: propsConfig.label || 'label',
+        path: propsConfig.path || 'path',
+        icon: propsConfig.icon || 'icon',
+        children: propsConfig.children || 'children'
+    }
+    const isChild = ele[propsDefault.children] && ele[propsDefault.children].length !== 0;
+    if (!isChild) return
+    ele[propsDefault.children].forEach(child => {
+        if (!child[propsDefault.path].includes('http') && !child[propsDefault.path].includes('https')) {
+            child[propsDefault.path] = `${ele[propsDefault.path]}/${child[propsDefault.path]?child[propsDefault.path]:'index'}`
         }
+        addPath(child);
     })
 }
 const user = {

@@ -386,7 +386,6 @@ export default {
       this.dialogDeptVisible = false
       this.form.roleDeptId = data.id
       this.form.deptName = data.name
-      console.log(data)
     },
     handleDelete (row) {
       delObj(row.roleId).then(response => {
