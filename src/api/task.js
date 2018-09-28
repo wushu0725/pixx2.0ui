@@ -19,46 +19,37 @@ import request from '@/router/axios'
 
 export function fetchList(query) {
   return request({
-    url: '/act/model',
+    url: '/act/task/todo',
     method: 'get',
     params: query
   })
 }
 
-export function delObj(id) {
-  return request({
-    url: '/act/model/' + id,
-    method: 'delete'
-  })
-}
-
-export function deploy(id) {
+export function fetchDetail(id) {
     return request({
-        url: '/act/model/deploy/' + id,
-        method: 'post'
+        url: '/act/task/'+id,
+        method: 'get'
     })
 }
 
-
-export function addObj(obj) {
-  return request({
-    url: '/act/model/insert',
-    method: 'post',
-    data: obj
-  })
+export function fetchComment(id) {
+    return request({
+        url: '/act/task/comment/'+id,
+        method: 'get'
+    })
 }
 
-export function getObj(id) {
-  return request({
-    url: '/admin/log/' + id,
-    method: 'get'
-  })
+export function fetchTask(id) {
+    return request({
+        url: '/act/task/view/'+id,
+        method: 'get'
+    })
 }
 
-export function putObj(obj) {
-  return request({
-    url: '/admin/log/',
-    method: 'put',
-    data: obj
-  })
+export function doTask(obj) {
+    return request({
+        url: '/act/task',
+        method: 'post',
+        data: obj
+    })
 }

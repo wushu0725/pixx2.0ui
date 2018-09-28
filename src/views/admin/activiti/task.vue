@@ -1,0 +1,197 @@
+<!--
+  -    Copyright (c) 2018-2025, lengleng All rights reserved.
+  -
+  - Redistribution and use in source and binary forms, with or without
+  - modification, are permitted provided that the following conditions are met:
+  -
+  - Redistributions of source code must retain the above copyright notice,
+  - this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+  - notice, this list of conditions and the following disclaimer in the
+  - documentation and/or other materials provided with the distribution.
+  - Neither the name of the pig4cloud.com developer nor the names of its
+  - contributors may be used to endorse or promote products derived from
+  - this software without specific prior written permission.
+  - Author: lengleng (wangiegie@gmail.com)
+  -->
+
+<template>
+  <div class="app-container pull-auto">
+    <basic-container>
+      <avue-crud ref="crud"
+                 :page="page"
+                 :data="tableData"
+                 :table-loading="tableLoading"
+                 :option="tableOption"
+                 @current-change="currentChange"
+                 @refresh-change="refreshChange"
+                 @size-change="sizeChange">
+        <template slot-scope="scope"
+                  slot="dropMenu">
+          <el-dropdown-item divided
+                            v-if="permissions.act_leavebill_edit"
+                            @click.native="audit(scope.row,scope.index)">审批</el-dropdown-item>
+          <el-dropdown-item divided
+                            v-if="permissions.act_leavebill_edit"
+                            @click.native="comment(scope.row,scope.index)">批注</el-dropdown-item>
+          <el-dropdown-item divided
+                            v-if="permissions.act_leavebill_edit"
+                            @click.native="viewPic(scope.row,scope.index)">流程图</el-dropdown-item>
+        </template>
+      </avue-crud>
+    </basic-container>
+    <el-dialog title="查看任务"
+               :visible.sync="showTask">
+      <avue-form ref="form" v-model="obj" :option="formOption">
+        <template slot-scope="scope" slot="menuForm">
+          <el-button type="primary"
+                     icon="el-icon-check"
+                     size="small"
+                     @click="handleTask(scope.row,'1')"
+                     plain>同意</el-button>
+          <el-button type="danger"
+                     icon="el-icon-check"
+                     size="small"
+                     @click="handleTask(scope.row,'0')"
+                     plain>驳回</el-button>
+        </template>
+      </avue-form>
+    </el-dialog>
+    <el-dialog title="批注列表"
+               :visible.sync="showComment">
+      <avue-crud :data="taskTableData" :option="taskOption"></avue-crud>
+    </el-dialog>
+    <el-dialog title="流程图"
+               :visible.sync="showPicDialog">
+      <img :src="actPicUrl">
+      <div :style="picStype" v-if="showPicDialog"/>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+  import { fetchList,fetchDetail,doTask,fetchTask,fetchComment} from '@/api/task'
+  import { tableOption,formOption,taskOption } from '@/const/crud/task'
+  import { mapGetters } from 'vuex'
+  export default {
+    name: 'task',
+    data() {
+      return {
+        picStype:'',
+        actPicUrl:'',
+        obj: {},
+        showTask: false,
+        showComment: false,
+        showPicDialog: false,
+        tableData: [],
+        taskTableData: [],
+        page: {
+          total: 0, // 总页数
+          currentPage: 1, // 当前页数
+          pageSize: 20 // 每页显示多少条
+        },
+        listQuery: {
+          page: 1,
+          limit: 20
+        },
+        tableLoading: false,
+        tableOption: tableOption,
+        formOption: formOption,
+        taskOption:taskOption,
+      }
+    },
+    created() {
+      this.getList()
+    },
+    mounted: function() { },
+    computed: {
+      ...mapGetters(['permissions'])
+  },
+  methods: {
+    getList() {
+      this.tableLoading = true
+      fetchList(this.listQuery).then(response => {
+        this.tableData = response.data.records
+        this.page.total = response.data.total
+        this.tableLoading = false
+    })},
+    currentChange(val) {
+      this.page.currentPage = val
+      this.listQuery.page = val
+      this.getList()
+    },
+    sizeChange(val) {
+      this.page.pageSize = val
+      this.listQuery.limit = val
+      this.getList()
+    },
+    audit:function(row, index) {
+        fetchDetail(row.taskId).then(response => {
+          this.obj = response.data.data
+        })
+        fetchComment(row.taskId).then(response => {
+            this.taskTableData = response.data.data
+        })
+        this.obj = row
+        this.showTask = true
+    },
+    comment:function(row, index) {
+        fetchComment(row.taskId).then(response => {
+            this.taskTableData = response.data.data
+        })
+        this.showComment = true
+    },
+    handleSubmit: function(row, index) {
+          var _this = this
+          this.$confirm('是否确认提交ID为' + row.leaveId, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+          })
+              .then(function() {
+                  return submit(row.leaveId)
+              })
+              .then(data => {
+                  _this.tableData.splice(index, 1)
+                  _this.$message({
+                      showClose: true,
+                      message: '提交成功',
+                      type: 'success'
+                  })
+              })
+              .catch(function(err) { })
+      },
+    handleTask: function(row, result) {
+        this.obj.result = result
+        doTask(this.obj).then(response =>{
+            this.$message({
+                showClose: true,
+                message: '提交成功',
+                type: 'success'
+            })
+            done()
+            this.getList()
+        })
+    },
+    viewPic: function(row, index) {
+      fetchTask(row.taskId).then(response => {
+          let res = response.data.data
+          this.actPicUrl = `/act/process/resource/` + res.deploymentId + '/' + res.processonDefinitionId + "/image"
+          // 动态画框
+          this.picStype = 'position: absolute;border:2px solid red;top:'+(res.yaxis + 80) +'px;left:'+(res.xaxis + 20)+'px;width:'+res.width+'px;height:'+res.height+'px;'
+      })
+      this.showPicDialog = true
+    },
+    /**
+     * 刷新回调
+     */
+    refreshChange() {
+      this.getList()
+    }
+  }
+  }
+</script>
+
+<style lang="scss" scoped>
+</style>
+

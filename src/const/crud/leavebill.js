@@ -15,50 +15,47 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-import request from '@/router/axios'
-
-export function fetchList(query) {
-  return request({
-    url: '/act/model',
-    method: 'get',
-    params: query
-  })
-}
-
-export function delObj(id) {
-  return request({
-    url: '/act/model/' + id,
-    method: 'delete'
-  })
-}
-
-export function deploy(id) {
-    return request({
-        url: '/act/model/deploy/' + id,
-        method: 'post'
-    })
-}
-
-
-export function addObj(obj) {
-  return request({
-    url: '/act/model/insert',
-    method: 'post',
-    data: obj
-  })
-}
-
-export function getObj(id) {
-  return request({
-    url: '/admin/log/' + id,
-    method: 'get'
-  })
-}
-
-export function putObj(obj) {
-  return request({
-    url: '/admin/log/',
-    method: 'put',
-    data: obj
-  })
+export const tableOption = {
+  'border': true,
+  'index': true,
+  'stripe': true,
+  'menuAlign': "center",
+  'align': "center",
+  menuBtn: true,
+  'editBtn': false,
+  'delBtn': false,
+  'addBtn': false,
+  'dic': [],
+  'column': [
+	  {
+      label: 'ID',
+      prop: 'leaveId',
+      editDisabled: true,
+      addVisdiplay: false
+    },
+	  {
+      label: '申请人',
+      prop: 'username',
+      editDisabled: true,
+      addVisdiplay: false
+    },
+	  {
+      label: '天数',
+      prop: 'days'
+    },
+	  {
+      label: '请假时间',
+      prop: 'createTime',
+      type: 'datetime',
+      format: 'yyyy-MM-dd HH:mm'
+    },
+    {
+        label: '备注',
+        prop: 'content'
+    },
+    {
+        label: '状态',
+        prop: 'state'
+    }
+  ]
 }

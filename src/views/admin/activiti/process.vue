@@ -40,11 +40,11 @@
 
           <el-dropdown-item divided
                             v-if="permissions.sys_log_del && !scope.row.suspend"
-                            @click="handleStatus(scope.row,'suspend')">失效</el-dropdown-item>
+                            @click.native="handleStatus(scope.row,'suspend')">失效</el-dropdown-item>
 
           <el-dropdown-item divided
                             v-if="permissions.sys_log_del"
-                            @click="handleDel(scope.row,'suspend')">删除</el-dropdown-item>
+                            @click.native="handleDel(scope.row,'suspend')">删除</el-dropdown-item>
         </template>
       </avue-crud>
     </basic-container>

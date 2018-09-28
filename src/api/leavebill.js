@@ -19,30 +19,15 @@ import request from '@/router/axios'
 
 export function fetchList(query) {
   return request({
-    url: '/act/model',
+    url: '/act/leavebill/page',
     method: 'get',
     params: query
   })
 }
 
-export function delObj(id) {
-  return request({
-    url: '/act/model/' + id,
-    method: 'delete'
-  })
-}
-
-export function deploy(id) {
-    return request({
-        url: '/act/model/deploy/' + id,
-        method: 'post'
-    })
-}
-
-
 export function addObj(obj) {
   return request({
-    url: '/act/model/insert',
+    url: '/act/leavebill/',
     method: 'post',
     data: obj
   })
@@ -50,14 +35,28 @@ export function addObj(obj) {
 
 export function getObj(id) {
   return request({
-    url: '/admin/log/' + id,
+    url: '/act/leavebill/' + id,
     method: 'get'
+  })
+}
+
+export function submit(id) {
+    return request({
+        url: '/act/leavebill/submit/' + id,
+        method: 'get'
+    })
+}
+
+export function delObj(id) {
+  return request({
+    url: '/act/leavebill/' + id,
+    method: 'delete'
   })
 }
 
 export function putObj(obj) {
   return request({
-    url: '/admin/log/',
+    url: '/act/leavebill/',
     method: 'put',
     data: obj
   })
