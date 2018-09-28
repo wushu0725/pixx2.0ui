@@ -1,7 +1,7 @@
 /**
  *
  * http配置
- * 
+ *
  */
 // 引入axios以及element ui中的loading和message组件
 import axios from 'axios'
@@ -44,6 +44,11 @@ axios.interceptors.response.use(data => {
         message: errorCode[code] || errorCode['default'],
         type: 'error'
     })
+    if(parseInt(code) === 401 || parseInt(code) === 403){
+        store.dispatch('FedLogOut').then(() => {
+            router.push({ path: '/login' });
+        })
+    }
     return Promise.reject(new Error(error))
 
 })
