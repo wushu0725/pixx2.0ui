@@ -63,21 +63,19 @@
     </el-dialog>
     <el-dialog title="流程图"
                :visible.sync="showPicDialog">
-      <img :src="actPicUrl">
-      <div :style="picStype" v-if="showPicDialog"/>
+      <img :src="actPicUrl" v-if="showPicDialog" width="100%">
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import { fetchList,fetchDetail,doTask,fetchTask,fetchComment} from '@/api/task'
+  import { fetchList,fetchDetail,doTask,fetchComment} from '@/api/task'
   import { tableOption,formOption,taskOption } from '@/const/crud/task'
   import { mapGetters } from 'vuex'
   export default {
     name: 'task',
     data() {
       return {
-        picStype:'',
         actPicUrl:'',
         obj: {},
         showTask: false,
@@ -147,19 +145,18 @@
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
+          }).then(function() {
+              return submit(row.leaveId)
           })
-              .then(function() {
-                  return submit(row.leaveId)
+          .then(data => {
+              _this.tableData.splice(index, 1)
+              _this.$message({
+                  showClose: true,
+                  message: '提交成功',
+                  type: 'success'
               })
-              .then(data => {
-                  _this.tableData.splice(index, 1)
-                  _this.$message({
-                      showClose: true,
-                      message: '提交成功',
-                      type: 'success'
-                  })
-              })
-              .catch(function(err) { })
+          })
+          .catch(function(err) { })
       },
     handleTask: function(row, result) {
         this.obj.result = result
@@ -169,17 +166,12 @@
                 message: '提交成功',
                 type: 'success'
             })
-            done()
+            this.showTask = false
             this.getList()
         })
     },
     viewPic: function(row, index) {
-      fetchTask(row.taskId).then(response => {
-          let res = response.data.data
-          this.actPicUrl = `/act/process/resource/` + res.deploymentId + '/' + res.processonDefinitionId + "/image"
-          // 动态画框
-          this.picStype = 'position: absolute;border:2px solid red;top:'+(res.yaxis + 80) +'px;left:'+(res.xaxis + 20)+'px;width:'+res.width+'px;height:'+res.height+'px;'
-      })
+      this.actPicUrl = `/act/task/view/` + row.taskId
       this.showPicDialog = true
     },
     /**

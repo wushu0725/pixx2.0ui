@@ -39,13 +39,6 @@ export function fetchComment(id) {
     })
 }
 
-export function fetchTask(id) {
-    return request({
-        url: '/act/task/view/'+id,
-        method: 'get'
-    })
-}
-
 export function doTask(obj) {
     return request({
         url: '/act/task',
