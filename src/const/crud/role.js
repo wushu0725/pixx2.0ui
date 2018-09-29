@@ -27,102 +27,81 @@ export const tableOption = {
     column: [{
         fixed: true,
         label: 'id',
-        prop: 'userId',
+        prop: 'roleId',
         span: 24,
         editDisabled: true,
         addVisdiplay: false,
     }, {
         fixed: true,
-        label: '用户名',
-        prop: 'username',
-        solt: true,
+        label: '角色名称',
+        prop: 'roleName',
         search: true,
         span: 24,
         rules: [{
                 required: true,
-                message: "请输入账户",
-                trigger: "blur"
+                message: '角色名称不能为空',
+                trigger: 'blur'
             },
             {
                 min: 3,
                 max: 20,
-                message: "长度在 3 到 20 个字符",
-                trigger: "blur"
+                message: '长度在 3 到 20 个字符',
+                trigger: 'blur'
             }
         ]
     }, {
-        label: '密码',
-        prop: 'password',
-        type: 'password',
-        hide: true,
+        label: '角色标识',
+        prop: 'roleCode',
+        search: true,
         span: 24,
         rules: [{
                 required: true,
-                message: "请输入密码",
-                trigger: "blur"
+                message: '角色标识不能为空',
+                trigger: 'blur'
             },
             {
-                min: 6,
+                min: 3,
                 max: 20,
-                message: "长度在 6 到 20 个字符",
-                trigger: "blur"
+                message: '长度在 3 到 20 个字符',
+                trigger: 'blur'
             }
         ]
     }, {
         label: '所属部门',
-        prop: 'deptId',
-        search: true,
+        prop: 'roleDeptId',
         formsolt: true,
-        solt: true,
-        span: 24,
-        rules: [{
-            required: true,
-            message: "请选择部门",
-            trigger: "blur"
-        }]
-    }, {
-        label: '角色',
-        prop: 'role',
-        formsolt: true,
-        solt: true,
         search: true,
-        span: 24,
-        rules: [{
-            required: true,
-            message: "请选择角色",
-            trigger: "blur"
-        }],
-    }, {
-        label: '状态',
-        prop: 'delFlag',
-        type: "select",
         solt: true,
-        search: true,
         span: 24,
         rules: [{
-            required: true,
-            message: "请选择状态",
-            trigger: "blur"
-        }],
-        dicData: [{
-            label: '有效',
-            value: '0'
-        }, {
-            label: '无效',
-            value: '1'
-        }, {
-            label: '锁定',
-            value: '9'
-        }]
+                required: true,
+                message: '所属部门不能为空',
+                trigger: 'blur'
+            },
+            {
+                min: 3,
+                max: 20,
+                message: '长度在 3 到 20 个字符',
+                trigger: 'blur'
+            }
+        ]
+    }, {
+        width: 180,
+        label: '角色描述',
+        prop: 'roleDesc',
+        overHidden: true,
+        type: 'textarea',
+        minRows: 6,
+        span: 24,
     }, {
         width: 180,
         label: '创建时间',
         prop: 'createTime',
+        search: true,
+        more: true,
         type: 'datetime',
         format: 'yyyy-MM-dd HH:mm',
         valueFormat: 'yyyy-MM-dd HH:mm:ss',
-        search: true,
-        more: true,
         editDisabled: true,
         addVisdiplay: false,
         span: 24,

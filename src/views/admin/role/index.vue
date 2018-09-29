@@ -18,161 +18,63 @@
 <template>
   <div class="app-container calendar-list-container">
     <basic-container>
-      <div class="filter-container">
-        <el-button class="filter-item"
-                   style="margin-left: 10px;"
-                   @click="handleCreate"
-                   type="primary"
-                   icon="edit"
-                   v-if="roleManager_btn_add">添加
-        </el-button>
-      </div>
+      <avue-crud :option="tableOption"
+                 :data="list"
+                 ref="crud"
+                 :page="page"
+                 v-model="form"
+                 :table-loading="listLoading"
+                 :before-open="handleOpenBefore"
+                 @current-change="handleCurrentChange"
+                 @size-change="handleSizeChange"
+                 @search-change="handleFilter"
+                 @refresh-change="handleRefreshChange"
+                 @row-update="update"
+                 @row-save="create">
 
-      <el-table :key='tableKey'
-                :data="list"
-                v-loading="listLoading"
-                element-loading-text="给我一点时间"
-                border
-                fit
-                highlight-current-row
-                style="width: 99%">
-
-        <el-table-column align="center"
-                         label="序号">
-          <template slot-scope="scope">
-            <span>{{scope.row.roleId}}</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column label="角色名称">
-          <template slot-scope="scope">
-            <span>{{scope.row.roleName}}</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column align="center"
-                         label="角色标识">
-          <template slot-scope="scope">
-            <span>{{scope.row.roleCode}}</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column align="center"
-                         label="角色描述">
-          <template slot-scope="scope">
-            <span>{{scope.row.roleDesc }}</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column align="center"
-                         label="所属部门">
-          <template slot-scope="scope">
-            <span>{{scope.row.deptName }}</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column align="center"
-                         label="创建时间">
-          <template slot-scope="scope">
-            <span>{{scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column label="操作"
-                         width="220">
-          <template slot-scope="scope">
-            <el-button size="mini"
-                       type="success"
-                       v-if="roleManager_btn_edit"
-                       @click="handleUpdate(scope.row)">编辑
-            </el-button>
-            <el-button size="mini"
-                       type="danger"
-                       v-if="roleManager_btn_del"
-                       @click="handleDelete(scope.row)">删除
-            </el-button>
-            <el-button size="mini"
-                       type="info"
-                       plain
-                       @click="handlePermission(scope.row)"
-                       v-if="roleManager_btn_perm">权限
-            </el-button>
-          </template>
-        </el-table-column>
-
-      </el-table>
-
-      <div v-show="!listLoading"
-           class="pagination-container">
-        <el-pagination @size-change="handleSizeChange"
-                       @current-change="handleCurrentChange"
-                       :current-page.sync="listQuery.page"
-                       :page-sizes="[10,20,30, 50]"
-                       :page-size="listQuery.limit"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="total">
-        </el-pagination>
-      </div>
+        <template slot="menuLeft">
+          <el-button v-if="roleManager_btn_add"
+                     class="filter-item"
+                     @click="handleCreate"
+                     size="small"
+                     type="primary"
+                     icon="el-icon-edit">添加</el-button>
+        </template>
+        <template slot="roleDeptId"
+                  slot-scope="scope">
+          <el-tag>{{scope.row.deptName}}</el-tag>
+        </template>
+        <template slot="roleDeptIdForm"
+                  slot-scope="scope">
+          <avue-crud-input v-model="form.roleDeptId"
+                           type="tree"
+                           placeholder="请选择所属部门"
+                           :node-click="getNodeData"
+                           :dic="treeDeptData"
+                           :props="defaultProps"></avue-crud-input>
+        </template>
+        <template slot="menu"
+                  slot-scope="scope">
+          <el-button size="mini"
+                     type="success"
+                     v-if="roleManager_btn_edit"
+                     @click="handleUpdate(scope.row,scope.index)">编辑
+          </el-button>
+          <el-button size="mini"
+                     type="danger"
+                     v-if="roleManager_btn_del"
+                     @click="handleDelete(scope.row,scope.index)">删除
+          </el-button>
+          <el-button size="mini"
+                     type="info"
+                     plain
+                     @click="handlePermission(scope.row,scope.index)"
+                     v-if="roleManager_btn_perm">权限
+          </el-button>
+        </template>
+      </avue-crud>
     </basic-container>
-    <el-dialog :title="textMap[dialogStatus]"
-               :visible.sync="dialogFormVisible">
-      <el-form :model="form"
-               :rules="rules"
-               ref="form"
-               label-width="100px">
-        <el-form-item label="角色名称"
-                      prop="roleName">
-          <el-input v-model="form.roleName"
-                    placeholder="角色名称"></el-input>
-        </el-form-item>
-        <el-form-item label="角色标识"
-                      prop="roleCode">
-          <el-input v-model="form.roleCode"
-                    placeholder="角色标识"></el-input>
-        </el-form-item>
-        <el-form-item label="描述"
-                      prop="roleDesc">
-          <el-input v-model="form.roleDesc"
-                    placeholder="描述"></el-input>
-        </el-form-item>
-        <el-form-item label="所属部门"
-                      prop="roleDept">
-          <el-input v-model="form.deptName"
-                    placeholder="选择部门"
-                    @focus="handleDept()"
-                    readonly></el-input>
-          <el-input type="hidden"
-                    v-model="form.roleDeptId"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer"
-           class="dialog-footer">
-        <el-button @click="cancel('form')">取 消</el-button>
-        <el-button v-if="dialogStatus=='create'"
-                   type="primary"
-                   @click="create('form')">确 定</el-button>
-        <el-button v-else
-                   type="primary"
-                   @click="update('form')">修 改</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog :title="textMap[dialogStatus]"
-               :visible.sync="dialogDeptVisible">
-      <el-tree class="filter-tree"
-               :data="treeDeptData"
-               :default-checked-keys="checkedKeys"
-               node-key="id"
-               highlight-current
-               ref="deptTree"
-               @node-click="getNodeData"
-               :props="defaultProps"
-               :filter-node-method="filterNode"
-               default-expand-all>
-      </el-tree>
-    </el-dialog>
-
-    <el-dialog :title="textMap[dialogStatus]"
+    <el-dialog title="分配权限"
                :visible.sync="dialogPermissionVisible">
       <el-tree class="filter-tree"
                :data="treeData"
@@ -208,88 +110,36 @@ import {
 } from '@/api/role'
 import { fetchTree } from '@/api/menu'
 import { mapGetters } from 'vuex'
-
+import { tableOption } from '@/const/crud/role'
 export default {
   name: 'table_role',
   data () {
     return {
+      tableOption: tableOption,
       treeData: [],
       treeDeptData: [],
       checkedKeys: [],
       defaultProps: {
-        children: 'children',
-        label: 'name'
+        label: "name",
+        value: 'id'
+      },
+      page: {
+        total: 0, // 总页数
+        currentPage: 1, // 当前页数
+        pageSize: 20 // 每页显示多少条
       },
       menuIds: '',
-      list: null,
-      total: null,
+      list: [],
       listLoading: true,
       listQuery: {
         page: 1,
         limit: 20
       },
-      form: {
-        roleName: undefined,
-        roleCode: undefined,
-        roleDesc: undefined,
-        deptName: undefined,
-        roleDeptId: undefined
-      },
+      form: {},
       roleId: undefined,
       roleCode: undefined,
-      rules: {
-        roleName: [
-          {
-            required: true,
-            message: '角色名称',
-            trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 20,
-            message: '长度在 3 到 20 个字符',
-            trigger: 'blur'
-          }
-        ],
-        roleCode: [
-          {
-            required: true,
-            message: '角色标识',
-            trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 20,
-            message: '长度在 3 到 20 个字符',
-            trigger: 'blur'
-          }
-        ],
-        roleDesc: [
-          {
-            required: true,
-            message: '角色标识',
-            trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 20,
-            message: '长度在 3 到 20 个字符',
-            trigger: 'blur'
-          }
-        ]
-      },
-      statusOptions: ['0', '1'],
       rolesOptions: undefined,
-      dialogFormVisible: false,
-      dialogDeptVisible: false,
       dialogPermissionVisible: false,
-      dialogStatus: '',
-      textMap: {
-        update: '编辑',
-        create: '创建',
-        permission: '分配权限'
-      },
-      tableKey: 0,
       roleManager_btn_add: false,
       roleManager_btn_edit: false,
       roleManager_btn_del: false,
@@ -311,9 +161,17 @@ export default {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
         this.list = response.data.records
-        this.total = response.data.total
+        this.page.total = response.data.total
         this.listLoading = false
       })
+    },
+    handleRefreshChange () {
+      this.getList()
+    },
+    handleFilter (param) {
+      this.listQuery = Object.assign(this.listQuery, param)
+      this.listQuery.page = 1;
+      this.getList();
     },
     handleSizeChange (val) {
       this.listQuery.limit = val
@@ -324,18 +182,14 @@ export default {
       this.getList()
     },
     handleCreate () {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
+      this.$refs.crud.rowAdd();
     },
-    handleUpdate (row) {
-      getObj(row.roleId).then(response => {
-        this.form = response.data
-        this.form.deptName = row.deptName
-        this.form.roleDeptId = row.roleDeptId
-        this.dialogFormVisible = true
-        this.dialogStatus = 'update'
-      })
+    handleOpenBefore (show, type) {
+      this.handleDept();
+      show();
+    },
+    handleUpdate (row, index) {
+      this.$refs.crud.rowEdit(row, index);
     },
     handlePermission (row) {
       fetchRoleTree(row.roleId)
@@ -375,22 +229,19 @@ export default {
     handleDept () {
       fetchDeptTree().then(response => {
         this.treeDeptData = response.data
-        this.dialogDeptVisible = true
       })
     },
     filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
-    getNodeData (data) {
-      this.dialogDeptVisible = false
-      this.form.roleDeptId = data.id
+    getNodeData (data, done) {
       this.form.deptName = data.name
+      done();
     },
-    handleDelete (row) {
+    handleDelete (row, index) {
       delObj(row.roleId).then(response => {
-        this.dialogFormVisible = false
-        this.getList()
+        this.list.splice(index, 1);
         this.$notify({
           title: '成功',
           message: '删除成功',
@@ -399,48 +250,33 @@ export default {
         })
       })
     },
-    create (formName) {
-      const set = this.$refs
-      set[formName].validate(valid => {
-        if (valid) {
-          addObj(this.form).then(() => {
-            this.dialogFormVisible = false
-            this.getList()
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        } else {
-          return false
-        }
-      })
+    create (row, done, loading) {
+      addObj(this.form).then(() => {
+        this.getList()
+        done();
+        this.$notify({
+          title: '成功',
+          message: '创建成功',
+          type: 'success',
+          duration: 2000
+        })
+      }).catch(() => {
+        loading();
+      });
     },
-    cancel (formName) {
-      this.dialogFormVisible = false
-      this.$refs[formName].resetFields()
-    },
-    update (formName) {
-      const set = this.$refs
-      set[formName].validate(valid => {
-        if (valid) {
-          this.dialogFormVisible = false
-          putObj(this.form).then(() => {
-            this.dialogFormVisible = false
-            this.getList()
-            this.$notify({
-              title: '成功',
-              message: '修改成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        } else {
-          return false
-        }
-      })
+    update (row, index, done, loading) {
+      putObj(this.form).then(() => {
+        this.getList()
+        done();
+        this.$notify({
+          title: '成功',
+          message: '修改成功',
+          type: 'success',
+          duration: 2000
+        })
+      }).catch(() => {
+        loading();
+      });
     },
     updatePermession (roleId, roleCode) {
       this.menuIds = ''
@@ -462,14 +298,6 @@ export default {
             })
           })
       })
-    },
-    resetTemp () {
-      this.form = {
-        id: undefined,
-        roleName: undefined,
-        roleCode: undefined,
-        roleDesc: undefined
-      }
     }
   }
 }

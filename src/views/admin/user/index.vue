@@ -67,18 +67,19 @@
           <el-button v-if="sys_user_edit"
                      size="small"
                      type="success"
-                     @click="handleUpdate(scope.row,scope.id)">编辑
+                     @click="handleUpdate(scope.row,scope.index)">编辑
           </el-button>
           <el-button v-if="sys_user_del"
                      size="small"
                      type="danger"
-                     @click="deletes(scope.row,scope.id)">删除
+                     @click="deletes(scope.row,scope.index)">删除
           </el-button>
         </template>
         <template slot="deptIdForm"
                   slot-scope="scope">
           <avue-crud-input v-model="form.deptId"
                            type="tree"
+                           placeholder="请选择所属部门"
                            :node-click="getNodeData"
                            :dic="treeDeptData"
                            :props="defaultProps"></avue-crud-input>
@@ -87,6 +88,7 @@
                   slot-scope="scope">
           <avue-crud-select v-model="role"
                             multiple
+                            placeholder="请选择角色，要先选择部门"
                             :dic="rolesOptions"
                             :props="roleProps"></avue-crud-select>
         </template>
@@ -180,7 +182,7 @@ export default {
       });
     },
     handleFilter (param) {
-      this.listQuery.username = param.username;
+      this.listQuery = Object.assign(this.listQuery, param)
       this.listQuery.page = 1;
       this.getList();
     },
@@ -228,10 +230,7 @@ export default {
         });
       }).catch(() => {
         loading();
-      });;
-    },
-    cancel (formName) {
-      this.$refs[formName].resetFields();
+      });
     },
     update (row, index, done, loading) {
       putObj(this.form).then(() => {
