@@ -24,8 +24,11 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 axios.interceptors.request.use(config => {
         NProgress.start() // start progress bar
         if (store.getters.access_token) {
-            config.headers['TENANT_ID'] = '1' // 租户ID
             config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+        }
+
+        if (sessionStorage.getItem('tenantId')){
+            config.headers['TENANT_ID'] =  sessionStorage.getItem('tenantId') // 租户ID
         }
         return config
     }, error => {

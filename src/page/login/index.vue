@@ -2,8 +2,14 @@
   <div class="login-container pull-height"
        @keyup.enter.native="handleLogin">
     <div class="login-logo animated fadeIn">
-      <img src="/svg/logo.svg"
-           alt="">
+      <el-dropdown @command="handleCommand">
+        <span class="el-dropdown-link">
+          选择租户<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="2">pigx</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <div class="login-weaper">
       <div class="login-left animated fadeInLeft">
@@ -80,13 +86,18 @@ export default {
       }
     }
   },
-  created () { },
+  created () {
+  },
   mounted () { },
   computed: {
     ...mapGetters(["website"])
   },
   props: [],
-  methods: {}
+  methods: {
+      handleCommand(command) {
+          sessionStorage.setItem('tenantId',command)
+      }
+  }
 };
 </script>
 
@@ -123,8 +134,7 @@ export default {
 .login-logo {
   position: absolute;
   top: 0;
-  left: 0;
-  padding-top: 50px;
+  right: 0;
   font-size: 24px;
   color: #333;
 }

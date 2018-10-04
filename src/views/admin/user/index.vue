@@ -217,6 +217,7 @@ export default {
     },
     handleUpdate (row, index) {
       this.$refs.crud.rowEdit(row, index);
+      this.form.password = undefined
     },
     create (row, done, loading) {
       addObj(this.form).then(() => {

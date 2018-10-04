@@ -35,7 +35,6 @@ export const tableOption = {
         fixed: true,
         label: '角色名称',
         prop: 'roleName',
-        search: true,
         span: 24,
         rules: [{
                 required: true,
@@ -52,7 +51,6 @@ export const tableOption = {
     }, {
         label: '角色标识',
         prop: 'roleCode',
-        search: true,
         span: 24,
         rules: [{
                 required: true,
@@ -70,21 +68,8 @@ export const tableOption = {
         label: '所属部门',
         prop: 'roleDeptId',
         formsolt: true,
-        search: true,
         solt: true,
         span: 24,
-        rules: [{
-                required: true,
-                message: '所属部门不能为空',
-                trigger: 'blur'
-            },
-            {
-                min: 3,
-                max: 20,
-                message: '长度在 3 到 20 个字符',
-                trigger: 'blur'
-            }
-        ]
     }, {
         width: 180,
         label: '角色描述',
@@ -97,7 +82,6 @@ export const tableOption = {
         width: 180,
         label: '创建时间',
         prop: 'createTime',
-        search: true,
         more: true,
         type: 'datetime',
         format: 'yyyy-MM-dd HH:mm',

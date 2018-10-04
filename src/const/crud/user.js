@@ -40,7 +40,7 @@ export const tableOption = {
         span: 24,
         rules: [{
                 required: true,
-                message: "请输入账户",
+                message: "请输入用户名",
                 trigger: "blur"
             },
             {
@@ -54,13 +54,10 @@ export const tableOption = {
         label: '密码',
         prop: 'password',
         type: 'password',
+        value: '',
         hide: true,
         span: 24,
-        rules: [{
-                required: true,
-                message: "请输入密码",
-                trigger: "blur"
-            },
+        rules: [
             {
                 min: 6,
                 max: 20,
@@ -71,7 +68,6 @@ export const tableOption = {
     }, {
         label: '所属部门',
         prop: 'deptId',
-        search: true,
         formsolt: true,
         solt: true,
         span: 24,
@@ -85,7 +81,6 @@ export const tableOption = {
         prop: 'role',
         formsolt: true,
         solt: true,
-        search: true,
         span: 24,
         rules: [{
             required: true,
@@ -97,7 +92,6 @@ export const tableOption = {
         prop: 'delFlag',
         type: "select",
         solt: true,
-        search: true,
         span: 24,
         rules: [{
             required: true,
@@ -121,7 +115,6 @@ export const tableOption = {
         type: 'datetime',
         format: 'yyyy-MM-dd HH:mm',
         valueFormat: 'yyyy-MM-dd HH:mm:ss',
-        search: true,
         more: true,
         editDisabled: true,
         addVisdiplay: false,

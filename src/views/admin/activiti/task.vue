@@ -44,16 +44,10 @@
                :visible.sync="showTask">
       <avue-form ref="form" v-model="obj" :option="formOption">
         <template slot-scope="scope" slot="menuForm">
-          <el-button type="primary"
-                     icon="el-icon-check"
-                     size="small"
-                     @click="handleTask(scope.row,'1')"
-                     plain>同意</el-button>
-          <el-button type="danger"
-                     icon="el-icon-check"
-                     size="small"
-                     @click="handleTask(scope.row,'0')"
-                     plain>驳回</el-button>
+              <el-button size="small"
+                         v-for="flag in flagList" :key="flag"
+                         @click="handleTask(scope.row,flag)"
+                         plain>{{flag}}</el-button>
         </template>
       </avue-form>
     </el-dialog>
@@ -78,6 +72,7 @@
       return {
         actPicUrl:'',
         obj: {},
+        flagList:{},
         showTask: false,
         showComment: false,
         showPicDialog: false,
@@ -126,12 +121,11 @@
     audit:function(row, index) {
         fetchDetail(row.taskId).then(response => {
           this.obj = response.data.data
-        })
-        fetchComment(row.taskId).then(response => {
-            this.taskTableData = response.data.data
+            // 根据连线判断下次的流程
+          this.flagList = this.obj.flagList
+          this.showTask = true
         })
         this.obj = row
-        this.showTask = true
     },
     comment:function(row, index) {
         fetchComment(row.taskId).then(response => {
@@ -159,7 +153,7 @@
           .catch(function(err) { })
       },
     handleTask: function(row, result) {
-        this.obj.result = result
+        this.obj.taskFlag = result
         doTask(this.obj).then(response =>{
             this.$message({
                 showClose: true,

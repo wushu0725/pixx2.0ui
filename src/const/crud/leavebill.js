@@ -25,7 +25,7 @@ export const tableOption = {
   'editBtn': false,
   'delBtn': false,
   'addBtn': false,
-  'dic': [],
+  'dicUrl': '/admin/dict/type/leave_status',
   'column': [
 	  {
       label: 'ID',
@@ -51,11 +51,19 @@ export const tableOption = {
     },
     {
         label: '备注',
-        prop: 'content'
+        prop: 'content',
+        type:'textarea',
+        minRows:2,
+        row:true,
+        span:24
     },
     {
         label: '状态',
-        prop: 'state'
+        prop: 'state',
+        type: 'select',
+        dicData: 'leave_status',
+        search: true,
+        addVisdiplay: false
     }
   ]
 }
