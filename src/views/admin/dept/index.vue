@@ -53,6 +53,7 @@
           <el-card class="box-card">
             <el-form :label-position="labelPosition"
                      label-width="80px"
+                     :rules="rules"
                      :model="form"
                      ref="form">
               <el-form-item label="父级节点"
@@ -62,7 +63,7 @@
                           placeholder="请输入父级节点"></el-input>
               </el-form-item>
               <el-form-item label="节点编号"
-                            prop="parentId"
+                            prop="deptId"
                             v-if="formEdit">
                 <el-input v-model="form.deptId"
                           :disabled="formEdit"
@@ -103,7 +104,7 @@ import { fetchTree, getObj, addObj, delObj, putObj } from '@/api/dept'
 import { mapGetters } from 'vuex'
 export default {
   name: 'menu',
-  data() {
+  data () {
     return {
       list: null,
       total: null,
@@ -121,6 +122,17 @@ export default {
         children: 'children',
         label: 'name'
       },
+      rules: {
+        parentId: [
+          { required: true, message: '请输入父级节点', trigger: 'blur' }
+        ],
+        deptId: [
+          { required: true, message: '请输入节点编号', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '请输入部门名称', trigger: 'blur' }
+        ],
+      },
       labelPosition: 'right',
       form: {
         name: undefined,
@@ -135,7 +147,7 @@ export default {
     }
   },
   filters: {
-    typeFilter(type) {
+    typeFilter (type) {
       const typeMap = {
         0: '菜单',
         1: '按钮'
@@ -143,7 +155,7 @@ export default {
       return typeMap[type]
     }
   },
-  created() {
+  created () {
     this.getList()
     this.deptManager_btn_add = this.permissions['sys_dept_add']
     this.deptManager_btn_edit = this.permissions['sys_dept_edit']
@@ -156,16 +168,16 @@ export default {
     ])
   },
   methods: {
-    getList() {
+    getList () {
       fetchTree(this.listQuery).then(response => {
         this.treeData = response.data
       })
     },
-    filterNode(value, data) {
+    filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
-    getNodeData(data) {
+    getNodeData (data) {
       if (!this.formEdit) {
         this.formStatus = 'update'
       }
@@ -175,18 +187,18 @@ export default {
       this.currentId = data.id
       this.showElement = true
     },
-    handlerEdit() {
+    handlerEdit () {
       if (this.form.deptId) {
         this.formEdit = false
         this.formStatus = 'update'
       }
     },
-    handlerAdd() {
+    handlerAdd () {
       this.resetForm()
       this.formEdit = false
       this.formStatus = 'create'
     },
-    handleDelete() {
+    handleDelete () {
       this.$confirm('此操作将永久删除, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -205,33 +217,40 @@ export default {
         })
       })
     },
-    update() {
-      putObj(this.form).then(() => {
-        this.getList()
-        this.$notify({
-          title: '成功',
-          message: '更新成功',
-          type: 'success',
-          duration: 2000
+    update () {
+      this.$refs.form.validate((valid) => {
+        if (!valid) return
+        putObj(this.form).then(() => {
+          this.getList()
+          this.$notify({
+            title: '成功',
+            message: '更新成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
+      })
+
+    },
+    create () {
+      this.$refs.form.validate((valid) => {
+        if (!valid) return
+        addObj(this.form).then(() => {
+          this.getList()
+          this.$notify({
+            title: '成功',
+            message: '创建成功',
+            type: 'success',
+            duration: 2000
+          })
         })
       })
     },
-    create() {
-      addObj(this.form).then(() => {
-        this.getList()
-        this.$notify({
-          title: '成功',
-          message: '创建成功',
-          type: 'success',
-          duration: 2000
-        })
-      })
-    },
-    onCancel() {
+    onCancel () {
       this.formEdit = true
       this.formStatus = ''
     },
-    resetForm() {
+    resetForm () {
       this.form = {
         permission: undefined,
         name: undefined,
