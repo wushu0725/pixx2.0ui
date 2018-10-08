@@ -57,6 +57,7 @@ RouterPlugin.install = function(router, store) {
         },
         //动态路由
         formatRoutes: function(aMenu, first) {
+            if (!aMenu) return;
             const aRouter = []
             const propsConfig = this.$website.menu.props;
             const propsDefault = {
@@ -71,48 +72,48 @@ RouterPlugin.install = function(router, store) {
                     name = oMenu[propsDefault.label],
                     icon = oMenu[propsDefault.icon],
                     children = oMenu[propsDefault.children];
-                if (component) {
-                    const isChild = children.length !== 0;
-                    const oRouter = {
-                        path: path,
-                        component(resolve) {
-                            // 判断是否为首路由
-                            if (first) {
-                                require(['../page/index'], resolve)
-                                return
-                                // 判断是否为多层路由
-                            } else if (isChild && !first) {
-                                require(['../page/index/layout'], resolve)
-                                return
-                                // 判断是否为最终的页面视图
-                            } else {
-                                require([`../${component}.vue`], resolve)
-                            }
-                        },
-                        name: name,
-                        icon: icon,
-                        redirect: (() => {
-                            if (!isChild && first) return `${path}/index`
-                            else return '';
-                        })(),
-                        // 处理是否为一级路由
-                        children: !isChild ? (() => {
-                            if (first) {
-                                oMenu[propsDefault.path] = `${path}/index`;
-                                return [{
-                                    component(resolve) { require([`../${component}.vue`], resolve) },
-                                    icon: icon,
-                                    name: name,
-                                    path: 'index'
-                                }]
-                            }
-                            return [];
-                        })() : (() => {
-                            return this.formatRoutes(children, false)
-                        })()
-                    }
-                    aRouter.push(oRouter)
+
+                const isChild = children.length !== 0;
+                const oRouter = {
+                    path: path,
+                    component(resolve) {
+                        // 判断是否为首路由
+                        if (first) {
+                            require(['../page/index'], resolve)
+                            return
+                            // 判断是否为多层路由
+                        } else if (isChild && !first) {
+                            require(['../page/index/layout'], resolve)
+                            return
+                            // 判断是否为最终的页面视图
+                        } else {
+                            require([`../${component}.vue`], resolve)
+                        }
+                    },
+                    name: name,
+                    icon: icon,
+                    redirect: (() => {
+                        if (!isChild && first) return `${path}/index`
+                        else return '';
+                    })(),
+                    // 处理是否为一级路由
+                    children: !isChild ? (() => {
+                        if (first) {
+                            oMenu[propsDefault.path] = `${path}/index`;
+                            return [{
+                                component(resolve) { require([`../${component}.vue`], resolve) },
+                                icon: icon,
+                                name: name,
+                                path: 'index'
+                            }]
+                        }
+                        return [];
+                    })() : (() => {
+                        return this.formatRoutes(children, false)
+                    })()
                 }
+                aRouter.push(oRouter)
+
             })
             return aRouter
         }

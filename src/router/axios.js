@@ -20,15 +20,22 @@ axios.defaults.timeout = 30000;
 //跨域请求，允许保存cookie
 axios.defaults.withCredentials = true;
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
-    //HTTPrequest拦截
+const requestMap = new Map();
+//HTTPrequest拦截
 axios.interceptors.request.use(config => {
+        const keyString = JSON.stringify(Object.assign({}, { url: config.url, method: config.method }, config.data));
+        if (requestMap.get(keyString)) {
+            return Promise.reject('code:000')
+        }
+        requestMap.set(keyString, true);
+        config = Object.assign(config, { _keyString: keyString });
         NProgress.start() // start progress bar
         if (store.getters.access_token) {
             config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
         }
 
-        if (sessionStorage.getItem('tenantId')){
-            config.headers['TENANT_ID'] =  sessionStorage.getItem('tenantId') // 租户ID
+        if (sessionStorage.getItem('tenantId')) {
+            config.headers['TENANT_ID'] = sessionStorage.getItem('tenantId') // 租户ID
         }
         return config
     }, error => {
@@ -36,9 +43,12 @@ axios.interceptors.request.use(config => {
         return Promise.reject(error)
     })
     //HTTPresponse拦截
-axios.interceptors.response.use(data => {
+axios.interceptors.response.use(res => {
     NProgress.done();
-    return data
+    // 重置requestMap
+    const config = Object.assign(res.config);
+    requestMap.set(config._keyString, false);
+    return res
 }, error => {
     NProgress.done()
     let errMsg = error.toString()
@@ -47,7 +57,7 @@ axios.interceptors.response.use(data => {
         message: errorCode[code] || errorCode['default'],
         type: 'error'
     })
-    if(parseInt(code) === 401 || parseInt(code) === 403){
+    if (parseInt(code) === 401 || parseInt(code) === 403) {
         store.dispatch('FedLogOut').then(() => {
             router.push({ path: '/login' });
         })
