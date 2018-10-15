@@ -7,10 +7,14 @@
 import axios from 'axios'
 import router from '../router/router'
 import store from '../store'
-import { getToken } from '@/util/auth'
+import {
+  getToken
+} from '@/util/auth'
 import NProgress from 'nprogress' // progress bar
 import errorCode from '@/const/errorCode'
-import { Message } from 'element-ui'
+import {
+  Message
+} from 'element-ui'
 import 'nprogress/nprogress.css' // progress bar style
 axios.defaults.timeout = 30000;
 //返回其他状态吗
@@ -19,50 +23,44 @@ axios.defaults.timeout = 30000;
 // };
 //跨域请求，允许保存cookie
 axios.defaults.withCredentials = true;
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
-const requestMap = new Map();
+NProgress.configure({
+  showSpinner: false
+}) // NProgress Configuration
 //HTTPrequest拦截
 axios.interceptors.request.use(config => {
-        const keyString = JSON.stringify(Object.assign({}, { url: config.url, method: config.method }, config.data));
-        if (requestMap.get(keyString)) {
-            return Promise.reject('code:000')
-        }
-        requestMap.set(keyString, true);
-        config = Object.assign(config, { _keyString: keyString });
-        NProgress.start() // start progress bar
-        if (store.getters.access_token) {
-            config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
-        }
+  NProgress.start() // start progress bar
+  if (store.getters.access_token) {
+    config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+  }
 
-        if (sessionStorage.getItem('tenantId')) {
-            config.headers['TENANT_ID'] = sessionStorage.getItem('tenantId') // 租户ID
-        }
-        return config
-    }, error => {
-        console.log('err' + error) // for debug
-        return Promise.reject(error)
-    })
-    //HTTPresponse拦截
-axios.interceptors.response.use(res => {
-    NProgress.done();
-    // 重置requestMap
-    const config = Object.assign(res.config);
-    requestMap.set(config._keyString, false);
-    return res
+  if (sessionStorage.getItem('tenantId')) {
+    config.headers['TENANT_ID'] = sessionStorage.getItem('tenantId') // 租户ID
+  }
+  return config
 }, error => {
-    NProgress.done()
-    let errMsg = error.toString()
-    let code = errMsg.substr(errMsg.indexOf('code') + 5)
-    Message({
-        message: errorCode[code] || errorCode['default'],
-        type: 'error'
+  console.log('err' + error) // for debug
+  return Promise.reject(error)
+})
+//HTTPresponse拦截
+axios.interceptors.response.use(res => {
+  NProgress.done();
+  return res
+}, error => {
+  NProgress.done()
+  let errMsg = error.toString()
+  let code = errMsg.substr(errMsg.indexOf('code') + 5)
+  Message({
+    message: errorCode[code] || errorCode['default'],
+    type: 'error'
+  })
+  if (parseInt(code) === 401 || parseInt(code) === 403) {
+    store.dispatch('FedLogOut').then(() => {
+      router.push({
+        path: '/login'
+      });
     })
-    if (parseInt(code) === 401 || parseInt(code) === 403) {
-        store.dispatch('FedLogOut').then(() => {
-            router.push({ path: '/login' });
-        })
-    }
-    return Promise.reject(new Error(error))
+  }
+  return Promise.reject(new Error(error))
 
 })
 
