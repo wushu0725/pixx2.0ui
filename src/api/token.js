@@ -19,22 +19,15 @@ import request from '@/router/axios'
 
 export function fetchList(query) {
   return request({
-    url: '/route',
+    url: '/admin/token/page',
     method: 'get',
     params: query
   })
 }
-export function putObj(obj) {
-    return request({
-        url: '/route',
-        method: 'put',
-        data: obj
-    })
-}
-export function fallback(obj) {
-    return request({
-        url: '/route/fallback',
-        method: 'get',
-        data: obj
-    })
+
+export function delObj(id) {
+  return request({
+    url: '/admin/token/' + id,
+    method: 'delete'
+  })
 }

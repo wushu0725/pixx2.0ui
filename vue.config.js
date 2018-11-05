@@ -36,6 +36,13 @@ module.exports = {
                     '^/code': '/code'
                 }
             },
+            '/route': {
+                target: url,
+                ws: true,
+                pathRewrite: {
+                    '^/route': '/route'
+                }
+            },
             '/gen': {
                 target: url,
                 ws: true,

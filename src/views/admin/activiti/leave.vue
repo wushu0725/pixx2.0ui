@@ -84,6 +84,8 @@
   },
   methods: {
     getList() {
+      this.listQuery.orderByField = 'create_time'
+      this.listQuery.isAsc = false
       this.tableLoading = true
       fetchList(this.listQuery).then(response => {
         this.tableData = response.data.records
