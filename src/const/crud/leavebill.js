@@ -41,14 +41,24 @@ export const tableOption = {
     },
 	  {
       label: '天数',
-      prop: 'days'
+      prop: 'days',
+      type: 'number'
     },
 	  {
       label: '请假时间',
-      prop: 'createTime',
+      prop: 'leaveTime',
       type: 'datetime',
-      format: 'yyyy-MM-dd HH:mm'
-    },
+      format: 'yyyy-MM-dd HH:mm',
+      valueFormat: "yyyy-MM-dd hh:mm:ss"
+      },
+      {
+          label: '提交时间',
+          prop: 'createTime',
+          type: 'datetime',
+          format: 'yyyy-MM-dd HH:mm',
+          editDisabled: true,
+          addVisdiplay: false
+      },
     {
         label: '备注',
         prop: 'content',

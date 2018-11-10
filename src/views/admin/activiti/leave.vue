@@ -23,6 +23,7 @@
                  :data="tableData"
                  :table-loading="tableLoading"
                  :option="tableOption"
+                 @search-change="searchChange"
                  @current-change="currentChange"
                  @refresh-change="refreshChange"
                  @size-change="sizeChange"
@@ -191,6 +192,13 @@
       done()
       this.getList()
     })
+    },
+    /**
+     * 搜索回调
+     */
+    searchChange(form) {
+        this.listQuery.state = form.state
+        this.getList()
     },
     /**
      * 刷新回调

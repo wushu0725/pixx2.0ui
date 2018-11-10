@@ -19,22 +19,15 @@ import request from '@/router/axios'
 
 export function fetchList(query) {
   return request({
-    url: '/route',
+    url: '/admin/route',
     method: 'get',
     params: query
   })
 }
 export function putObj(obj) {
     return request({
-        url: '/route',
+        url: '/admin/route',
         method: 'put',
-        data: obj
-    })
-}
-export function fallback(obj) {
-    return request({
-        url: '/route/fallback',
-        method: 'get',
         data: obj
     })
 }

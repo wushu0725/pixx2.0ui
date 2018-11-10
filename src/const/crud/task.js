@@ -125,7 +125,7 @@ export const taskOption = {
         },
         {
             label:'用户',
-            prop:'username'
+            prop:'userId'
         },
         {
             label:'批注',
