@@ -21,6 +21,8 @@ var validateUsername = (rule, value, callback) => {
         let result = response.data.data
         if (result !== null) {
             callback(new Error('用户名已经存在'))
+        } else {
+          callback()
         }
     });
 };

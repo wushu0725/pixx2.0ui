@@ -7,7 +7,8 @@
           选择租户<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="2">pigx</el-dropdown-item>
+          <el-dropdown-item command="1">租户1</el-dropdown-item>
+          <el-dropdown-item command="2">租户2</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
