@@ -1,4 +1,4 @@
-const url = 'http://zn.huaxiadaowei.com'
+const url = 'http://localhost:9999'
 module.exports = {
     lintOnSave: true,
     productionSourceMap: false,

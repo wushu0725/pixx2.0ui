@@ -41,10 +41,6 @@
         </template>
         <template slot="username"
                   slot-scope="scope">
-          <img v-if="scope.row.avatar"
-               class="user-avatar"
-               style="width: 20px; height: 20px; border-radius: 50%;"
-               :src="scope.row.avatar+'?imageView2/1/w/20/h/20'" />
           <span>{{scope.row.username}}</span>
         </template>
         <template slot="role"
