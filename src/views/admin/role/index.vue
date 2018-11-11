@@ -40,19 +40,6 @@
                      type="primary"
                      icon="el-icon-edit">添加</el-button>
         </template>
-        <template slot="roleDeptId"
-                  slot-scope="scope">
-          <el-tag>{{scope.row.deptName}}</el-tag>
-        </template>
-        <template slot="roleDeptIdForm"
-                  slot-scope="scope">
-          <avue-crud-input v-model="form.roleDeptId"
-                           type="tree"
-                           placeholder="请选择所属部门"
-                           :node-click="getNodeData"
-                           :dic="treeDeptData"
-                           :props="defaultProps"></avue-crud-input>
-        </template>
         <template slot="menu"
                   slot-scope="scope">
           <el-button size="mini"
@@ -105,8 +92,7 @@ import {
   putObj,
   delObj,
   permissionUpd,
-  fetchRoleTree,
-  fetchDeptTree
+  fetchRoleTree
 } from '@/api/role'
 import { fetchTree } from '@/api/menu'
 import { mapGetters } from 'vuex'
@@ -117,7 +103,6 @@ export default {
     return {
       tableOption: tableOption,
       treeData: [],
-      treeDeptData: [],
       checkedKeys: [],
       defaultProps: {
         label: "name",
@@ -185,7 +170,6 @@ export default {
       this.$refs.crud.rowAdd();
     },
     handleOpenBefore (show, type) {
-      this.handleDept();
       show();
     },
     handleUpdate (row, index) {
@@ -226,17 +210,11 @@ export default {
       }
       return temp
     },
-    handleDept () {
-      fetchDeptTree().then(response => {
-        this.treeDeptData = response.data
-      })
-    },
     filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
     getNodeData (data, done) {
-      this.form.deptName = data.name
       done();
     },
     handleDelete (row, index) {

@@ -32,9 +32,9 @@ export function fetchList(query) {
   })
 }
 
-export function deptRoleList(deptId) {
+export function deptRoleList() {
   return request({
-    url: '/admin/role/roleList/' + deptId,
+    url: '/admin/role/roleList/',
     method: 'get'
   })
 }

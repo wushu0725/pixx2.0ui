@@ -65,17 +65,6 @@ export const tableOption = {
             }
         ]
     }, {
-        label: '所属部门',
-        prop: 'roleDeptId',
-        formsolt: true,
-        solt: true,
-        span: 24,
-        rules: [{
-            required: true,
-            message: '所属部门不能为空',
-            trigger: 'blur'
-        }]
-    }, {
         width: 180,
         label: '角色描述',
         prop: 'roleDesc',

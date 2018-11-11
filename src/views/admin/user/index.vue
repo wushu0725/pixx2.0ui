@@ -104,7 +104,6 @@ import { tableOption } from '@/const/crud/user';
 import { mapGetters } from "vuex";
 import { constants } from 'fs';
 import { connect } from 'tls';
-
 export default {
   name: "table_user",
   data () {
@@ -170,9 +169,8 @@ export default {
         this.listLoading = false;
       });
     },
-    getNodeData (data, done) {
-      done();
-      deptRoleList(this.form.deptId).then(response => {
+    getNodeData (data) {
+      deptRoleList().then(response => {
         this.rolesOptions = response.data;
       });
     },
@@ -207,7 +205,7 @@ export default {
         for (var i = 0; i < this.form.roleList.length; i++) {
           this.role[i] = this.form.roleList[i].roleId;
         }
-        deptRoleList(this.form.deptId).then(response => {
+        deptRoleList().then(response => {
           this.rolesOptions = response.data;
         });
       } else if (type === 'add') {
