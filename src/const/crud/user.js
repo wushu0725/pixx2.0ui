@@ -17,8 +17,9 @@
 import { getDetails } from "@/api/user";
 var validateUsername = (rule, value, callback) => {
     getDetails(value).then(response => {
+        if (window.boxType === 'edit') callback()
         let result = response.data.data
-        if (result !== null){
+        if (result !== null) {
             callback(new Error('用户名已经存在'))
         }
     });
@@ -67,14 +68,12 @@ export const tableOption = {
         value: '',
         hide: true,
         span: 24,
-        rules: [
-            {
-                min: 6,
-                max: 20,
-                message: "长度在 6 到 20 个字符",
-                trigger: "blur"
-            }
-        ]
+        rules: [{
+            min: 6,
+            max: 20,
+            message: "长度在 6 到 20 个字符",
+            trigger: "blur"
+        }]
     }, {
         label: '所属部门',
         prop: 'deptId',
