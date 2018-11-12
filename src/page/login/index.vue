@@ -4,7 +4,7 @@
     <div class="login-logo animated fadeIn">
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
-          选择租户<i class="el-icon-arrow-down el-icon--right"></i>
+          默认租户<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="1">租户1</el-dropdown-item>

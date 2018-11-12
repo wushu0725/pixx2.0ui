@@ -7,11 +7,13 @@ export default {
     lockPage: '/lock',
     tokenTime: 6000,
     info: {
-        title: "Avue 通用管理系统快速开发框架",
+        title: "PigX Pro 快速开发框架",
         list: [
-            'Avue 是一个基于vue+vuex+vue-router快速后台管理模板，采用token交互验证方式。',
-            '您可以 Avue 为基础，不只限制于vue的页面，你可以嵌入第三方网站，基于iframe框架。',
-            'Avue 构建简单上手快，最大程度上帮助企业节省时间成本和费用开支。',
+            '一个基于Spring Cloud、OAuth2.0开发基于Vue前后分离的开发平台。',
+            '一个基于Avue2 开发无需前端知识，即可快速上手的开发平台。',
+            '最大程度上帮助企业节省时间成本和费用开支。',
+            'QQ群：23754102',
+            '当前版本：v2.0.0',
         ]
     },
     //配置菜单的属性
