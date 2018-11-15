@@ -125,7 +125,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           request({
-            url: '/admin/user/editInfo',
+            url: '/admin/user/edit',
             method: 'put',
             data: this.ruleForm2
           }).then(response => {

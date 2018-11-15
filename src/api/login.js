@@ -51,7 +51,7 @@ export const getUserInfo = () => {
 
 export const logout = () => {
     return request({
-        url: '/auth/oauth/removeToken',
-        method: 'get'
+        url: '/auth/oauth/token',
+        method: 'delete'
     })
 }
