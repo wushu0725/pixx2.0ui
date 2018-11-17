@@ -209,7 +209,7 @@ export default {
   methods: {
     getList () {
       fetchTree(this.listQuery).then(response => {
-        this.treeData = response.data
+        this.treeData = response.data.data
       })
     },
     filterNode (value, data) {
@@ -257,7 +257,7 @@ export default {
         this.formStatus = 'update'
       }
       getObj(data.id).then(response => {
-        this.form = response.data
+        this.form = response.data.data
       })
       this.currentId = data.id
       this.showElement = true

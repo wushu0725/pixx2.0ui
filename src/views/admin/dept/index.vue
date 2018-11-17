@@ -103,7 +103,7 @@
 import { fetchTree, getObj, addObj, delObj, putObj } from '@/api/dept'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'menu',
+  name: 'dept',
   data () {
     return {
       list: null,
@@ -146,15 +146,6 @@ export default {
       deptManager_btn_del: false
     }
   },
-  filters: {
-    typeFilter (type) {
-      const typeMap = {
-        0: '菜单',
-        1: '按钮'
-      }
-      return typeMap[type]
-    }
-  },
   created () {
     this.getList()
     this.deptManager_btn_add = this.permissions['sys_dept_add']
@@ -170,7 +161,7 @@ export default {
   methods: {
     getList () {
       fetchTree(this.listQuery).then(response => {
-        this.treeData = response.data
+        this.treeData = response.data.data
       })
     },
     filterNode (value, data) {
@@ -182,7 +173,7 @@ export default {
         this.formStatus = 'update'
       }
       getObj(data.id).then(response => {
-        this.form = response.data
+        this.form = response.data.data
       })
       this.currentId = data.id
       this.showElement = true
@@ -252,16 +243,7 @@ export default {
     },
     resetForm () {
       this.form = {
-        permission: undefined,
-        name: undefined,
-        menuId: undefined,
         parentId: this.currentId,
-        url: undefined,
-        icon: undefined,
-        sort: undefined,
-        component: undefined,
-        type: undefined,
-        method: undefined
       }
     }
   }

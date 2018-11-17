@@ -150,7 +150,7 @@ const user = {
         }) {
             return new Promise(resolve => {
                 GetMenu().then((res) => {
-                    const data = res.data
+                    const data = res.data.data
                     data.forEach(ele => {
                         addPath(ele);
                     })
