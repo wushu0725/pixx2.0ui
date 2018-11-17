@@ -31,8 +31,8 @@ export default {
   created () {
     this.$store.dispatch("GetMenu").then(data => {
       if (data.length === 0) return
-      this.$router.addRoutes(this.$router.$avueRouter.formatRoutes(data, true))
-    });
+      this.$router.$avueRouter.formatRoutes(data, true);
+    })
   },
   computed: {
     ...mapGetters(['website', 'menu', 'tag', 'keyCollapse', 'screen']),
@@ -44,4 +44,3 @@ export default {
 </script>
 <style lang="scss" scoped>
 </style>
-

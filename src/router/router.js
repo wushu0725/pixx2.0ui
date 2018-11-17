@@ -20,6 +20,6 @@ let Router = new VueRouter({
     routes: [].concat([])
 });
 AvueRouter.install(Router, Store);
-Router.addRoutes(Router.$avueRouter.formatRoutes(Store.state.user.menu, true));
+Router.$avueRouter.formatRoutes(Store.state.user.menu, true);
+Router.addRoutes([...PageRouter, ...ViewsRouter]);
 export default Router;
-export const asyncRouterMap = [].concat(PageRouter, ViewsRouter)

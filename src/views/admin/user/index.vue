@@ -22,9 +22,8 @@
                  ref="crud"
                  v-model="form"
                  :page="page"
+                 @on-load="getList"
                  :table-loading="listLoading"
-                 @current-change="handleCurrentChange"
-                 @size-change="handleSizeChange"
                  @search-change="handleFilter"
                  @refresh-change="handleRefreshChange"
                  @row-update="update"
@@ -118,14 +117,11 @@ export default {
       page: {
         total: 0, // 总页数
         currentPage: 1, // 当前页数
-        pageSize: 20 // 每页显示多少条
+        pageSize: 20, // 每页显示多少条,
+        isAsc: false//是否倒序
       },
       list: [],
       listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20
-      },
       role: [],
       form: {},
       rolesOptions: [],
@@ -150,16 +146,17 @@ export default {
     }
   },
   created () {
-    this.getList();
     this.sys_user_add = this.permissions["sys_user_add"];
     this.sys_user_edit = this.permissions["sys_user_edit"];
     this.sys_user_del = this.permissions["sys_user_del"];
   },
   methods: {
-    getList () {
+    getList (page, params) {
       this.listLoading = true;
-      this.listQuery.isAsc = false;
-      fetchList(this.listQuery).then(response => {
+      fetchList(Object.assign({
+        page: page.currentPage,
+        limit: page.pageSize
+      }, params)).then(response => {
         this.list = response.data.records;
         this.page.total = response.data.total
         this.listLoading = false;
@@ -176,20 +173,11 @@ export default {
       });
     },
     handleFilter (param) {
-      this.listQuery = Object.assign(this.listQuery, param)
-      this.listQuery.page = 1;
-      this.getList();
-    },
-    handleSizeChange (val) {
-      this.listQuery.limit = val;
-      this.getList();
+      this.page.page = 1;
+      this.getList(this.page, param);
     },
     handleRefreshChange () {
-      this.getList()
-    },
-    handleCurrentChange (val) {
-      this.listQuery.page = val;
-      this.getList();
+      this.getList(this.page)
     },
     handleCreate () {
       this.$refs.crud.rowAdd();

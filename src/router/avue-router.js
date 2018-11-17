@@ -16,9 +16,10 @@ RouterPlugin.install = function(router, store) {
     this.$router.$avueRouter = {
         //全局配置
         $website: this.$store.getters.website,
+        safe: this,
         // 设置标题
         setTitle: function(title) {
-            title = title ? `${title}——Avue 通用管理 系统快速开发框架` : 'Avue 通用管理 系统快速开发框架';
+            title = title ? `${title}——PigX Pro 快速开发框架` : 'PigX Pro 快速开发框架';
             document.title = title;
         },
         closeTag: (value) => {
@@ -57,7 +58,6 @@ RouterPlugin.install = function(router, store) {
         },
         //动态路由
         formatRoutes: function(aMenu, first) {
-            if (!aMenu) return;
             const aRouter = []
             const propsConfig = this.$website.menu.props;
             const propsDefault = {
@@ -66,6 +66,7 @@ RouterPlugin.install = function(router, store) {
                 icon: propsConfig.icon || 'icon',
                 children: propsConfig.children || 'children'
             }
+            if (!aMenu) return;
             aMenu.forEach(oMenu => {
                 const path = oMenu[propsDefault.path],
                     component = oMenu.component,
@@ -113,9 +114,13 @@ RouterPlugin.install = function(router, store) {
                     })()
                 }
                 aRouter.push(oRouter)
-
             })
-            return aRouter
+            if (first) {
+                this.safe.$router.addRoutes(aRouter)
+            } else {
+                return aRouter
+            }
+
         }
     }
 }

@@ -2,15 +2,19 @@
   <div class="login-container pull-height"
        @keyup.enter.native="handleLogin">
     <div class="login-logo animated fadeIn">
-      <el-dropdown @command="handleCommand">
-        <span class="el-dropdown-link">
-          默认租户<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="1">租户1</el-dropdown-item>
-          <el-dropdown-item command="2">租户2</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <el-select v-model="active"
+                 placeholder="请选择租户，不选为默认"
+                 size="mini">
+        <el-option label="默认租户"
+                   value="">
+        </el-option>
+        <el-option label="租户1"
+                   value="1">
+        </el-option>
+        <el-option label="租户2"
+                   value="2">
+        </el-option>
+      </el-select>
     </div>
     <div class="login-weaper">
       <div class="login-left animated fadeInLeft">
@@ -30,7 +34,8 @@
       </div>
       <div class="login-border  animated fadeInRight">
         <div class="login-main">
-          <h4 class="login-title">登录 {{website.title}}</h4>
+          <h4 class="login-title">登录 {{website.title}}
+          </h4>
           <userLogin v-if="activeName==='user'"></userLogin>
           <codeLogin v-else-if="activeName==='code'"></codeLogin>
           <thirdLogin v-else-if="activeName==='third'"></thirdLogin>
@@ -53,6 +58,7 @@ import codeLogin from "./codelogin";
 import thirdLogin from "./thirdlogin";
 import topColor from "../index/top/top-color";
 import color from "@/mixins/color";
+import { setStore } from '@/util/store'
 import { mapGetters } from "vuex";
 import { validatenull } from '@/util/validate'
 export default {
@@ -66,6 +72,7 @@ export default {
   },
   data () {
     return {
+      active: '',
       activeName: "user"
     };
   },
@@ -95,9 +102,9 @@ export default {
   },
   props: [],
   methods: {
-      handleCommand(command) {
-          sessionStorage.setItem('tenantId',command)
-      }
+    handleCommand (command) {
+      setStore({ name: 'tenantId', content: command, type: 'session' })
+    }
   }
 };
 </script>
@@ -114,7 +121,7 @@ export default {
   left: 0;
   width: 100%;
   height: 500px;
-  margin-top: -200px;
+  margin-top: -220px;
 }
 .login-container::before {
   z-index: -1024;
@@ -134,8 +141,8 @@ export default {
 }
 .login-logo {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 30px;
   font-size: 24px;
   color: #333;
 }
@@ -160,6 +167,9 @@ export default {
   margin: 0 auto;
   width: 50%;
   box-sizing: border-box;
+}
+.login-select {
+  display: inline-block;
 }
 .login-main > h3 {
   margin-bottom: 20px;
