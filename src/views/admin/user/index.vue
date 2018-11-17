@@ -54,7 +54,7 @@
                   slot-scope="scope">
           {{scope.row.deptName}}
         </template>
-        <template slot="delFlag"
+        <template slot="lockFlag"
                   slot-scope="scope">
           <el-tag>{{scope.label}}</el-tag>
         </template>
