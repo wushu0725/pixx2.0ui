@@ -23,9 +23,8 @@
                  :data="tableData"
                  :table-loading="tableLoading"
                  :option="tableOption"
-                 @current-change="currentChange"
+                 @on-load="getList"
                  @refresh-change="refreshChange"
-                 @size-change="sizeChange"
                  @search-change="searchChange">
         <template slot-scope="scope"
                   slot="menu">
@@ -70,41 +69,28 @@ export default {
         currentPage: 1, // 当前页数
         pageSize: 20 // 每页显示多少条
       },
-      listQuery: {
-        page: 1,
-        limit: 20,
-        tableName: undefined
-      },
       tableLoading: false,
       tableOption: tableOption,
       formOption: formOption
     }
   },
   created () {
-    this.getList()
   },
   mounted: function () { },
   computed: {
     ...mapGetters(['permissions'])
   },
   methods: {
-    getList () {
+    getList (page,params) {
       this.tableLoading = true
-      fetchList(this.listQuery).then(response => {
+      fetchList(Object.assign({
+          page: page.currentPage,
+          limit: page.pageSize
+      }, params)).then(response => {
         this.tableData = response.data.records
         this.page.total = response.data.total
         this.tableLoading = false
       })
-    },
-    currentChange (val) {
-      this.page.currentPage = val
-      this.listQuery.page = val
-      this.getList()
-    },
-    sizeChange (val) {
-      this.page.pageSize = val
-      this.listQuery.limit = val
-      this.getList()
     },
     handleDown: function (row, index) {
       this.formData.tableName = row.tableName
@@ -114,11 +100,10 @@ export default {
      * 刷新回调
      */
     refreshChange () {
-      this.getList()
+      this.getList(this.form)
     },
     searchChange (form) {
-      this.listQuery.tableName = form.tableName
-      this.getList()
+      this.getList(this.page,form)
     },
     gen (form) {
       handleDown(this.formData).then(response => {

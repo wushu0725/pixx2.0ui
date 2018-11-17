@@ -26,6 +26,7 @@ export const tableOption = {
     addBtn: false,
     editBtn: false,
     delBtn: false,
+    menuType:'menu',
     searchShow: false,
     column: [{
         fixed: true,

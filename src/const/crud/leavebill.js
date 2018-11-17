@@ -25,6 +25,7 @@ export const tableOption = {
   'editBtn': false,
   'delBtn': false,
   'addBtn': false,
+   menuType:'menu',
   'dicUrl': '/admin/dict/type/leave_status',
   'column': [
 	  {

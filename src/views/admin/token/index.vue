@@ -23,9 +23,8 @@
                  :data="tableData"
                  :table-loading="tableLoading"
                  :option="tableOption"
-                 @current-change="currentChange"
+                 @on-load="getList"
                  @refresh-change="refreshChange"
-                 @size-change="sizeChange"
                  @row-del="rowDel">
         <template slot-scope="scope"
                   slot="menu">
@@ -60,31 +59,22 @@ export default {
     }
   },
   created() {
-    this.getList()
   },
   mounted: function() { },
   computed: {
     ...mapGetters(['permissions'])
   },
   methods: {
-    getList() {
+    getList(page,params) {
       this.tableLoading = true
-      fetchList({
-        page: this.page.currentPage,
-        limit: this.page.pageSize
-      }).then(response => {
+      fetchList(Object.assign({
+          page: page.currentPage,
+          limit: page.pageSize
+      }, params)).then(response => {
         this.tableData = response.data.records
         this.page.total = response.data.total
         this.tableLoading = false
       })
-    },
-    currentChange(val) {
-      this.page.currentPage = val
-      this.getList()
-    },
-    sizeChange(val) {
-      this.page.pageSize = val
-      this.getList()
     },
     handleDel(row, index) {
       this.$refs.crud.rowDel(row, index)
@@ -113,7 +103,7 @@ export default {
      * 刷新回调
      */
     refreshChange() {
-      this.getList()
+      this.getList(this.page)
     }
   }
 }

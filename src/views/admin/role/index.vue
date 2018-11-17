@@ -25,8 +25,7 @@
                  v-model="form"
                  :table-loading="listLoading"
                  :before-open="handleOpenBefore"
-                 @current-change="handleCurrentChange"
-                 @size-change="handleSizeChange"
+                 @on-load="getList"
                  @search-change="handleFilter"
                  @refresh-change="handleRefreshChange"
                  @row-update="update"
@@ -116,10 +115,6 @@ export default {
       menuIds: '',
       list: [],
       listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20
-      },
       form: {},
       roleId: undefined,
       roleCode: undefined,
@@ -132,7 +127,6 @@ export default {
     }
   },
   created () {
-    this.getList()
     this.roleManager_btn_add = this.permissions['sys_role_add']
     this.roleManager_btn_edit = this.permissions['sys_role_edit']
     this.roleManager_btn_del = this.permissions['sys_role_del']
@@ -142,29 +136,23 @@ export default {
     ...mapGetters(['elements', 'permissions'])
   },
   methods: {
-    getList () {
+    getList (page,params) {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
+      fetchList(Object.assign({
+          page: page.currentPage,
+          limit: page.pageSize
+      }, params)).then(response => {
         this.list = response.data.records
         this.page.total = response.data.total
         this.listLoading = false
       })
     },
     handleRefreshChange () {
-      this.getList()
+      this.getList(this.page)
     },
     handleFilter (param) {
-      this.listQuery = Object.assign(this.listQuery, param)
-      this.listQuery.page = 1;
-      this.getList();
-    },
-    handleSizeChange (val) {
-      this.listQuery.limit = val
-      this.getList()
-    },
-    handleCurrentChange (val) {
-      this.listQuery.page = val
-      this.getList()
+      this.page.page = 1;
+      this.getList(this.page,param);
     },
     handleCreate () {
       this.$refs.crud.rowAdd();
@@ -230,7 +218,7 @@ export default {
     },
     create (row, done, loading) {
       addObj(this.form).then(() => {
-        this.getList()
+        this.getList(this.page)
         done();
         this.$notify({
           title: '成功',
@@ -244,7 +232,7 @@ export default {
     },
     update (row, index, done, loading) {
       putObj(this.form).then(() => {
-        this.getList()
+        this.getList(this.page)
         done();
         this.$notify({
           title: '成功',

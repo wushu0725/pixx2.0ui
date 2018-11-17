@@ -23,27 +23,26 @@
                  :data="tableData"
                  :table-loading="tableLoading"
                  :option="tableOption"
-                 @current-change="currentChange"
-                 @size-change="sizeChange"
+                 @on-load="getList"
                  @search-change="searchChange"
                  @refresh-change="refreshChange"
                  @row-del="rowDel">
         <template slot-scope="scope"
-                  slot="dropMenu">
+                  slot="menuBtn">
 
           <el-dropdown-item divided
-                            v-if="permissions.sys_log_del"
+                            v-if="permissions.act_process_manage"
                             @click.native="handlePic(scope.row,scope.index)">流程图</el-dropdown-item>
           <el-dropdown-item divided
-                            v-if="permissions.sys_log_del && scope.row.suspend"
+                            v-if="permissions.act_process_manage && scope.row.suspend"
                             @click.native="handleStatus(scope.row,'active')">激活</el-dropdown-item>
 
           <el-dropdown-item divided
-                            v-if="permissions.sys_log_del && !scope.row.suspend"
+                            v-if="permissions.act_process_manage && !scope.row.suspend"
                             @click.native="handleStatus(scope.row,'suspend')">失效</el-dropdown-item>
 
           <el-dropdown-item divided
-                            v-if="permissions.sys_log_del"
+                            v-if="permissions.act_process_manage"
                             @click.native="handleDel(scope.row,'suspend')">删除</el-dropdown-item>
         </template>
       </avue-crud>
@@ -71,40 +70,29 @@ export default {
         currentPage: 1, // 当前页数
         pageSize: 20 // 每页显示多少条
       },
-      listQuery: {
-        page: 1,
-        limit: 20,
-        category: undefined
-      },
       tableLoading: false,
       tableOption: tableOption
     }
   },
   created () {
-    this.getList()
   },
   mounted: function () { },
   computed: {
     ...mapGetters(['permissions'])
   },
   methods: {
-    getList () {
+    getList (page,params) {
       this.tableLoading = true
-      this.listQuery.orderByField = 'create_time'
-      this.listQuery.isAsc = false
-      fetchList(this.listQuery).then(response => {
+      fetchList(Object.assign({
+          orderByField: 'create_time',
+          isAsc: false,
+          page: page.currentPage,
+          limit: page.pageSize
+      }, params)).then(response => {
         this.tableData = response.data.records
         this.page.total = response.data.total
         this.tableLoading = false
       })
-    },
-    currentChange (val) {
-      this.listQuery.page = val
-      this.getList()
-    },
-    sizeChange (val) {
-      this.listQuery.limit = val
-      this.getList()
     },
     handlePic (row, index) {
       this.actPicUrl = `/act/process/resource/` + row.deploymentId + '/' + row.processonDefinitionId + "/image"
@@ -119,7 +107,7 @@ export default {
       }).then(function () {
         return status(row.processonDefinitionId, type)
       }).then(data => {
-        this.getList()
+        this.getList(this.page)
         _this.$message({
           showClose: true,
           message: '操作成功',
@@ -141,7 +129,7 @@ export default {
           return delObj(row.deploymentId)
         })
         .then(data => {
-          this.getList()
+          this.getList(this.page)
           _this.$message({
             showClose: true,
             message: '删除成功',
@@ -154,14 +142,13 @@ export default {
      * 搜索回调
      */
     searchChange (form) {
-      this.listQuery.category = form.category
-      this.getList()
+      this.getList(this.page,form)
     },
     /**
      * 刷新回调
      */
     refreshChange () {
-      this.getList()
+      this.getList(this.page)
     }
   }
 }

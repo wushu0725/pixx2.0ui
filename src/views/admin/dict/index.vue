@@ -23,8 +23,7 @@
                  :data="tableData"
                  :table-loading="tableLoading"
                  :option="tableOption"
-                 @current-change="currentChange"
-                 @size-change="sizeChange"
+                 @on-load="getList"
                  @row-update="handleUpdate"
                  @row-save="handleSave"
                  @search-change="searchChange"
@@ -63,40 +62,27 @@ export default {
         currentPage: 1, // 当前页数
         pageSize: 20 // 每页显示多少条
       },
-      listQuery: {
-        page: 1,
-        limit: 20,
-        type: undefined
-      },
       tableLoading: false,
       tableOption: tableOption
     }
   },
   created () {
-    this.getList()
   },
   mounted: function () { },
   computed: {
     ...mapGetters(['permissions'])
   },
   methods: {
-    getList () {
+    getList (page,params) {
       this.tableLoading = true
-      this.listQuery.orderByField = 'create_time'
-      this.listQuery.isAsc = false
-      fetchList(this.listQuery).then(response => {
+      fetchList(Object.assign({
+          page: page.currentPage,
+          limit: page.pageSize
+      }, params)).then(response => {
         this.tableData = response.data.records
         this.page.total = response.data.total
         this.tableLoading = false
       })
-    },
-    currentChange (val) {
-      this.listQuery.page = val
-      this.getList()
-    },
-    sizeChange (val) {
-      this.listQuery.limit = val
-      this.getList()
     },
     /**
      * @title 打开新增窗口
@@ -123,7 +109,7 @@ export default {
           return delObj(row)
         })
         .then(() => {
-          this.getList()
+          this.getList(this.page)
           _this.$message({
             showClose: true,
             message: '删除成功',
@@ -168,8 +154,7 @@ export default {
       })
     },
     searchChange (form) {
-      this.listQuery.type = form.type
-      this.getList()
+        this.getList(this.page,form)
     }
   }
 }

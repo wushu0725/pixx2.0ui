@@ -23,10 +23,9 @@
                  :data="tableData"
                  :table-loading="tableLoading"
                  :option="tableOption"
+                 @on-load="getList"
                  @search-change="searchChange"
-                 @current-change="currentChange"
                  @refresh-change="refreshChange"
-                 @size-change="sizeChange"
                  @row-update="handleUpdate"
                  @row-save="handleSave"
                  @row-del="rowDel">
@@ -37,7 +36,7 @@
                      v-if="permissions.act_leavebill_add">新 增</el-button>
         </template>
         <template slot-scope="scope"
-                  slot="dropMenu">
+                  slot="menuBtn">
           <el-dropdown-item divided
                             v-if="permissions.act_leavebill_edit && scope.row.state == 0"
                             @click.native="handleSubmit(scope.row,scope.index)">提交</el-dropdown-item>
@@ -68,41 +67,29 @@
           currentPage: 1, // 当前页数
           pageSize: 20 // 每页显示多少条
         },
-        listQuery: {
-          page: 1,
-          limit: 20
-        },
         tableLoading: false,
         tableOption: tableOption
       }
     },
     created() {
-      this.getList()
     },
     mounted: function() { },
     computed: {
       ...mapGetters(['permissions'])
   },
   methods: {
-    getList() {
-      this.listQuery.orderByField = 'create_time'
-      this.listQuery.isAsc = false
+    getList(page,params) {
       this.tableLoading = true
-      fetchList(this.listQuery).then(response => {
+      fetchList(Object.assign({
+          orderByField: 'create_time',
+          isAsc: false,
+          page: page.currentPage,
+          limit: page.pageSize
+      }, params)).then(response => {
         this.tableData = response.data.records
         this.page.total = response.data.total
         this.tableLoading = false
     })
-    },
-    currentChange(val) {
-      this.page.currentPage = val
-      this.listQuery.page = val
-      this.getList()
-    },
-    sizeChange(val) {
-      this.page.pageSize = val
-      this.listQuery.limit = val
-      this.getList()
     },
     /**
      * @title 打开新增窗口
@@ -153,7 +140,7 @@
                       message: '提交成功',
                       type: 'success'
                   })
-                this.getList()
+                this.getList(this.page)
             }).catch(function(err) { })
       },
     /**
@@ -172,7 +159,7 @@
         type: 'success'
       })
       done()
-      this.getList()
+      this.getList(this.page)
     })
     },
     /**
@@ -190,21 +177,21 @@
         type: 'success'
       })
       done()
-      this.getList()
+      this.getList(this.page)
     })
     },
     /**
      * 搜索回调
      */
     searchChange(form) {
-        this.listQuery.state = form.state
-        this.getList()
+        this.page.state = form.state
+        this.getList(this.page,form)
     },
     /**
      * 刷新回调
      */
     refreshChange() {
-      this.getList()
+      this.getList(this.page)
     }
   }
   }

@@ -23,22 +23,21 @@
                  :data="tableData"
                  :table-loading="tableLoading"
                  :option="tableOption"
-                 @current-change="currentChange"
-                 @size-change="sizeChange"
+                 @on-load="getList"
                  @search-change="searchChange"
                  @refresh-change="refreshChange"
                  @row-save="handleSave"
                  @row-del="rowDel">
         <template slot-scope="scope"
-                  slot="dropMenu">
+                  slot="menuBtn">
           <el-dropdown-item divided
-                            v-if="permissions.sys_log_del"
+                            v-if="permissions.act_model_manage"
                             @click.native="handleView(scope.row,scope.index)">模型图</el-dropdown-item>
           <el-dropdown-item divided
-                            v-if="permissions.sys_log_del"
+                            v-if="permissions.act_model_manage"
                             @click.native="handleDeploy(scope.row,scope.index)">部署</el-dropdown-item>
           <el-dropdown-item divided
-                            v-if="permissions.sys_log_del"
+                            v-if="permissions.act_model_manage"
                             @click.native="handleDel(scope.row,scope.index)">删除</el-dropdown-item>
 
         </template>
@@ -61,40 +60,29 @@ export default {
         currentPage: 1, // 当前页数
         pageSize: 20 // 每页显示多少条
       },
-      listQuery: {
-        page: 1,
-        limit: 20,
-        category: undefined
-      },
       tableLoading: false,
       tableOption: tableOption
     }
   },
   created () {
-    this.getList()
   },
   mounted: function () { },
   computed: {
     ...mapGetters(['permissions'])
   },
   methods: {
-    getList () {
+    getList (page,params) {
       this.tableLoading = true
-      this.listQuery.orderByField = 'create_time'
-      this.listQuery.isAsc = false
-      fetchList(this.listQuery).then(response => {
+      fetchList(Object.assign({
+          orderByField: 'create_time',
+          isAsc: false,
+          page: page.currentPage,
+          limit: page.pageSize
+      }, params)).then(response => {
         this.tableData = response.data.records
         this.page.total = response.data.total
         this.tableLoading = false
       })
-    },
-    currentChange (val) {
-      this.listQuery.page = val
-      this.getList()
-    },
-    sizeChange (val) {
-      this.listQuery.limit = val
-      this.getList()
     },
     handleView (row, index) {
       const name = `模型id为${row.id}的${row.name}流程图`,
@@ -119,7 +107,7 @@ export default {
         return deploy(row.id)
       })
         .then(data => {
-          this.getList()
+          this.getList(this.page)
           _this.$message({
             showClose: true,
             message: '部署成功',
@@ -139,7 +127,7 @@ export default {
           return delObj(row.id)
         })
         .then(data => {
-          this.getList()
+          this.getList(this.page)
           _this.$message({
             showClose: true,
             message: '删除成功',
@@ -163,21 +151,20 @@ export default {
           type: 'success'
         })
         done()
-        this.getList()
+        this.getList(this.page)
       })
     },
     /**
      * 搜索回调
      */
     searchChange (form) {
-      this.listQuery.category = form.category
-      this.getList()
+      this.getList(this.page,form)
     },
     /**
      * 刷新回调
      */
     refreshChange () {
-      this.getList()
+      this.getList(this.page)
     }
   }
 }

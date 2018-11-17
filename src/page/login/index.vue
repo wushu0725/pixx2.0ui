@@ -3,11 +3,9 @@
        @keyup.enter.native="handleLogin">
     <div class="login-logo animated fadeIn">
       <el-select v-model="active"
+                 @change="handleCommand"
                  placeholder="请选择租户，不选为默认"
                  size="mini">
-        <el-option label="默认租户"
-                   value="">
-        </el-option>
         <el-option label="租户1"
                    value="1">
         </el-option>
@@ -58,7 +56,7 @@ import codeLogin from "./codelogin";
 import thirdLogin from "./thirdlogin";
 import topColor from "../index/top/top-color";
 import color from "@/mixins/color";
-import { setStore } from '@/util/store'
+import { setStore,getStore } from '@/util/store'
 import { mapGetters } from "vuex";
 import { validatenull } from '@/util/validate'
 export default {
@@ -95,6 +93,7 @@ export default {
     }
   },
   created () {
+     this.active = getStore({ name: 'tenantId' });
   },
   mounted () { },
   computed: {
@@ -103,7 +102,7 @@ export default {
   props: [],
   methods: {
     handleCommand (command) {
-      setStore({ name: 'tenantId', content: command, type: 'session' })
+      setStore({ name: 'tenantId', content: command})
     }
   }
 };

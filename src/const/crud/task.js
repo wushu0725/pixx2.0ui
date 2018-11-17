@@ -24,6 +24,7 @@ export const tableOption = {
     'editBtn': false,
     'delBtn': false,
     'addBtn': false,
+    menuType: 'menu',
     'dic': [],
     'column': [
         {

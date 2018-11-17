@@ -21,21 +21,20 @@
       <avue-crud ref="crud"
                  :page="page"
                  :data="tableData"
+                 @on-load="getList"
                  :table-loading="tableLoading"
                  :option="tableOption"
-                 @current-change="currentChange"
-                 @refresh-change="refreshChange"
-                 @size-change="sizeChange">
+                 @refresh-change="refreshChange">
         <template slot-scope="scope"
-                  slot="dropMenu">
+                  slot="menuBtn">
           <el-dropdown-item divided
-                            v-if="permissions.act_leavebill_edit"
+                            v-if="permissions.act_task_manage"
                             @click.native="audit(scope.row,scope.index)">审批</el-dropdown-item>
           <el-dropdown-item divided
-                            v-if="permissions.act_leavebill_edit"
+                            v-if="permissions.act_task_manage"
                             @click.native="comment(scope.row,scope.index)">批注</el-dropdown-item>
           <el-dropdown-item divided
-                            v-if="permissions.act_leavebill_edit"
+                            v-if="permissions.act_task_manage"
                             @click.native="viewPic(scope.row,scope.index)">流程图</el-dropdown-item>
         </template>
       </avue-crud>
@@ -83,10 +82,6 @@
           currentPage: 1, // 当前页数
           pageSize: 20 // 每页显示多少条
         },
-        listQuery: {
-          page: 1,
-          limit: 20
-        },
         tableLoading: false,
         tableOption: tableOption,
         formOption: formOption,
@@ -94,30 +89,23 @@
       }
     },
     created() {
-      this.getList()
     },
     mounted: function() { },
     computed: {
       ...mapGetters(['permissions'])
   },
   methods: {
-    getList() {
+    getList(page,params) {
       this.tableLoading = true
-      fetchList(this.listQuery).then(response => {
+      fetchList(Object.assign({
+          page: page.currentPage,
+          limit: page.pageSize
+      }, params)).then(response => {
         this.tableData = response.data.records
         this.page.total = response.data.total
         this.tableLoading = false
     })},
-    currentChange(val) {
-      this.page.currentPage = val
-      this.listQuery.page = val
-      this.getList()
-    },
-    sizeChange(val) {
-      this.page.pageSize = val
-      this.listQuery.limit = val
-      this.getList()
-    },
+
     audit:function(row, index) {
         fetchDetail(row.taskId).then(response => {
           this.obj = response.data.data
@@ -161,7 +149,7 @@
                 type: 'success'
             })
             this.showTask = false
-            this.getList()
+            this.getList(this.page)
         })
     },
     viewPic: function(row, index) {
@@ -172,7 +160,7 @@
      * 刷新回调
      */
     refreshChange() {
-      this.getList()
+      this.getList(this.page)
     }
   }
   }
