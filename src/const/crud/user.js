@@ -100,7 +100,7 @@ export const tableOption = {
         }],
     }, {
         label: '状态',
-        prop: 'delFlag',
+        prop: 'lockFlag',
         type: "select",
         solt: true,
         span: 24,
@@ -112,9 +112,6 @@ export const tableOption = {
         dicData: [{
             label: '有效',
             value: '0'
-        }, {
-            label: '无效',
-            value: '1'
         }, {
             label: '锁定',
             value: '9'
