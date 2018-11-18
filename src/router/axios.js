@@ -47,7 +47,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(res => {
     NProgress.done();
     const status = Number(res.status);
-    const message = res.data.message || errorCode[status] || errorCode['default'];
+    const message = res.data.data || errorCode[status] || errorCode['default'];
 
     if (status === 401){
         store.dispatch('FedLogOut').then(() => {

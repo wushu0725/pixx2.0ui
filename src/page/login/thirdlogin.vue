@@ -32,7 +32,7 @@ export default {
       redirect_uri = encodeURIComponent(window.location.origin + '/#/authredirect')
       if (thirdpart === 'wechat') {
         appid = 'wxd1678d3f83b1d83a'
-        url = 'https://open.weixin.qq.com/connect/qrconnect?appid=' + appid + '&redirect_uri=' + redirect_uri + '&state=' + appid + '&response_type=code&scope=snsapi_login#wechat_redirect'
+        url = 'https://open.weixin.qq.com/connect/qrconnect?appid=' + appid + '&redirect_uri=' + redirect_uri + '&state=WX&response_type=code&scope=snsapi_login#wechat_redirect'
       } else if (thirdpart === 'tencent') {
         client_id = '101322838'
         url = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&state=' + appid + '&client_id=' + client_id + '&redirect_uri=' + redirect_uri

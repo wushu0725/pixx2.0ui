@@ -29,10 +29,23 @@ export const loginByUsername = (username, password, code, randomStr) => {
     })
 }
 
+export const loginByMobile = (mobile, code) => {
+    var grant_type = 'mobile'
+    return request({
+        url: '/auth/mobile/token/sms',
+        headers: {
+            'TENANT_ID': '1',
+            'Authorization': 'Basic cGlnOnBpZw=='
+        },
+        method: 'post',
+        params: { mobile: 'SMS@' + mobile,code: code, grant_type }
+    })
+}
+
 export const loginBySocial = (state, code) => {
     var grant_type = 'mobile'
     return request({
-        url: '/auth/mobile/token',
+        url: '/auth/mobile/token/social',
         headers: {
             'TENANT_ID': '1',
             'Authorization': 'Basic cGlnOnBpZw=='

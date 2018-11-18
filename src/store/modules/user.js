@@ -1,6 +1,6 @@
 import { setToken, removeToken } from '@/util/auth'
 import { setStore, getStore } from '@/util/store'
-import { logout, loginByUsername, loginBySocial, getUserInfo } from '@/api/login'
+import { logout, loginByUsername,loginByMobile, loginBySocial, getUserInfo } from '@/api/login'
 import { encryption } from '@/util/util'
 import webiste from '@/const/website';
 import { GetMenu } from '@/api/menu'
@@ -61,14 +61,16 @@ const user = {
         },
         //根据手机号登录
         LoginByPhone({ commit }, userInfo) {
-            return new Promise((resolve) => {
-                loginByUsername(userInfo.phone, userInfo.code).then(res => {
-                    const data = res.data;
-                    commit('SET_TOKEN', data);
-                    commit('DEL_ALL_TAG');
-                    commit('CLEAR_LOCK');
-                    setToken(data);
-                    resolve();
+            return new Promise((resolve, reject) => {
+                loginByMobile(userInfo.mobile, userInfo.code).then(response => {
+                    const data = response.data
+                    setToken(data.access_token)
+                    commit('SET_ACCESS_TOKEN', data.access_token)
+                    commit('SET_REFRESH_TOKEN', data.refresh_token)
+                    commit('CLEAR_LOCK')
+                    resolve()
+                }).catch(error => {
+                    reject(error)
                 })
             })
         },

@@ -8,7 +8,7 @@
     <el-form-item prop="phone">
       <el-input size="small"
                 @keyup.enter.native="handleLogin"
-                v-model="loginForm.phone"
+                v-model="loginForm.mobile"
                 auto-complete="off"
                 placeholder="请输入手机号码">
         <i slot="prefix"
@@ -42,11 +42,11 @@
 
 <script>
 const MSGINIT = "发送验证码",
-  // MSGERROR = "验证码发送失败",
   MSGSCUCCESS = "${time}秒后重发",
   MSGTIME = 60;
 import { isvalidatemobile } from "@/util/validate";
 import { mapGetters } from "vuex";
+import request from '@/router/axios'
 export default {
   name: "codelogin",
   data () {
@@ -69,12 +69,12 @@ export default {
       msgTime: MSGTIME,
       msgKey: false,
       loginForm: {
-        phone: "17547400800",
-        code: ""
+          mobile: '',
+          code: ''
       },
       loginRules: {
-        phone: [{ required: true, trigger: "blur", validator: validatePhone }],
-        code: [{ required: true, trigger: "blur", validator: validateCode }]
+          mobile: [{ required: true, trigger: 'blur', validator: validatePhone }],
+          code: [{ required: true, trigger: 'blur', validator: validateCode }]
       }
     };
   },
@@ -85,21 +85,34 @@ export default {
   },
   props: [],
   methods: {
-    handleSend () {
-      if (this.msgKey) return;
-      this.msgText = MSGSCUCCESS.replace("${time}", this.msgTime);
-      this.msgKey = true;
-      const time = setInterval(() => {
-        this.msgTime--;
-        this.msgText = MSGSCUCCESS.replace("${time}", this.msgTime);
-        if (this.msgTime == 0) {
-          this.msgTime = MSGTIME;
-          this.msgText = MSGINIT;
-          this.msgKey = false;
-          clearInterval(time);
-        }
-      }, 1000);
-    },
+    handleSend() {
+          if (this.msgKey) return
+
+          request({
+              url: '/admin/mobile/' + this.loginForm.mobile,
+              method: 'get'
+          }).then(response => {
+              console.log(response.data.data)
+              if (response.data.data) {
+                  this.$message.success('验证码发送成功')
+              } else {
+                  this.$message.error(response.data.msg)
+              }
+          })
+
+          this.msgText = MSGSCUCCESS.replace('${time}', this.msgTime)
+          this.msgKey = true
+          const time = setInterval(() => {
+              this.msgTime--
+              this.msgText = MSGSCUCCESS.replace('${time}', this.msgTime)
+              if (this.msgTime == 0) {
+                  this.msgTime = MSGTIME
+                  this.msgText = MSGINIT
+                  this.msgKey = false
+                  clearInterval(time)
+              }
+          }, 1000)
+      },
     handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
