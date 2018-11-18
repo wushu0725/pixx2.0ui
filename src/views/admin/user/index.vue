@@ -157,19 +157,19 @@ export default {
         page: page.currentPage,
         limit: page.pageSize
       }, params)).then(response => {
-        this.list = response.data.records;
-        this.page.total = response.data.total
+        this.list = response.data.data.records;
+        this.page.total = response.data.data.total
         this.listLoading = false;
       });
     },
     getNodeData (data) {
       deptRoleList().then(response => {
-        this.rolesOptions = response.data;
+        this.rolesOptions = response.data.data;
       });
     },
     handleDept () {
       fetchDeptTree().then(response => {
-        this.treeDeptData = response.data;
+        this.treeDeptData = response.data.data;
       });
     },
     handleFilter (param) {
