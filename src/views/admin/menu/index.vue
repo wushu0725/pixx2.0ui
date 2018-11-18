@@ -105,16 +105,6 @@
                           :disabled="formEdit"
                           placeholder="请输入排序"></el-input>
               </el-form-item>
-              <el-form-item label="页面缓冲"
-                            prop="component">
-                <el-switch v-model="form.keepalive"
-                           :disabled="formEdit"
-                           active-color="#13ce66"
-                           inactive-color="#ff4949"
-                           :active-value="0"
-                           :inactive-value="1">
-                </el-switch>
-              </el-form-item>
               <el-form-item label="前端组件"
                             prop="component">
                 <el-input v-model="form.component"
@@ -126,6 +116,16 @@
                 <el-input v-model="form.path"
                           :disabled="formEdit"
                           placeholder="iframe嵌套地址"></el-input>
+              </el-form-item>
+              <el-form-item label="页面缓冲"
+                            prop="component">
+                <el-switch v-model="form.keepalive"
+                           :disabled="formEdit"
+                           active-color="#13ce66"
+                           inactive-color="#ff4949"
+                           :active-value='"0"'
+                           :inactive-value='"1"'>
+                </el-switch>
               </el-form-item>
               <el-form-item v-if="formStatus == 'update'">
                 <el-button type="primary"
