@@ -1,11 +1,13 @@
 /**
+ * 全站http配置
  *
- * http配置
- *
+ * header参数说明
+ * serialize是否开启form表单提交
+ * isToken是否需要token
  */
-// 引入axios以及element ui中的loading和message组件
 import axios from 'axios'
 import { serialize } from '@/util/util'
+import website from '@/const/website'
 import store from '../store'
 import { getStore } from '../util/store'
 import { getToken } from '@/util/auth'
@@ -27,7 +29,8 @@ NProgress.configure({
 //HTTPrequest拦截
 axios.interceptors.request.use(config => {
     NProgress.start() // start progress bar
-    if (store.getters.access_token) {
+    const isToken = (config.data || {}).isToken === false
+    if (store.getters.access_token && !isToken) {
         config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
     }
     const TENANT_ID = getStore({ name: 'tenantId' });
@@ -46,17 +49,18 @@ axios.interceptors.request.use(config => {
 //HTTPresponse拦截
 axios.interceptors.response.use(res => {
     NProgress.done();
-    const status = Number(res.status);
+    const status = Number(res.status) || 200;
+    const statusWhiteList = website.statusWhiteList || [];
     const message = res.data.data || errorCode[status] || errorCode['default'];
 
-    if (status === 401){
+    if (status === 401) {
         store.dispatch('FedLogOut').then(() => {
             router.push({
                 path: '/login'
             });
         })
     }
-    if (status !== 200) {
+    if (status !== 200 & !statusWhiteList.includes(status)) {
         Message({
             message: message,
             type: 'error'

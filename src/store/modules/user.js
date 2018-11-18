@@ -1,11 +1,12 @@
 import { setToken, removeToken } from '@/util/auth'
 import { setStore, getStore } from '@/util/store'
-import { logout, loginByUsername,loginByMobile, loginBySocial, getUserInfo } from '@/api/login'
-import { encryption } from '@/util/util'
+import { isURL } from '@/util/validate'
+import { logout, loginByUsername, loginByMobile, loginBySocial, getUserInfo } from '@/api/login'
+import { encryption, deepClone } from '@/util/util'
 import webiste from '@/const/website';
 import { GetMenu } from '@/api/menu'
 
-function addPath(ele) {
+function addPath(ele, first) {
     const propsConfig = webiste.menu.props;
     const propsDefault = {
         label: propsConfig.label || 'label',
@@ -14,9 +15,12 @@ function addPath(ele) {
         children: propsConfig.children || 'children'
     }
     const isChild = ele[propsDefault.children] && ele[propsDefault.children].length !== 0;
-    if (!isChild) return
+    if (!isChild && first) {
+        ele[propsDefault.path] = ele[propsDefault.path] + '/index'
+        return
+    }
     ele[propsDefault.children].forEach(child => {
-        if (!child[propsDefault.path].includes('http') && !child[propsDefault.path].includes('https')) {
+        if (!isURL(child[propsDefault.path])) {
             child[propsDefault.path] = `${ele[propsDefault.path]}/${child[propsDefault.path]?child[propsDefault.path]:'index'}`
         }
         addPath(child);
@@ -153,11 +157,12 @@ const user = {
             return new Promise(resolve => {
                 GetMenu().then((res) => {
                     const data = res.data.data
-                    data.forEach(ele => {
+                    let menu = deepClone(data);
+                    menu.forEach(ele => {
                         addPath(ele);
                     })
-                    commit('SET_MENU', data)
-                    resolve(data)
+                    commit('SET_MENU', menu)
+                    resolve(menu)
                 })
             })
         }
