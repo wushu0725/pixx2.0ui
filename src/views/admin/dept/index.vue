@@ -1,4 +1,4 @@
-`<!--
+<!--
   -    Copyright (c) 2018-2025, lengleng All rights reserved.
   -
   - Redistribution and use in source and binary forms, with or without
@@ -16,85 +16,73 @@
   -->
 
 <template>
-  <div class="app-container calendar-list-container">
+  <div class="dept">
     <basic-container>
-      <div class="filter-container">
-        <el-button-group>
-          <el-button type="primary"
-                     v-if="deptManager_btn_add"
-                     icon="plus"
-                     @click="handlerAdd">添加</el-button>
-          <el-button type="primary"
-                     v-if="deptManager_btn_edit"
-                     icon="edit"
-                     @click="handlerEdit">编辑</el-button>
-          <el-button type="primary"
-                     v-if="deptManager_btn_del"
-                     icon="delete"
-                     @click="handleDelete">删除</el-button>
-        </el-button-group>
-      </div>
-
       <el-row>
         <el-col :span="8"
-                style='margin-top:15px;'>
-          <el-tree class="filter-tree"
-                   :data="treeData"
-                   node-key="id"
-                   highlight-current
-                   :props="defaultProps"
-                   :filter-node-method="filterNode"
-                   @node-click="getNodeData"
-                   default-expand-all>
-          </el-tree>
+                style='padding-right:20px;'>
+          <avue-tree :data="treeData"
+                     :option="treeOption"
+                     @node-click="getNodeData">
+            <template slot="addBtn">
+              <el-button size="small"
+                         @click="handlerParentAdd()"
+                         icon="el-icon-plus"
+                         v-if="deptManager_btn_add"></el-button>
+            </template>
+            <template slot-scope="scope"
+                      slot="menuBtn">
+              <el-dropdown-item v-if="deptManager_btn_add"
+                                @click.native="handlerAdd(scope.data)">新增</el-dropdown-item>
+              <el-dropdown-item v-if="deptManager_btn_edit"
+                                @click.native="handlerEdit(scope.data)">修改</el-dropdown-item>
+              <el-dropdown-item v-if="deptManager_btn_del"
+                                @click.native="handleDelete(scope.data)">删除</el-dropdown-item>
+            </template>
+          </avue-tree>
         </el-col>
-        <el-col :span="16"
-                style='margin-top:15px;'>
-          <el-card class="box-card">
-            <el-form :label-position="labelPosition"
-                     label-width="80px"
-                     :rules="rules"
-                     :model="form"
-                     ref="form">
-              <el-form-item label="父级节点"
-                            prop="parentId">
-                <el-input v-model="form.parentId"
-                          :disabled="formEdit"
-                          placeholder="请输入父级节点"></el-input>
-              </el-form-item>
-              <el-form-item label="节点编号"
-                            prop="deptId"
-                            v-if="formEdit">
-                <el-input v-model="form.deptId"
-                          :disabled="formEdit"
-                          placeholder="节点编号"></el-input>
-              </el-form-item>
-              <el-form-item label="部门名称"
-                            prop="name">
-                <el-input v-model="form.name"
-                          :disabled="formEdit"
-                          placeholder="请输入名称"></el-input>
-              </el-form-item>
-              <el-form-item label="排序"
-                            prop="orderNum">
-                <el-input v-model="form.orderNum"
-                          :disabled="formEdit"
-                          placeholder="请输入排序"></el-input>
-              </el-form-item>
-              <el-form-item v-if="formStatus == 'update'">
-                <el-button type="primary"
-                           @click="update">更新</el-button>
-                <el-button @click="onCancel">取消</el-button>
-              </el-form-item>
-              <el-form-item v-if="formStatus == 'create'">
-                <el-button type="primary"
-                           @click="create">保存</el-button>
-                <el-button @click="onCancel">取消</el-button>
-              </el-form-item>
-            </el-form>
-          </el-card>
+        <el-col :span="16">
+          <avue-form :option="formOption"
+                     v-model="form"
+                     ref="form"
+                     @submit="isAdd?create():update()">
+            <template slot="menuForm">
+              <el-button @click="onCancel()"
+                         v-if="editFlag">取消</el-button>
+            </template>
+          </avue-form>
+          <!-- <avue-crud :option="tableOption"
+                     class="dept__table"
+                     @refresh-change="getList()"
+                     @row-del="handleDelete"
+                     :data="tableData">
+            <template slot-scope="scope"
+                      slot="menuLeft">
+              <el-button type="primary"
+                         size="small"
+                         v-if="deptManager_btn_add"
+                         @click="handlerParentAdd()">新增</el-button>
+            </template>
+            <template slot-scope="scope"
+                      slot="menu">
+              <el-button type="primary"
+                         size="small"
+                         @click="handlerEdit(scope.row)">编辑</el-button>
+              <el-button type="danger"
+                         size="small"
+                         @click="handleDelete(scope.row)">删除</el-button>
+            </template>
+          </avue-crud> -->
         </el-col>
       </el-row>
+      <!-- <el-dialog @close="onCancel"
+                 :visible.sync="box">
+        <avue-form :option="formOption"
+                   v-model="form"
+                   ref="form"
+                   @submit="isAdd?create():update()">
+        </avue-form>
+      </el-dialog> -->
     </basic-container>
   </div>
 </template>
@@ -102,45 +90,44 @@
 <script>
 import { fetchTree, getObj, addObj, delObj, putObj } from '@/api/dept'
 import { mapGetters } from 'vuex'
+import { validatenull } from '@/util/validate'
+import { setTimeout } from 'timers';
 export default {
   name: 'dept',
   data () {
     return {
-      list: null,
-      total: null,
-      formEdit: true,
-      formAdd: true,
+      treeOption: {
+        addBtn: false,
+        editBtn: false,
+        delBtn: false,
+        nodeKey: "id",
+        props: {
+          label: 'name'
+        }
+      },
+      tableOption: {
+        index: true,
+        addBtn: false,
+        editBtn: false,
+        delBtn: false,
+        page: false,
+        column: [{
+          label: 'id',
+          prop: 'id'
+        }, {
+          label: '名称',
+          prop: 'name'
+        }],
+      },
+      editFlag: false,
+      tableData: [],
+      box: false,
+      obj: {},
       formStatus: '',
-      showElement: false,
-      typeOptions: ['0', '1'],
-      methodOptions: ['GET', 'POST', 'PUT', 'DELETE'],
-      listQuery: {
-        name: undefined
-      },
       treeData: [],
-      defaultProps: {
-        children: 'children',
-        label: 'name'
-      },
-      rules: {
-        parentId: [
-          { required: true, message: '请输入父级节点', trigger: 'blur' }
-        ],
-        deptId: [
-          { required: true, message: '请输入节点编号', trigger: 'blur' }
-        ],
-        name: [
-          { required: true, message: '请输入部门名称', trigger: 'blur' }
-        ],
-      },
-      labelPosition: 'right',
       form: {
-        name: undefined,
-        orderNum: undefined,
-        parentId: undefined,
-        deptId: undefined
+
       },
-      currentId: 0,
       deptManager_btn_add: false,
       deptManager_btn_edit: false,
       deptManager_btn_del: false
@@ -153,15 +140,48 @@ export default {
     this.deptManager_btn_del = this.permissions['sys_dept_del']
   },
   computed: {
+
     ...mapGetters([
       'elements',
       'permissions'
-    ])
+    ]),
+    isAdd () {
+      return this.formStatus === 'create';
+    },
+    formOption () {
+      return {
+        submitText: this.isAdd ? '新增' : '修改',
+        submitBtn: this.editFlag,
+        emptyBtn: this.editFlag,
+        column: [
+          {
+            label: '父类序号',
+            prop: 'parentId',
+            disabled: true,
+            span: 24,
+          },
+          {
+            label: '部门名称',
+            prop: 'name',
+            disabled: !this.editFlag,
+            span: 24,
+            rules: [{ required: true, message: '请输入部门名称', trigger: 'change' }]
+          }, {
+            label: '排序',
+            prop: 'orderNum',
+            disabled: !this.editFlag,
+            span: 24,
+          }
+        ]
+      }
+    },
   },
   methods: {
     getList () {
       fetchTree(this.listQuery).then(response => {
         this.treeData = response.data.data
+        if (validatenull(this.obj)) this.tableData = this.treeData;
+        else this.tableData = this.obj.children;
       })
     },
     filterNode (value, data) {
@@ -169,35 +189,53 @@ export default {
       return data.label.indexOf(value) !== -1
     },
     getNodeData (data) {
-      if (!this.formEdit) {
-        this.formStatus = 'update'
-      }
-      getObj(data.id).then(response => {
-        this.form = response.data.data
+      this.obj = data;
+      this.tableData = data.children;
+    },
+    show (data = {}) {
+      getObj(data.id).then(res => {
+        const data = res.data.data;
+        if (this.formStatus === 'update') {
+          this.form = data;
+          this.form.parentName = this.obj.name;
+        } else if (this.formStatus === 'create') {
+          this.form.parentId = data.deptId;
+          this.form.parentName = this.obj.name;
+        } else {
+          this.form = data;
+        }
+        this.$refs.form.clearValidate();
       })
-      this.currentId = data.id
-      this.showElement = true
     },
-    handlerEdit () {
-      if (this.form.deptId) {
-        this.formEdit = false
-        this.formStatus = 'update'
+    handlerEdit (data) {
+      this.formStatus = 'update'
+      this.editFlag = true;
+      this.show(data);
+    },
+    handlerParentAdd () {
+      this.formStatus = 'create'
+      this.editFlag = true;
+      if (validatenull(this.obj)) {
+        this.form.parentId = 0;
+        this.form.parentName = '';
+      } else {
+        this.show(this.obj);
       }
     },
-    handlerAdd () {
-      this.resetForm()
-      this.formEdit = false
+    handlerAdd (data) {
       this.formStatus = 'create'
+      this.editFlag = true;
+      this.show(data);
     },
-    handleDelete () {
-      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+    handleDelete (data) {
+      this.show(data);
+      this.$confirm(`此操作将永久删除${data.name}, 是否继续?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delObj(this.currentId).then(() => {
+        delObj(this.form.deptId).then(() => {
           this.getList()
-          this.resetForm()
           this.onCancel()
           this.$notify({
             title: '成功',
@@ -212,6 +250,7 @@ export default {
       this.$refs.form.validate((valid) => {
         if (!valid) return
         putObj(this.form).then(() => {
+          this.onCancel();
           this.getList()
           this.$notify({
             title: '成功',
@@ -224,29 +263,38 @@ export default {
 
     },
     create () {
-      this.$refs.form.validate((valid) => {
-        if (!valid) return
-        addObj(this.form).then(() => {
-          this.getList()
-          this.$notify({
-            title: '成功',
-            message: '创建成功',
-            type: 'success',
-            duration: 2000
-          })
+      addObj(this.form).then(() => {
+        this.onCancel();
+        this.getList()
+        this.$notify({
+          title: '成功',
+          message: '创建成功',
+          type: 'success',
+          duration: 2000
         })
       })
     },
     onCancel () {
-      this.formEdit = true
       this.formStatus = ''
-    },
-    resetForm () {
-      this.form = {
-        parentId: this.currentId,
-      }
+      this.editFlag = false;
+      setTimeout(() => {
+        this.$refs.form.resetForm();
+        this.$refs.form.clearValidate();
+      }, 0)
     }
   }
 }
 </script>
+
+<style lang="scss">
+.dept {
+  &__tree {
+    margin-bottom: 13px;
+  }
+  &__table {
+    margin-top: -32px;
+  }
+}
+</style>
+
 

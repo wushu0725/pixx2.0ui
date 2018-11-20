@@ -1,5 +1,6 @@
 <template>
-  <div class="basic-container">
+  <div class="basic-container"
+       :class="{'basic-container--block':block}">
     <el-card>
       <slot></slot>
     </el-card>
@@ -8,7 +9,13 @@
 
 <script>
 export default {
-  name: "basicContainer"
+  name: "basicContainer",
+  props: {
+    block: {
+      type: Boolean,
+      default: false,
+    }
+  }
 };
 </script>
 
@@ -22,6 +29,12 @@ export default {
   }
   &:first-child {
     padding-top: 0;
+  }
+  &--block {
+    height: 100%;
+    .el-card {
+      height: 100%;
+    }
   }
 }
 </style>

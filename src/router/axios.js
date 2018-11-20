@@ -51,15 +51,7 @@ axios.interceptors.response.use(res => {
     NProgress.done();
     const status = Number(res.status) || 200;
     const statusWhiteList = website.statusWhiteList || [];
-    const message = res.data.data || errorCode[status] || errorCode['default'];
-
-    if (status === 401) {
-        store.dispatch('FedLogOut').then(() => {
-            router.push({
-                path: '/login'
-            });
-        })
-    }
+    const message = res.data.message || errorCode[status] || errorCode['default'];
     if (status !== 200 & !statusWhiteList.includes(status)) {
         Message({
             message: message,

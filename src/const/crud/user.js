@@ -22,7 +22,7 @@ var validateUsername = (rule, value, callback) => {
         if (result !== null) {
             callback(new Error('用户名已经存在'))
         } else {
-          callback()
+            callback()
         }
     });
 };
@@ -88,10 +88,12 @@ export const tableOption = {
             trigger: "blur"
         }]
     }, {
+        width: 150,
         label: '角色',
         prop: 'role',
         formsolt: true,
         solt: true,
+        overHidden: true,
         span: 24,
         rules: [{
             required: true,

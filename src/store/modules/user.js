@@ -94,13 +94,15 @@ const user = {
             })
         },
         GetUserInfo({ commit }) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 getUserInfo().then((res) => {
-                    const data = res.data.data;
+                    const data = res.data.data || {};
                     commit('SET_USERIFNO', data.sysUser);
-                    commit('SET_ROLES', data.roles);
-                    commit('SET_PERMISSIONS', data.permissions)
+                    commit('SET_ROLES', data.roles || []);
+                    commit('SET_PERMISSIONS', data.permissions || [])
                     resolve(data);
+                }).catch(() => {
+                    reject();
                 })
             })
         },
