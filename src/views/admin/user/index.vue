@@ -111,7 +111,8 @@
 
 <script>
 import { fetchList, getObj, addObj, putObj, delObj } from "@/api/user";
-import { deptRoleList, fetchDeptTree } from "@/api/role";
+import { deptRoleList } from "@/api/role";
+import { fetchDeptTree } from "@/api/dept";
 import { tableOption } from '@/const/crud/user';
 import { mapGetters } from "vuex";
 import { constants } from 'fs';
@@ -228,7 +229,7 @@ export default {
           this.role[i] = this.form.roleList[i].roleId;
         }
         deptRoleList().then(response => {
-          this.rolesOptions = response.data;
+          this.rolesOptions = response.data.data;
         });
       } else if (type === 'add') {
         this.role = [];
@@ -241,7 +242,7 @@ export default {
     },
     create (row, done, loading) {
       addObj(this.form).then(() => {
-        this.getList();
+        this.getList(this.page);
         done();
         this.$notify({
           title: "成功",
@@ -255,7 +256,7 @@ export default {
     },
     update (row, index, done, loading) {
       putObj(this.form).then(() => {
-        this.getList();
+        this.getList(this.page);
         done();
         this.$notify({
           title: "成功",

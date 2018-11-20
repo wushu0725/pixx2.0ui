@@ -86,11 +86,3 @@ export function fetchRoleTree(roleName) {
     method: 'get'
   })
 }
-
-export function fetchDeptTree(query) {
-  return request({
-    url: '/admin/dept/tree',
-    method: 'get',
-    params: query
-  })
-}
