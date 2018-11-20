@@ -52,6 +52,7 @@ export const tableOption = {
         label: '角色标识',
         prop: 'roleCode',
         span: 24,
+        editDisabled: true,
         rules: [{
                 required: true,
                 message: '角色标识不能为空',
