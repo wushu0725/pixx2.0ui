@@ -60,7 +60,7 @@
                       slot-scope="scope">
               <span v-for="(role,index) in scope.row.roleList"
                     :key="index">
-                <el-tag>{{role.roleDesc}} </el-tag>&nbsp;&nbsp;
+                <el-tag>{{role.roleName}} </el-tag>&nbsp;&nbsp;
               </span>
             </template>
             <template slot="deptId"
@@ -97,7 +97,7 @@
                       slot-scope="scope">
               <avue-crud-select v-model="role"
                                 multiple
-                                placeholder="请选择角色，要先选择部门"
+                                placeholder="请选择角色"
                                 :dic="rolesOptions"
                                 :props="roleProps"></avue-crud-select>
             </template>
@@ -135,7 +135,7 @@ export default {
       treeDeptData: [],
       checkedKeys: [],
       roleProps: {
-        label: "roleDesc",
+        label: "roleName",
         value: 'roleId'
       },
       defaultProps: {

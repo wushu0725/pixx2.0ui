@@ -101,7 +101,8 @@
               </el-form-item>
               <el-form-item label="排序"
                             prop="sort">
-                <el-input v-model="form.sort"
+                <el-input type="number"
+                          v-model="form.sort"
                           :disabled="formEdit"
                           placeholder="请输入排序"></el-input>
               </el-form-item>

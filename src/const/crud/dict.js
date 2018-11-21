@@ -64,6 +64,7 @@ export const tableOption = {
   }, {
     label: '排序',
     prop: 'sort',
+    type: 'number',
     rules: [{
       required: true,
       message: '请输入排序',

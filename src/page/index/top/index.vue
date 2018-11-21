@@ -60,12 +60,6 @@
              @click="handleScreen"></i>
         </div>
       </el-tooltip>
-      <el-tooltip effect="dark"
-                  content="用户头像"
-                  placement="bottom">
-        <img class="top-bar__img"
-             :src="userInfo.avatar">
-      </el-tooltip>
       <el-dropdown>
         <span class="el-dropdown-link">
           {{userInfo.username}}

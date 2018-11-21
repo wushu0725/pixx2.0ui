@@ -29,7 +29,7 @@
               <el-form-item label="用户名"
                             prop="username">
                 <el-input type="text"
-                          :value="userInfo.username"
+                          v-model="ruleForm2.username"
                           disabled></el-input>
               </el-form-item>
               <el-form-item label="原密码"
@@ -102,6 +102,7 @@ export default {
         Authorization: 'Bearer ' + getToken()
       },
       ruleForm2: {
+        username: '',
         password: '',
         newpassword1: '',
         newpassword2: ''
@@ -114,11 +115,12 @@ export default {
     }
   },
   created () {
+      this.ruleForm2.username =  this.userInfo.username
   },
   computed: {
     ...mapState({
       userInfo: state => state.user.userInfo
-    })
+    }),
   },
   methods: {
     submitForm (formName) {

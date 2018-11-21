@@ -41,10 +41,11 @@ export const tableOption = {
         label: 'id',
         prop: 'userId',
         span: 24,
+        hide: true,
         editDisabled: true,
         addVisdiplay: false,
     }, {
-        width: 150,
+        width: 120,
         fixed: true,
         label: '用户名',
         prop: 'username',
@@ -83,13 +84,27 @@ export const tableOption = {
         formsolt: true,
         solt: true,
         span: 24,
+        hide: true,
         rules: [{
             required: true,
             message: "请选择部门",
             trigger: "blur"
         }]
     }, {
-        width: 150,
+        width: 120,
+        label: '手机号',
+        prop: 'phone',
+        type: 'phone',
+        value: '',
+        span: 24,
+        rules: [{
+            min: 6,
+            max: 20,
+            message: "长度在 11 个字符",
+            trigger: "blur"
+        }]
+    },{
+        width: 120,
         label: '角色',
         prop: 'role',
         formsolt: true,
@@ -117,7 +132,7 @@ export const tableOption = {
             value: "0"
         }, {
             label: '锁定',
-            value: "1"
+            value: "9"
         }]
     }, {
         width: 180,

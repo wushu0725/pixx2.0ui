@@ -133,6 +133,7 @@ export default {
           message: '修改成功',
           type: 'success'
         })
+        this.getList(this.page)
         done()
       })
     },
@@ -150,6 +151,7 @@ export default {
           message: '添加成功',
           type: 'success'
         })
+        this.getList(this.page)
         done()
       })
     },

@@ -114,7 +114,7 @@ export default {
         type: 'warning'
       })
         .then(function () {
-          return delObj(row.clientId)
+          return delObj(row.id)
         })
         .then(data => {
           _this.tableData.splice(index, 1)
@@ -123,6 +123,7 @@ export default {
             message: '删除成功',
             type: 'success'
           })
+          this.refreshChange()
         })
         .catch(function (err) { })
     },
@@ -141,7 +142,8 @@ export default {
           message: '修改成功',
           type: 'success'
         })
-        done()
+          this.refreshChange()
+          done()
       })
     },
     /**
@@ -158,6 +160,7 @@ export default {
           message: '添加成功',
           type: 'success'
         })
+        this.refreshChange()
         done()
       })
     },
