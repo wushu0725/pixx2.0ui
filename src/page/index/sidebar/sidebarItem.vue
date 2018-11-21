@@ -27,7 +27,7 @@
             <span slot="title">{{child[labelKey]}}</span>
           </el-menu-item>
           <sidebar-item v-else
-                        :menu="child[childrenKey]"
+                        :menu="[child]"
                         :key="cindex"
                         :props="props"
                         :screen="screen"

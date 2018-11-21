@@ -136,11 +136,11 @@ export default {
     ...mapGetters(['elements', 'permissions'])
   },
   methods: {
-    getList (page,params) {
+    getList (page, params) {
       this.listLoading = true
       fetchList(Object.assign({
-          page: page.currentPage,
-          limit: page.pageSize
+        page: page.currentPage,
+        limit: page.pageSize
       }, params)).then(response => {
         this.list = response.data.data.records
         this.page.total = response.data.data.total
@@ -152,7 +152,7 @@ export default {
     },
     handleFilter (param) {
       this.page.page = 1;
-      this.getList(this.page,param);
+      this.getList(this.page, param);
     },
     handleCreate () {
       this.$refs.crud.rowAdd();
@@ -170,7 +170,7 @@ export default {
           return fetchTree()
         })
         .then(response => {
-          this.form = response.data.data
+          this.treeData = response.data.data
           // 解析出所有的太监节点
           this.checkedKeys = this.resolveAllEunuchNodeId(this.treeData, this.checkedKeys, [])
           this.dialogStatus = 'permission'

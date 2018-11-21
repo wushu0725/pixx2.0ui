@@ -44,6 +44,7 @@ export const tableOption = {
         editDisabled: true,
         addVisdiplay: false,
     }, {
+        width: 150,
         fixed: true,
         label: '用户名',
         prop: 'username',

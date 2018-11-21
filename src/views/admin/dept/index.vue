@@ -204,7 +204,9 @@ export default {
         } else {
           this.form = data;
         }
-        this.$refs.form.clearValidate();
+        setTimeout(() => {
+          this.$refs.form.clearValidate();
+        }, 0);
       })
     },
     handlerEdit (data) {
@@ -218,6 +220,9 @@ export default {
       if (validatenull(this.obj)) {
         this.form.parentId = 0;
         this.form.parentName = '';
+        setTimeout(() => {
+          this.$refs.form.clearValidate();
+        }, 0);
       } else {
         this.show(this.obj);
       }
@@ -247,17 +252,14 @@ export default {
       })
     },
     update () {
-      this.$refs.form.validate((valid) => {
-        if (!valid) return
-        putObj(this.form).then(() => {
-          this.onCancel();
-          this.getList()
-          this.$notify({
-            title: '成功',
-            message: '更新成功',
-            type: 'success',
-            duration: 2000
-          })
+      putObj(this.form).then(() => {
+        this.onCancel();
+        this.getList()
+        this.$notify({
+          title: '成功',
+          message: '更新成功',
+          type: 'success',
+          duration: 2000
         })
       })
 
@@ -277,10 +279,10 @@ export default {
     onCancel () {
       this.formStatus = ''
       this.editFlag = false;
+      this.$refs.form.resetForm();
       setTimeout(() => {
-        this.$refs.form.resetForm();
         this.$refs.form.clearValidate();
-      }, 0)
+      }, 0);
     }
   }
 }
