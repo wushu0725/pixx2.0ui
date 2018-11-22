@@ -25,9 +25,9 @@ export function fetchList(query) {
   })
 }
 
-export function delObj(id) {
+export function delObj(token) {
   return request({
-    url: '/admin/token/' + id,
+    url: '/admin/token/' + token,
     method: 'delete'
   })
 }

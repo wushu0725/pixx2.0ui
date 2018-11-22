@@ -100,7 +100,7 @@ export default {
      * 刷新回调
      */
     refreshChange () {
-      this.getList(this.form)
+      this.getList(this.page)
     },
     searchChange (form) {
       this.getList(this.page,form)
