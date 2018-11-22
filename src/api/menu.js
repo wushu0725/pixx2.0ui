@@ -32,7 +32,7 @@ export function fetchTree(query) {
 
 export function addObj(obj) {
   return request({
-    url: '/admin/menu/',
+    url: '/admin/menu',
     method: 'post',
     data: obj
   })

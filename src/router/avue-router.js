@@ -22,7 +22,7 @@ RouterPlugin.install = function(router, store) {
         safe: this,
         // 设置标题
         setTitle: function(title) {
-            title = title ? `${title}——Avue 通用管理 系统快速开发框架` : 'Avue 通用管理 系统快速开发框架';
+            title = title ? `${title}——PigX微服务快速开发框架` : 'PigX微服务快速开发框架';
             document.title = title;
         },
         closeTag: (value) => {

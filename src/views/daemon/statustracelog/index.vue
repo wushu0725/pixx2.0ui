@@ -71,8 +71,8 @@ export default {
     getList (page,params) {
         this.tableLoading = true
         fetchList(Object.assign({
-            page: page.currentPage,
-            limit: page.pageSize
+            current: page.currentPage,
+            size: page.pageSize
         }, params)).then(response => {
             this.tableData = response.data.data.records
             this.page.total = response.data.data.total

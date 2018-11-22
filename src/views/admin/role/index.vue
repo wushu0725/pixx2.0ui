@@ -139,8 +139,8 @@ export default {
     getList (page, params) {
       this.listLoading = true
       fetchList(Object.assign({
-        page: page.currentPage,
-        limit: page.pageSize
+        current: page.currentPage,
+        size: page.pageSize
       }, params)).then(response => {
         this.list = response.data.data.records
         this.page.total = response.data.data.total
