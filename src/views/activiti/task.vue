@@ -62,8 +62,8 @@
 </template>
 
 <script>
-  import { fetchList,fetchDetail,doTask,fetchComment} from '@/api/task'
-  import { tableOption,formOption,taskOption } from '@/const/crud/task'
+  import { fetchList,fetchDetail,doTask,fetchComment} from '@/api/activiti/task'
+  import { tableOption,formOption,taskOption } from '@/const/crud/activiti/task'
   import { mapGetters } from 'vuex'
   export default {
     name: 'task',

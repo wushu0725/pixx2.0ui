@@ -92,10 +92,10 @@ import {
   delObj,
   permissionUpd,
   fetchRoleTree
-} from '@/api/role'
-import { fetchTree } from '@/api/menu'
+} from '@/api/admin/role'
+import { fetchTree } from '@/api/admin/menu'
 import { mapGetters } from 'vuex'
-import { tableOption } from '@/const/crud/role'
+import { tableOption } from '@/const/crud/admin/role'
 export default {
   name: 'table_role',
   data () {

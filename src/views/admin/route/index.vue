@@ -31,7 +31,7 @@
 </template>
 <script>
     import vueJsonEditor from 'vue-json-editor'
-    import {fetchList, putObj, fallback} from '@/api/route'
+    import {fetchList, putObj, fallback} from '@/api/admin/route'
 
     export default {
         data() {

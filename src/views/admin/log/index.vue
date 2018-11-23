@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import { fetchList, delObj } from '@/api/log'
-import { tableOption } from '@/const/crud/log'
+import { fetchList, delObj } from '@/api/admin/log'
+import { tableOption } from '@/const/crud/admin/log'
 import { mapGetters } from 'vuex'
 export default {
   name: 'log',

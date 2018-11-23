@@ -24,22 +24,17 @@
                  :table-loading="tableLoading"
                  :option="tableOption"
                  @on-load="getList"
+                 @refresh-change="refreshChange"
+                 @search-change="searchChange"
                  @row-update="handleUpdate"
                  @row-save="handleSave"
-                 @search-change="searchChange"
                  @row-del="rowDel">
         <template slot-scope="scope"
                   slot="menu">
-          <el-button type="primary"
-                     v-if="permissions.sys_dict_edit"
-                     icon="el-icon-check"
-                     size="mini"
-                     plain
-                     @click="handleEdit(scope.row,scope.index)">编辑</el-button>
           <el-button type="danger"
-                     v-if="permissions.sys_dict_del"
+                     v-if="permissions.daemon_statustracelog_del"
                      icon="el-icon-delete"
-                     size="mini"
+                     size="small"
                      plain
                      @click="handleDel(scope.row,scope.index)">删除</el-button>
         </template>
@@ -49,11 +44,11 @@
 </template>
 
 <script>
-import { fetchList, addObj, putObj, delObj } from '@/api/admin/dict'
-import { tableOption } from '@/const/crud/admin/dict'
+import { fetchList, addObj, putObj, delObj } from '@/api/daemon/status-trace-log'
+import { tableOption } from '@/const/crud/daemon/status-trace-log'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'dict',
+  name: 'status-trace-log',
   data () {
     return {
       tableData: [],
@@ -74,15 +69,15 @@ export default {
   },
   methods: {
     getList (page,params) {
-      this.tableLoading = true
-      fetchList(Object.assign({
-          current: page.currentPage,
-          size: page.pageSize
-      }, params)).then(response => {
-        this.tableData = response.data.data.records
-        this.page.total = response.data.data.total
-        this.tableLoading = false
-      })
+        this.tableLoading = true
+        fetchList(Object.assign({
+            current: page.currentPage,
+            size: page.pageSize
+        }, params)).then(response => {
+            this.tableData = response.data.data.records
+            this.page.total = response.data.data.total
+            this.tableLoading = false
+        })
     },
     /**
      * @title 打开新增窗口
@@ -100,16 +95,16 @@ export default {
     },
     rowDel: function (row, index) {
       var _this = this
-      this.$confirm('是否确认删除标签名为"' + row.label + '",数据类型为"' + row.type + '"的数据项?', '警告', {
+      this.$confirm('是否确认删除ID为' + row.clientId, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(function () {
-          return delObj(row)
+          return delObj(row.clientId)
         })
         .then(() => {
-          this.getList(this.page)
+          _this.tableData.splice(index, 1)
           _this.$message({
             showClose: true,
             message: '删除成功',
@@ -133,7 +128,6 @@ export default {
           message: '修改成功',
           type: 'success'
         })
-        this.getList(this.page)
         done()
       })
     },
@@ -144,19 +138,24 @@ export default {
      *
      **/
     handleSave: function (row, done) {
-      addObj(row).then(data => {
+      addObj(row).then(() => {
         this.tableData.push(Object.assign({}, row))
         this.$message({
           showClose: true,
           message: '添加成功',
           type: 'success'
         })
-        this.getList(this.page)
         done()
       })
     },
     searchChange (form) {
-        this.getList(this.page,form)
+      this.getList(this.page,form)
+    },
+    /**
+     * 刷新回调
+     */
+    refreshChange () {
+      this.getList(this.page)
     }
   }
 }

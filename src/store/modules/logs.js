@@ -1,6 +1,6 @@
 import { setStore, getStore } from '@/util/store'
 import { dateFormat } from '@/filters/'
-import { sendLogs } from '@/api/log'
+import { sendLogs } from '@/api/admin/log'
 const logs = {
     state: {
         logsList: getStore({ name: 'logsList' }) || [],

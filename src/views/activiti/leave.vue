@@ -54,11 +54,11 @@
 </template>
 
 <script>
-  import { fetchList, getObj, addObj, putObj, delObj,submit } from '@/api/leavebill'
-  import { tableOption } from '@/const/crud/leavebill'
+  import { fetchList, getObj, addObj, putObj, delObj,submit } from '@/api/activiti/leave-bill'
+  import { tableOption } from '@/const/crud/activiti/leave-bill'
   import { mapGetters } from 'vuex'
   export default {
-    name: 'leavebill',
+    name: 'leave-bill',
     data() {
       return {
         tableData: [],

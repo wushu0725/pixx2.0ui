@@ -24,19 +24,22 @@
                  :table-loading="tableLoading"
                  :option="tableOption"
                  @on-load="getList"
-                 @refresh-change="refreshChange"
                  @search-change="searchChange"
-                 @row-update="handleUpdate"
+                 @refresh-change="refreshChange"
                  @row-save="handleSave"
                  @row-del="rowDel">
         <template slot-scope="scope"
-                  slot="menu">
-          <el-button type="danger"
-                     v-if="permissions.daemon_statustracelog_del"
-                     icon="el-icon-delete"
-                     size="small"
-                     plain
-                     @click="handleDel(scope.row,scope.index)">删除</el-button>
+                  slot="menuBtn">
+          <el-dropdown-item divided
+                            v-if="permissions.act_model_manage"
+                            @click.native="handleView(scope.row,scope.index)">模型图</el-dropdown-item>
+          <el-dropdown-item divided
+                            v-if="permissions.act_model_manage"
+                            @click.native="handleDeploy(scope.row,scope.index)">部署</el-dropdown-item>
+          <el-dropdown-item divided
+                            v-if="permissions.act_model_manage"
+                            @click.native="handleDel(scope.row,scope.index)">删除</el-dropdown-item>
+
         </template>
       </avue-crud>
     </basic-container>
@@ -44,11 +47,11 @@
 </template>
 
 <script>
-import { fetchList, addObj, putObj, delObj } from '@/api/statustracelog'
-import { tableOption } from '@/const/crud/statustracelog'
+import { fetchList, delObj, addObj, deploy } from '@/api/activiti/activiti'
+import { tableOption } from '@/const/crud/activiti/activiti'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'statustracelog',
+  name: 'activiti',
   data () {
     return {
       tableData: [],
@@ -69,67 +72,68 @@ export default {
   },
   methods: {
     getList (page,params) {
-        this.tableLoading = true
-        fetchList(Object.assign({
-            current: page.currentPage,
-            size: page.pageSize
-        }, params)).then(response => {
-            this.tableData = response.data.data.records
-            this.page.total = response.data.data.total
-            this.tableLoading = false
-        })
+      this.tableLoading = true
+      fetchList(Object.assign({
+          descs: 'create_time',
+          current: page.currentPage,
+          size: page.pageSize
+      }, params)).then(response => {
+        this.tableData = response.data.data.records
+        this.page.total = response.data.data.total
+        this.tableLoading = false
+      })
     },
-    /**
-     * @title 打开新增窗口
-     * @detail 调用crud的handleadd方法即可
-     *
-     **/
-    handleAdd: function () {
-      this.$refs.crud.rowAdd()
-    },
-    handleEdit (row, index) {
-      this.$refs.crud.rowEdit(row, index)
+    handleView (row, index) {
+      const name = `模型id为${row.id}的${row.name}流程图`,
+        src = `/activti/detail/${row.id}`;
+      this.$router.push({
+        path: src,
+        query: {
+          name: name
+        }
+      })
     },
     handleDel (row, index) {
       this.$refs.crud.rowDel(row, index)
     },
+    handleDeploy: function (row, index) {
+      var _this = this
+      this.$confirm('是否确认部署ID为"' + row.id + '"的模型?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function () {
+        return deploy(row.id)
+      })
+        .then(data => {
+          this.getList(this.page)
+          _this.$message({
+            showClose: true,
+            message: '部署成功',
+            type: 'success'
+          })
+        })
+        .catch(function (err) { })
+    },
     rowDel: function (row, index) {
       var _this = this
-      this.$confirm('是否确认删除ID为' + row.clientId, '提示', {
+      this.$confirm('是否确认删除ID为"' + row.id + '"的模型?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(function () {
-          return delObj(row.clientId)
+          return delObj(row.id)
         })
-        .then(() => {
-          _this.tableData.splice(index, 1)
+        .then(data => {
+          this.getList(this.page)
           _this.$message({
             showClose: true,
             message: '删除成功',
             type: 'success'
           })
         })
-        .catch(function () { })
-    },
-    /**
-     * @title 数据更新
-     * @param row 为当前的数据
-     * @param index 为当前更新数据的行数
-     * @param done 为表单关闭函数
-     *
-     **/
-    handleUpdate: function (row, index, done) {
-      putObj(row).then(() => {
-        this.tableData.splice(index, 1, Object.assign({}, row))
-        this.$message({
-          showClose: true,
-          message: '修改成功',
-          type: 'success'
-        })
-        done()
-      })
+        .catch(function (err) { })
     },
     /**
      * @title 数据添加
@@ -138,7 +142,7 @@ export default {
      *
      **/
     handleSave: function (row, done) {
-      addObj(row).then(() => {
+      addObj(row).then(data => {
         this.tableData.push(Object.assign({}, row))
         this.$message({
           showClose: true,
@@ -146,8 +150,12 @@ export default {
           type: 'success'
         })
         done()
+        this.getList(this.page)
       })
     },
+    /**
+     * 搜索回调
+     */
     searchChange (form) {
       this.getList(this.page,form)
     },

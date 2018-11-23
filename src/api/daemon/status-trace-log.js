@@ -19,7 +19,7 @@ import request from '@/router/axios'
 
 export function fetchList(query) {
   return request({
-    url: '/act/leavebill/page',
+    url: '/daemon/status-trace-log/page',
     method: 'get',
     params: query
   })
@@ -27,7 +27,7 @@ export function fetchList(query) {
 
 export function addObj(obj) {
   return request({
-    url: '/act/leavebill/',
+    url: '/daemon/status-trace-log',
     method: 'post',
     data: obj
   })
@@ -35,28 +35,21 @@ export function addObj(obj) {
 
 export function getObj(id) {
   return request({
-    url: '/act/leavebill/' + id,
+    url: '/daemon/status-trace-log/' + id,
     method: 'get'
   })
 }
 
-export function submit(id) {
-    return request({
-        url: '/act/leavebill/submit/' + id,
-        method: 'get'
-    })
-}
-
 export function delObj(id) {
   return request({
-    url: '/act/leavebill/' + id,
+    url: '/daemon/statustracelog/' + id,
     method: 'delete'
   })
 }
 
 export function putObj(obj) {
   return request({
-    url: '/act/leavebill/',
+    url: '/daemon/status-trace-log',
     method: 'put',
     data: obj
   })

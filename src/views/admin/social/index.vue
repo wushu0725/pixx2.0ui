@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import { fetchList, getObj, addObj, putObj, delObj } from '@/api/syssocialdetails'
-import { tableOption } from '@/const/crud/syssocialdetails'
+import { fetchList, getObj, addObj, putObj, delObj } from '@/api/admin/sys-social-details'
+import { tableOption } from '@/const/crud/admin/sys-social-details'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'syssocialdetails',
+  name: 'sys-social-details',
   data () {
     return {
       tableData: [],

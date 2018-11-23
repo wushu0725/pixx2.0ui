@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import { fetchList, delObj } from '@/api/token'
-import { tableOption } from '@/const/crud/token'
+import { fetchList, delObj } from '@/api/admin/token'
+import { tableOption } from '@/const/crud/admin/token'
 import { mapGetters } from 'vuex'
 export default {
   name: 'token',

@@ -4,7 +4,7 @@ import { isURL } from '@/util/validate'
 import { logout, loginByUsername, loginByMobile, loginBySocial, getUserInfo } from '@/api/login'
 import { encryption, deepClone } from '@/util/util'
 import webiste from '@/const/website';
-import { GetMenu } from '@/api/menu'
+import { GetMenu } from '@/api/admin/menu'
 
 function addPath(ele, first) {
     const propsConfig = webiste.menu.props;

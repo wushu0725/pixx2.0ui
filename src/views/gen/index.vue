@@ -54,8 +54,8 @@
 </template>
 
 <script>
-import { fetchList, handleDown } from '@/api/gen'
-import { tableOption, formOption } from '@/const/crud/gen'
+import { fetchList, handleDown } from '@/api/gen/gen'
+import { tableOption, formOption } from '@/const/crud/gen/gen'
 import { mapGetters } from 'vuex'
 export default {
   name: 'client',

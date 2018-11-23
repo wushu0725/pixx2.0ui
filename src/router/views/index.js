@@ -37,7 +37,7 @@ export default [{
     children: [{
         path: 'detail/:id',
         component: () =>
-            import ( /* webpackChunkName: "views" */ '@/views/admin/activiti/detail')
+            import ( /* webpackChunkName: "views" */ '@/views/activiti/detail')
     }]
 
 }]

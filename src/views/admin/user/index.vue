@@ -110,10 +110,10 @@
 </template>
 
 <script>
-import { fetchList, getObj, addObj, putObj, delObj } from "@/api/user";
-import { deptRoleList } from "@/api/role";
-import { fetchDeptTree } from "@/api/dept";
-import { tableOption } from '@/const/crud/user';
+import { fetchList, getObj, addObj, putObj, delObj } from "@/api/admin/user";
+import { deptRoleList } from "@/api/admin/role";
+import { fetchDeptTree } from "@/api/admin/dept";
+import { tableOption } from '@/const/crud/admin/user';
 import { mapGetters } from "vuex";
 import { constants } from 'fs';
 import { connect } from 'tls';

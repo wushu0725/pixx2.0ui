@@ -26,34 +26,44 @@
                  @on-load="getList"
                  @search-change="searchChange"
                  @refresh-change="refreshChange"
-                 @row-save="handleSave"
                  @row-del="rowDel">
         <template slot-scope="scope"
                   slot="menuBtn">
-          <el-dropdown-item divided
-                            v-if="permissions.act_model_manage"
-                            @click.native="handleView(scope.row,scope.index)">模型图</el-dropdown-item>
-          <el-dropdown-item divided
-                            v-if="permissions.act_model_manage"
-                            @click.native="handleDeploy(scope.row,scope.index)">部署</el-dropdown-item>
-          <el-dropdown-item divided
-                            v-if="permissions.act_model_manage"
-                            @click.native="handleDel(scope.row,scope.index)">删除</el-dropdown-item>
 
+          <el-dropdown-item divided
+                            v-if="permissions.act_process_manage"
+                            @click.native="handlePic(scope.row,scope.index)">流程图</el-dropdown-item>
+          <el-dropdown-item divided
+                            v-if="permissions.act_process_manage && scope.row.suspend"
+                            @click.native="handleStatus(scope.row,'active')">激活</el-dropdown-item>
+
+          <el-dropdown-item divided
+                            v-if="permissions.act_process_manage && !scope.row.suspend"
+                            @click.native="handleStatus(scope.row,'suspend')">失效</el-dropdown-item>
+
+          <el-dropdown-item divided
+                            v-if="permissions.act_process_manage"
+                            @click.native="handleDel(scope.row,'suspend')">删除</el-dropdown-item>
         </template>
       </avue-crud>
     </basic-container>
+    <el-dialog title="流程图"
+               :visible.sync="showPicDialog">
+      <img :src="actPicUrl" width="100%">
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetchList, delObj, addObj, deploy } from '@/api/activiti'
-import { tableOption } from '@/const/crud/activiti'
+import { fetchList, delObj, addObj, status } from '@/api/activiti/process'
+import { tableOption } from '@/const/crud/activiti/process'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'activiti',
+  name: 'process',
   data () {
     return {
+      showPicDialog: false,
+      actPicUrl: '',
       tableData: [],
       page: {
         total: 0, // 总页数
@@ -83,47 +93,39 @@ export default {
         this.tableLoading = false
       })
     },
-    handleView (row, index) {
-      const name = `模型id为${row.id}的${row.name}流程图`,
-        src = `/activti/detail/${row.id}`;
-      this.$router.push({
-        path: src,
-        query: {
-          name: name
-        }
-      })
+    handlePic (row, index) {
+      this.actPicUrl = `/act/process/resource/` + row.deploymentId + '/' + row.processonDefinitionId + "/image"
+      this.showPicDialog = true
     },
-    handleDel (row, index) {
-      this.$refs.crud.rowDel(row, index)
-    },
-    handleDeploy: function (row, index) {
+    handleStatus (row, type) {
       var _this = this
-      this.$confirm('是否确认部署ID为"' + row.id + '"的模型?', '警告', {
+      this.$confirm('是否确认操作ID为"' + row.processonDefinitionId + '"的流程?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function () {
-        return deploy(row.id)
-      })
-        .then(data => {
-          this.getList(this.page)
-          _this.$message({
-            showClose: true,
-            message: '部署成功',
-            type: 'success'
-          })
+        return status(row.processonDefinitionId, type)
+      }).then(data => {
+        this.getList(this.page)
+        _this.$message({
+          showClose: true,
+          message: '操作成功',
+          type: 'success'
         })
-        .catch(function (err) { })
+      }).catch(function (err) { })
+    },
+    handleDel (row, index) {
+      this.$refs.crud.rowDel(row, index)
     },
     rowDel: function (row, index) {
       var _this = this
-      this.$confirm('是否确认删除ID为"' + row.id + '"的模型?', '警告', {
+      this.$confirm('是否确认删除ID为"' + row.deploymentId + '"的模型?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(function () {
-          return delObj(row.id)
+          return delObj(row.deploymentId)
         })
         .then(data => {
           this.getList(this.page)
@@ -134,24 +136,6 @@ export default {
           })
         })
         .catch(function (err) { })
-    },
-    /**
-     * @title 数据添加
-     * @param row 为当前的数据
-     * @param done 为表单关闭函数
-     *
-     **/
-    handleSave: function (row, done) {
-      addObj(row).then(data => {
-        this.tableData.push(Object.assign({}, row))
-        this.$message({
-          showClose: true,
-          message: '添加成功',
-          type: 'success'
-        })
-        done()
-        this.getList(this.page)
-      })
     },
     /**
      * 搜索回调

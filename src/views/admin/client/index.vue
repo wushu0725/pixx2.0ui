@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import { fetchList, addObj, putObj, delObj } from '@/api/client'
-import { tableOption } from '@/const/crud/client'
+import { fetchList, addObj, putObj, delObj } from '@/api/admin/client'
+import { tableOption } from '@/const/crud/admin/client'
 import { mapGetters } from 'vuex'
 export default {
   name: 'client',
