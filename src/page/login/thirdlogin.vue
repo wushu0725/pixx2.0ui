@@ -35,7 +35,7 @@ export default {
         url = 'https://open.weixin.qq.com/connect/qrconnect?appid=' + appid + '&redirect_uri=' + redirect_uri + '&state=WX&response_type=code&scope=snsapi_login#wechat_redirect'
       } else if (thirdpart === 'tencent') {
         client_id = '101322838'
-        url = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&state=' + appid + '&client_id=' + client_id + '&redirect_uri=' + redirect_uri
+        url = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ&client_id=' + client_id + '&redirect_uri=' + redirect_uri
       }
       openWindow(url, thirdpart, 540, 540)
     }

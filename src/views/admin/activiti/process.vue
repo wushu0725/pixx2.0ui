@@ -84,8 +84,7 @@ export default {
     getList (page,params) {
       this.tableLoading = true
       fetchList(Object.assign({
-          orderByField: 'create_time',
-          isAsc: false,
+          descs: 'create_time',
           current: page.currentPage,
           size: page.pageSize
       }, params)).then(response => {
