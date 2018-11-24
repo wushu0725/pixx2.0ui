@@ -34,7 +34,7 @@ export function fetchList(query) {
 
 export function deptRoleList() {
   return request({
-    url: '/admin/role/list/',
+    url: '/admin/role/list',
     method: 'get'
   })
 }
@@ -71,7 +71,7 @@ export function delObj(id) {
 
 export function permissionUpd(roleId, menuIds) {
   return request({
-    url: '/admin/role/upd-menu',
+    url: '/admin/role/menu',
     method: 'put',
     params: {
       roleId: roleId,

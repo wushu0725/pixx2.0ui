@@ -54,7 +54,7 @@ export function delObj(id) {
 
 export function putObj(obj) {
   return request({
-    url: '/admin/menu/',
+    url: '/admin/menu',
     method: 'put',
     data: obj
   })
