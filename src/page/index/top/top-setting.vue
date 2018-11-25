@@ -9,21 +9,8 @@
          :class="{'setting__content--show':box}">
       <div class="setting__header">版权信息</div>
       <div class="setting__body setting__about">
-        <p>当前版本：avue-cli v2.x </p>
-        <p>基于框架：avue v2.x</p>
-        <a href="https://avue.top/#/component/avue2.x"
-           target="_blank">
-          <el-button type="primary">
-            获取源码
-          </el-button>
-        </a>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="https://pig4cloud.com"
-           target="_blank">
-          <el-button type="primary">
-            查看详情
-          </el-button>
-        </a>
+        <p>当前版本：PigX Pro 2.0.0 </p>
+        <p>版权所有: Pig4Cloud团队 ©2018</p>
       </div>
       <div class="setting__header">设置
         <small>(滑动鼠标下面还有更多设置)</small>
