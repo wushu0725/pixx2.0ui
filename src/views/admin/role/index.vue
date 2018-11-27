@@ -42,17 +42,20 @@
         <template slot="menu"
                   slot-scope="scope">
           <el-button size="mini"
-                     type="success"
+                     type="text"
+                     icon="el-icon-edit"
                      v-if="roleManager_btn_edit"
                      @click="handleUpdate(scope.row,scope.index)">编辑
           </el-button>
           <el-button size="mini"
-                     type="danger"
+                     type="text"
+                     icon="el-icon-delete"
                      v-if="roleManager_btn_del"
                      @click="handleDelete(scope.row,scope.index)">删除
           </el-button>
           <el-button size="mini"
-                     type="info"
+                     type="text"
+                     icon="el-icon-plus"
                      plain
                      @click="handlePermission(scope.row,scope.index)"
                      v-if="roleManager_btn_perm">权限

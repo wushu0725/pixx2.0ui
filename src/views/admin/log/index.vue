@@ -29,11 +29,10 @@
                  @row-del="rowDel">
         <template slot-scope="scope"
                   slot="menu">
-          <el-button type="danger"
+          <el-button type="text"
                      v-if="permissions.sys_log_del"
                      icon="el-icon-delete"
                      size="mini"
-                     plain
                      @click="handleDel(scope.row,scope.index)">删除</el-button>
         </template>
       </avue-crud>

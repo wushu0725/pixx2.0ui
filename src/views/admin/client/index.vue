@@ -30,13 +30,13 @@
                  @row-del="rowDel">
         <template slot-scope="scope"
                   slot="menu">
-          <el-button type="primary"
+          <el-button type="text"
                      v-if="permissions.sys_client_edit"
                      icon="el-icon-check"
                      size="mini"
                      plain
                      @click="handleEdit(scope.row,scope.index)">编辑</el-button>
-          <el-button type="danger"
+          <el-button type="text"
                      v-if="permissions.sys_client_del"
                      icon="el-icon-delete"
                      size="mini"

@@ -37,7 +37,7 @@
         </template>
         <template slot-scope="scope"
                   slot="menu">
-          <el-button type="danger"
+          <el-button type="text"
                      v-if="permissions.daemon_execution_log_del"
                      icon="el-icon-delete"
                      size="small"

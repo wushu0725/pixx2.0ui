@@ -28,7 +28,7 @@
                  @search-change="searchChange">
         <template slot-scope="scope"
                   slot="menu">
-          <el-button type="primary"
+          <el-button type="text"
                      v-if="permissions.sys_client_del"
                      icon="el-icon-check"
                      size="mini"

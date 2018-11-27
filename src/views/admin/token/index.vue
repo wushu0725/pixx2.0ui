@@ -28,7 +28,7 @@
                  @row-del="rowDel">
         <template slot-scope="scope"
                   slot="menu">
-          <el-button type="danger"
+          <el-button type="text"
                      v-if="permissions.sys_client_del"
                      icon="el-icon-delete"
                      size="mini"

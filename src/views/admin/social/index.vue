@@ -38,13 +38,13 @@
         </template>
         <template slot-scope="scope"
                   slot="menu">
-          <el-button type="primary"
+          <el-button type="text"
                      v-if="permissions.generator_syssocialdetails_edit"
                      icon="el-icon-check"
                      size="small"
                      plain
                      @click="handleEdit(scope.row,scope.index)">编辑</el-button>
-          <el-button type="danger"
+          <el-button type="text"
                      v-if="permissions.generator_syssocialdetails_del"
                      icon="el-icon-delete"
                      size="small"
