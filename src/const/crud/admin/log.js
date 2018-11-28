@@ -40,8 +40,8 @@ export const tableOption = {
     dicData: 'log_type',
     search: true
   }, {
-    label: '请求接口',
-    prop: 'requestUri'
+    label: '请求接口名称',
+    prop: 'title'
   }, {
     label: 'IP地址',
     prop: 'remoteAddr'
