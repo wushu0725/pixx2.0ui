@@ -120,7 +120,7 @@ export default {
   left: 0;
   width: 100%;
   height: 500px;
-  margin-top: -220px;
+  margin-top: -200px;
 }
 .login-container::before {
   z-index: -1024;
@@ -140,8 +140,9 @@ export default {
 }
 .login-logo {
   position: absolute;
-  top: 10px;
-  right: 30px;
+  top: 0;
+  left: 0;
+  padding-top: 50px;
   font-size: 24px;
   color: #333;
 }
@@ -167,9 +168,6 @@ export default {
   width: 50%;
   box-sizing: border-box;
 }
-.login-select {
-  display: inline-block;
-}
 .login-main > h3 {
   margin-bottom: 20px;
 }
@@ -193,24 +191,24 @@ export default {
   }
 }
 .login-index {
-  margin-top: 40px;
+  margin-top: 40px !important;
   width: 180px;
   height: 48px;
   text-align: center;
-  border-radius: 50px;
-  background: transparent;
-  color: #333;
-  font-size: 16px;
+  border-radius: 50px !important;
+  background: transparent !important;
+  color: #333 !important;
+  font-size: 16px !important;
   border: 1px solid rgb(152, 22, 244);
 }
 .login-submit {
-  display: block;
-  margin: 40px auto 10px auto;
+  display: block !important;
+  margin: 40px auto 10px auto !important;
   width: 200px;
   height: 48px;
-  font-size: 14px;
+  font-size: 14px !important;
   text-align: center;
-  border-radius: 50px;
+  border-radius: 50px !important;
   border: 0px;
   box-shadow: rgba(152, 22, 244, 0.19) 0px 5px 10px 2px;
 }
