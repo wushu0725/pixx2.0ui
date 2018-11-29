@@ -15,7 +15,7 @@
         <template slot="title">
           <i :class="item[iconKey]"></i>
           <span slot="title"
-                :class="{'el-menu--display':collapse}">{{item[labelKey]}}</span>
+                :class="{'el-menu--display':collapse&&first}">{{item[labelKey]}}</span>
         </template>
         <template v-for="(child,cindex) in item[childrenKey]">
           <el-menu-item :index="child[pathKey],cindex"
@@ -54,6 +54,10 @@ export default {
     },
     screen: {
       type: Number
+    },
+    first: {
+        type: Boolean,
+        default: false
     },
     props: {
       type: Object,
