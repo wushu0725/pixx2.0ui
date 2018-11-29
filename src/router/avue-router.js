@@ -86,7 +86,7 @@ RouterPlugin.install = function(router, store) {
                     icon = oMenu[propsDefault.icon],
                     children = oMenu[propsDefault.children],
                     meta = {
-                        keepAlive: Number(oMenu['keepalive']) === 0
+                        keepAlive: Number(oMenu['keepAlive']) === 0
                     }
                 const isChild = children.length !== 0;
                 const oRouter = {

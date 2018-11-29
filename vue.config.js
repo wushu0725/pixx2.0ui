@@ -3,6 +3,7 @@ module.exports = {
     lintOnSave: true,
     productionSourceMap: false,
     chainWebpack: (config) => {
+        // 忽略的打包文件
         config.externals({
             'vue': 'Vue',
             'vue-router': 'VueRouter',
@@ -12,7 +13,7 @@ module.exports = {
         })
     },
     transpileDependencies: ['avue-plugin-transfer', 'avue-plugin-ueditor'],
-    //配置转发代理
+    // 配置转发代理
     devServer: {
         proxy: {
             '/auth': {

@@ -118,9 +118,9 @@
                           :disabled="formEdit"
                           placeholder="iframe嵌套地址"></el-input>
               </el-form-item>
-              <el-form-item label="页面缓冲"
+              <el-form-item label="路由缓冲"
                             prop="component">
-                <el-switch v-model="form.keepalive"
+                <el-switch v-model="form.keepAlive"
                            :disabled="formEdit"
                            active-color="#13ce66"
                            inactive-color="#ff4949"
