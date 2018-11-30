@@ -49,6 +49,7 @@ export const tableOption = {
       label: '请假时间',
       prop: 'leaveTime',
       type: 'datetime',
+      overHidden:true,
       format: 'yyyy-MM-dd HH:mm',
       valueFormat: "yyyy-MM-dd hh:mm:ss"
       },
@@ -56,25 +57,28 @@ export const tableOption = {
           label: '提交时间',
           prop: 'createTime',
           type: 'datetime',
+          overHidden:true,
           format: 'yyyy-MM-dd HH:mm',
           editDisabled: true,
+          addVisdiplay: false,
+          hide: true
+      },
+      {
+          label: '状态',
+          prop: 'state',
+          type: 'select',
+          dicData: 'leave_status',
+          search: true,
           addVisdiplay: false
       },
-    {
-        label: '备注',
-        prop: 'content',
-        type:'textarea',
-        minRows:2,
-        row:true,
-        span:24
-    },
-    {
-        label: '状态',
-        prop: 'state',
-        type: 'select',
-        dicData: 'leave_status',
-        search: true,
-        addVisdiplay: false
-    }
+      {
+          label: '备注',
+          prop: 'content',
+          type:'textarea',
+          overHidden:true,
+          minRows:2,
+          row:true,
+          span:24
+      }
   ]
 }

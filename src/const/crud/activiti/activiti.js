@@ -57,7 +57,7 @@ export const tableOption = {
         prop: 'createTime',
         type: 'datetime',
         format: 'yyyy-MM-dd HH:mm',
-        valueFormat: 'yyyy-MM-dd HH:mm:ss',
+        valueFormat: 'timestamp',
         editDisabled: true,
         addVisdiplay: false
     }, {
@@ -66,13 +66,8 @@ export const tableOption = {
         prop: 'lastUpdateTime',
         type: 'datetime',
         format: 'yyyy-MM-dd HH:mm',
-        valueFormat: 'yyyy-MM-dd HH:mm:ss',
+        valueFormat: 'timestamp',
         editDisabled: true,
         addVisdiplay: false
-    }, {
-        label: '备注',
-        prop: 'desc',
-        editVisdiplay: false,
-        hide: true
     }]
 }

@@ -54,7 +54,7 @@ export const tableOption = {
         prop: 'deploymentTime',
         type: 'datetime',
         format: 'yyyy-MM-dd HH:mm',
-        valueFormat: 'yyyy-MM-dd HH:mm:ss',
+        valueFormat: 'timestamp',
         editDisabled: true,
         addVisdiplay: false
     }]
