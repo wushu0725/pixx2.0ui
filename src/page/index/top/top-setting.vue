@@ -9,8 +9,8 @@
          :class="{'setting__content--show':box}">
       <div class="setting__header">版权信息</div>
       <div class="setting__body setting__about">
-        <p>当前版本：PigX Pro 2.0.0 </p>
-        <p>版权所有: Pig4Cloud团队 ©2018</p>
+        <p>Version：PigX 2.0.0</p>
+        <p>Copyright: Pig4Cloud ©2018</p>
       </div>
       <div class="setting__header">设置
         <small>(滑动鼠标下面还有更多设置)</small>
