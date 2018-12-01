@@ -49,6 +49,7 @@ export const tableOption = {
             }
         ]
     }, {
+        width: 150,
         label: '角色标识',
         prop: 'roleCode',
         span: 24,

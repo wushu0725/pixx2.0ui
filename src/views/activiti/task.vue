@@ -39,11 +39,11 @@
         </template>
       </avue-crud>
     </basic-container>
-    <el-dialog title="查看任务"
+    <el-dialog title="任务办理"
                :visible.sync="showTask">
       <avue-form ref="form" v-model="obj" :option="formOption">
         <template slot-scope="scope" slot="menuForm">
-              <el-button size="small"
+              <el-button icon="el-icon-check"
                          v-for="flag in flagList" :key="flag"
                          @click="handleTask(scope.row,flag)"
                          plain>{{flag}}</el-button>

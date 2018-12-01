@@ -143,6 +143,7 @@ export const tableOption = {
         valueFormat: 'yyyy-MM-dd HH:mm:ss',
         editDisabled: true,
         addVisdiplay: false,
+        hide: true,
         span: 24,
     }]
 }
