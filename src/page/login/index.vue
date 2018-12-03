@@ -1,50 +1,41 @@
 <template>
-  <div class="login-container pull-height"
-       @keyup.enter.native="handleLogin">
-    <div class="login-logo animated fadeIn">
-      <el-select v-model="active"
-                 @change="handleCommand"
-                 placeholder="请选择租户，不选为默认"
-                 size="mini">
-        <el-option label="租户1"
-                   value="1">
-        </el-option>
-        <el-option label="租户2"
-                   value="2">
-        </el-option>
-      </el-select>
-    </div>
+  <div class="login-container pull-height" @keyup.enter.native="handleLogin">
     <div class="login-weaper">
       <div class="login-left animated fadeInLeft">
         <div class="login-info">
           <h2 class="login-info-title">{{website.info.title}}</h2>
           <ul class="login-info-list">
-            <li class="login-info-item"
-                v-for="(item,index) in website.info.list"
-                :key="index">
-              <i class="el-icon-check"></i>&nbsp;{{item}}
+            <li class="login-info-item" v-for="(item,index) in website.info.list" :key="index">
+              <i class="el-icon-check"></i>
+              &nbsp;{{item}}
             </li>
           </ul>
-          <el-button type="primary"
-                     size="small"
-                     class="login-index">首页</el-button>
+          <el-button type="primary" size="small" class="login-index">首页</el-button>
         </div>
       </div>
-      <div class="login-border  animated fadeInRight">
+      <div class="login-border animated fadeInRight">
         <div class="login-main">
-          <h4 class="login-title">登录 {{website.title}}
+          <h4 class="login-title">
+            登录 {{website.title}}
+            <el-select
+              class="login-select animated fadeIn"
+              v-model="active"
+              @change="handleCommand"
+              placeholder="请选择租户，不选为默认"
+              size="mini"
+            >
+              <el-option label="租户1" value="1"></el-option>
+              <el-option label="租户2" value="2"></el-option>
+            </el-select>
           </h4>
           <userLogin v-if="activeName==='user'"></userLogin>
           <codeLogin v-else-if="activeName==='code'"></codeLogin>
           <thirdLogin v-else-if="activeName==='third'"></thirdLogin>
         </div>
         <div class="login-menu">
-          <a href="#"
-             @click.stop="activeName='user'">账号密码</a>
-          <a href="#"
-             @click.stop="activeName='code'">手机号登录</a>
-          <a href="#"
-             @click.stop="activeName='third'">第三方登录</a>
+          <a href="#" @click.stop="activeName='user'">账号密码</a>
+          <a href="#" @click.stop="activeName='code'">手机号登录</a>
+          <a href="#" @click.stop="activeName='third'">第三方登录</a>
         </div>
       </div>
     </div>
@@ -56,9 +47,9 @@ import codeLogin from "./codelogin";
 import thirdLogin from "./thirdlogin";
 import topColor from "../index/top/top-color";
 import color from "@/mixins/color";
-import { setStore,getStore } from '@/util/store'
+import { setStore, getStore } from "@/util/store";
 import { mapGetters } from "vuex";
-import { validatenull } from '@/util/validate'
+import { validatenull } from "@/util/validate";
 export default {
   name: "login",
   mixins: [color()],
@@ -68,41 +59,41 @@ export default {
     codeLogin,
     thirdLogin
   },
-  data () {
+  data() {
     return {
-      active: '',
+      active: "",
       activeName: "user"
     };
   },
   watch: {
-    $route () {
-      const params = this.$route.query
-      this.socialForm.state = params.state
-      this.socialForm.code = params.code
+    $route() {
+      const params = this.$route.query;
+      this.socialForm.state = params.state;
+      this.socialForm.code = params.code;
       if (!validatenull(this.socialForm.state)) {
         const loading = this.$loading({
           lock: true,
           text: `登录中,请稍后。。。`,
-          spinner: 'el-icon-loading'
-        })
+          spinner: "el-icon-loading"
+        });
         setTimeout(() => {
-          loading.close()
-        }, 2000)
-        this.handleSocialLogin()
+          loading.close();
+        }, 2000);
+        this.handleSocialLogin();
       }
     }
   },
-  created () {
-     this.active = getStore({ name: 'tenantId' });
+  created() {
+    this.active = getStore({ name: "tenantId" });
   },
-  mounted () { },
+  mounted() {},
   computed: {
     ...mapGetters(["website"])
   },
   props: [],
   methods: {
-    handleCommand (command) {
-      setStore({ name: 'tenantId', content: command})
+    handleCommand(command) {
+      setStore({ name: "tenantId", content: command });
     }
   }
 };
@@ -120,7 +111,7 @@ export default {
   left: 0;
   width: 100%;
   height: 500px;
-  margin-top: -200px;
+  margin-top: -240px;
 }
 .login-container::before {
   z-index: -1024;
@@ -137,14 +128,6 @@ export default {
   float: left;
   width: 50%;
   position: relative;
-}
-.login-logo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding-top: 50px;
-  font-size: 24px;
-  color: #333;
 }
 .login-info {
   padding-left: 140px;
@@ -175,11 +158,20 @@ export default {
   color: #76838f;
 }
 .login-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 40px;
   font-weight: 500;
   font-size: 22px;
   text-align: center;
   letter-spacing: 4px;
+}
+
+.login-select {
+  margin-top: 8px;
+  width: 180px !important;
 }
 .login-menu {
   width: 100%;
