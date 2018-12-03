@@ -16,7 +16,6 @@
       <div class="login-border animated fadeInRight">
         <div class="login-main">
           <h4 class="login-title">
-            登录 {{website.title}}
             <el-select
               class="login-select animated fadeIn"
               v-model="active"
@@ -111,7 +110,7 @@ export default {
   left: 0;
   width: 100%;
   height: 500px;
-  margin-top: -240px;
+  margin-top: -220px;
 }
 .login-container::before {
   z-index: -1024;
@@ -159,7 +158,6 @@ export default {
 }
 .login-title {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
@@ -170,8 +168,13 @@ export default {
 }
 
 .login-select {
-  margin-top: 8px;
-  width: 180px !important;
+  input {
+    color: #333;
+    font-size: 18px;
+    font-weight: 400;
+    border: none;
+    text-align: center;
+  }
 }
 .login-menu {
   width: 100%;
