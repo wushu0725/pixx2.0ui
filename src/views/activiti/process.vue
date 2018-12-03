@@ -56,7 +56,7 @@
       </avue-crud>
     </basic-container>
     <el-dialog title="流程图" :visible.sync="showPicDialog">
-      <img :src="actPicUrl" width="100%" style="margin-left:-60px">
+      <img :src="actPicUrl" width="100%">
     </el-dialog>
   </div>
 </template>

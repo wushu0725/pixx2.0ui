@@ -58,7 +58,7 @@ export default {
 .main {
   margin: 0 auto;
   width: 99%;
-  height: calc(100% - 100px);
+  height: 800px;
   background-color: #fff;
   padding: 20px;
   border-radius: 3px;

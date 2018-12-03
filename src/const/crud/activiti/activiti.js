@@ -25,7 +25,7 @@ export const tableOption = {
     align: 'center',
     editBtn: false,
     delBtn: false,
-    menuType:'menu',
+    menuType: 'menu',
     searchShow: false,
     labelWidth: 120,
     column: [{
@@ -46,6 +46,13 @@ export const tableOption = {
     }, {
         label: '模型名称',
         prop: 'name'
+    },
+    {
+        label: '描述',
+        prop: 'desc',
+        hide: true,
+        editDisabled: false,
+        addVisdiplay: true
     }, {
         label: '版本号',
         prop: 'version',
