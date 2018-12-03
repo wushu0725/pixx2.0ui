@@ -17,9 +17,9 @@
 
 const DIC = {
     state: [{
-            label: '准备中',
-            value: 'TASK_STAGING'
-        },
+        label: '准备中',
+        value: 'TASK_STAGING'
+    },
         {
             label: '执行中',
             value: 'TASK_RUNNING'
@@ -39,12 +39,13 @@ export const tableOption = {
     "editBtn": false,
     "delBtn": false,
     "addBtn": false,
+    "viewBtn": true,
     "dic": [],
     "column": [{
-            label: 'ID',
-            prop: 'id',
-            hide: true
-        },
+        label: 'ID',
+        prop: 'id',
+        hide: true
+    },
         {
             label: '作业名称',
             prop: 'jobName',
@@ -73,14 +74,15 @@ export const tableOption = {
         {
             label: '执行类型',
             prop: 'executionType',
-            hide: true,
-            width: 100
+            hide: true
         },
         {
+            width: 100,
             label: '分片项',
             prop: 'shardingItem'
         },
         {
+            width: 100,
             label: '状态',
             prop: 'state',
             type: 'select',
@@ -88,13 +90,15 @@ export const tableOption = {
             search: true
         },
         {
-            label: '创建时间',
-            prop: 'creationTime'
-        },
-        {
             label: '消息',
             prop: 'message',
-            width: 100
+            width: 100,
+            overHidden: true,
+            hide: true
+        },
+        {
+            label: '创建时间',
+            prop: 'creationTime'
         }
     ]
 }

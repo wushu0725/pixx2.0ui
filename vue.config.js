@@ -1,4 +1,4 @@
-const url = 'http://zn.huaxiadaowei.com'
+const url = 'http://127.0.0.1:9999'
 module.exports = {
   lintOnSave: true,
   productionSourceMap: false,

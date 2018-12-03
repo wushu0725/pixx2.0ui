@@ -28,13 +28,6 @@
                  @row-update="handleUpdate"
                  @row-save="handleSave"
                  @row-del="rowDel">
-        <template slot="menuLeft">
-          <el-button type="primary"
-                     @click="handleAdd"
-                     size="small"
-                     v-if="permissions.daemon_execution_log_add">新 增</el-button>
-          <br /><br />
-        </template>
         <template slot-scope="scope"
                   slot="menu">
           <el-button type="text"
@@ -78,10 +71,11 @@
         this.tableLoading = true
         fetchList(Object.assign({
           page: page.currentPage,
-          limit: page.pageSize
+          limit: page.pageSize,
+          descs: 'start_time'
         }, params)).then(response => {
-          this.tableData = response.data.records
-          this.page.total = response.data.total
+          this.tableData = response.data.data.records
+          this.page.total = response.data.data.total
           this.tableLoading = false
         })
       },
