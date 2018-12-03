@@ -45,7 +45,6 @@ export const tableOption = {
         editDisabled: true,
         addVisdiplay: false,
     }, {
-        width: 120,
         fixed: true,
         label: '用户名',
         prop: 'username',
@@ -91,7 +90,6 @@ export const tableOption = {
             trigger: "blur"
         }]
     }, {
-        width: 120,
         label: '手机号',
         prop: 'phone',
         type: 'phone',
@@ -104,7 +102,6 @@ export const tableOption = {
             trigger: "blur"
         }]
     },{
-        width: 120,
         label: '角色',
         prop: 'role',
         formsolt: true,
@@ -143,7 +140,6 @@ export const tableOption = {
         valueFormat: 'yyyy-MM-dd HH:mm:ss',
         editDisabled: true,
         addVisdiplay: false,
-        hide: true,
-        span: 24,
+        span: 24
     }]
 }

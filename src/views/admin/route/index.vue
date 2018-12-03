@@ -16,7 +16,7 @@
   -->
 
 <template>
-    <div class="app-container pull-auto">
+    <div class="execution">
         <basic-container>
             <el-alert
                     title="路由配置是非常专业的事情，不建议非工程师操作"

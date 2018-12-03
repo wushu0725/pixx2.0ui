@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container pull-auto">
+  <div class="execution">
     <basic-container>
       <div class="header">
         <p class="header__title">{{name}}</p>

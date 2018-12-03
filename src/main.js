@@ -21,7 +21,7 @@ import {
 import * as filters from './filters' // 全局filter
 import './styles/common.scss';
 // // 引入avue的包
-import '@smallwei/avue/lib/index.js';
+import Avue from '@smallwei/avue/lib/index.js';
 // // 引入avue的样式文件
 import '@smallwei/avue/lib/theme-chalk/index.css';
 
@@ -34,6 +34,8 @@ import VueClipboard from 'vue-clipboard2'
 // 插件 json 展示
 import vueJsonTreeView from 'vue-json-tree-view'
 
+
+Vue.use(Avue, { menuType : 'text'});
 
 Vue.use(router)
 

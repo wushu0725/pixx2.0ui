@@ -30,7 +30,7 @@
               <div>基于开源LCN 分布式事务解决方案深度定制</div>
               <div>完美兼容2.X，优化集群部署，提升性能</div>
             </el-collapse-item>
-            <el-collapse-item title="SASS多租户" name="4">
+            <el-collapse-item title="SAAS多租户" name="4">
               <div>扩展Spring Cache无缝兼容</div>
               <div>支持开发过程无感知</div>
             </el-collapse-item>

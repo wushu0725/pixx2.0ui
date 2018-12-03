@@ -16,7 +16,7 @@
   -->
 
 <template>
-  <div class="app-container pull-auto">
+  <div class="execution">
     <basic-container>
       <avue-crud ref="crud"
                  :page="page"

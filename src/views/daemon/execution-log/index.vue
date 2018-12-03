@@ -16,7 +16,7 @@
   -->
 
 <template>
-  <div class="app-container pull-auto">
+  <div class="execution">
     <basic-container>
       <avue-crud ref="crud"
                  :page="page"
@@ -61,17 +61,18 @@
       }
     },
     created() {
+       this.page.pageSize=20;
     },
     mounted: function() { },
     computed: {
       ...mapGetters(['permissions'])
     },
     methods: {
-      getList(page, params) {
+      getList(page, params={}) {
         this.tableLoading = true
         fetchList(Object.assign({
-          page: page.currentPage,
-          limit: page.pageSize,
+          current: page.currentPage,
+          size: page.pageSize,
           descs: 'start_time'
         }, params)).then(response => {
           this.tableData = response.data.data.records
