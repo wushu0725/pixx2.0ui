@@ -31,17 +31,17 @@ const DIC = {
 }
 
 export const tableOption = {
-  "border": true,
-  "index": true,
-  "stripe": true,
-  "menuAlign": "center",
-  "align": "center",
-  "editBtn": false,
-  "delBtn": false,
-  "addBtn": false,
-  "viewBtn": true,
-  "dic": [],
-  "column": [{
+  border: true,
+  index: true,
+  stripe: true,
+  menuAlign: 'center',
+  align: 'center',
+  editBtn: false,
+  delBtn: false,
+  addBtn: false,
+  viewBtn: true,
+  dic: [],
+  column: [{
     label: 'ID',
     prop: 'id',
     hide: true

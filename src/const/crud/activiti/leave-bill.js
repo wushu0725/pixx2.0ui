@@ -16,18 +16,18 @@
  */
 
 export const tableOption = {
-  'border': true,
-  'index': true,
-  'stripe': true,
-  'menuAlign': "center",
-  'align': "center",
+  border: true,
+  index: true,
+  stripe: true,
+  menuAlign: 'center',
+  align: 'center',
   menuBtn: true,
-  'editBtn': false,
-  'delBtn': false,
-  'addBtn': false,
+  editBtn: false,
+  delBtn: false,
+  addBtn: false,
   menuType: 'menu',
-  'dicUrl': '/admin/dict/type/leave_status',
-  'column': [
+  dicUrl: '/admin/dict/type/leave_status',
+  column: [
     {
       label: 'ID',
       prop: 'leaveId',

@@ -15,18 +15,18 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 export const tableOption = {
-  'border': true,
-  'index': true,
-  'stripe': true,
-  'menuAlign': "center",
-  'align': "center",
-  'menuBtn': true,
-  'editBtn': false,
-  'delBtn': false,
-  'addBtn': false,
+  border: true,
+  index: true,
+  stripe: true,
+  menuAlign: 'center',
+  align: 'center',
+  menuBtn: true,
+  editBtn: false,
+  delBtn: false,
+  addBtn: false,
   menuType: 'menu',
-  'dic': [],
-  'column': [
+  dic: [],
+  column: [
     {
       label: 'ID',
       prop: 'taskId',

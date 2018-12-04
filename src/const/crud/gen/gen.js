@@ -16,15 +16,15 @@
  */
 
 export const tableOption = {
-  'border': true,
-  'index': true,
-  'stripe': true,
-  'menuAlign': 'center',
-  'align': 'center',
-  'addBtn': false,
-  'editBtn': false,
-  'delBtn': false,
-  'column': [{
+  border: true,
+  index: true,
+  stripe: true,
+  menuAlign: 'center',
+  align: 'center',
+  addBtn: false,
+  editBtn: false,
+  delBtn: false,
+  column: [{
     label: '表名称',
     prop: 'tableName',
     align: 'center',

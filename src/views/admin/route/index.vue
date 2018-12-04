@@ -23,7 +23,7 @@
         type="warning">
       </el-alert>
       <vue-json-editor v-model="json" :show-btns="false"></vue-json-editor>
-      <div align="center">
+      <div align='center'>
         <el-button @click="edit()">更新</el-button>
       </div>
     </basic-container>

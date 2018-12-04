@@ -15,19 +15,19 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 export const tableOption = {
-  'border': true,
-  'index': true,
-  'indexLabel': '序号',
-  'stripe': true,
-  'menuAlign': 'center',
-  'align': 'center',
-  'refreshBtn': false,
-  'showClomnuBtn': false,
-  'searchSize': 'mini',
-  'editBtn': false,
-  'delBtn': false,
-  'dic': [],
-  'column': [{
+  border: true,
+  index: true,
+  indexLabel: '序号',
+  stripe: true,
+  menuAlign: 'center',
+  align: 'center',
+  refreshBtn: false,
+  showClomnuBtn: false,
+  searchSize: 'mini',
+  editBtn: false,
+  delBtn: false,
+  dic: [],
+  column: [{
     width: 150,
     label: '数据值',
     prop: 'value',

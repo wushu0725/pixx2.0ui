@@ -29,7 +29,6 @@
         <template slot-scope="scope"
                   slot="menu">
           <el-button type="text"
-                     v-if="permissions.sys_client_del"
                      icon="el-icon-check"
                      size="mini"
                      plain
@@ -60,7 +59,7 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    name: 'client',
+    name: 'code-generator',
     data() {
       return {
         tableData: [],
