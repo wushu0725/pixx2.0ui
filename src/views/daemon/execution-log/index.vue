@@ -35,7 +35,8 @@
                      icon="el-icon-delete"
                      size="small"
                      plain
-                     @click="handleDel(scope.row,scope.index)">删除</el-button>
+                     @click="handleDel(scope.row,scope.index)">删除
+          </el-button>
         </template>
       </avue-crud>
     </basic-container>
@@ -43,9 +44,10 @@
 </template>
 
 <script>
-  import { fetchList, getObj, addObj, putObj, delObj } from '@/api/daemon/execution-log'
-  import { tableOption } from '@/const/crud/daemon/execution-log'
-  import { mapGetters } from 'vuex'
+  import {addObj, delObj, fetchList, getObj, putObj} from '@/api/daemon/execution-log'
+  import {tableOption} from '@/const/crud/daemon/execution-log'
+  import {mapGetters} from 'vuex'
+
   export default {
     name: 'execution-log',
     data() {
@@ -61,14 +63,15 @@
       }
     },
     created() {
-       this.page.pageSize=20;
+      this.page.pageSize = 20;
     },
-    mounted: function() { },
+    mounted: function () {
+    },
     computed: {
       ...mapGetters(['permissions'])
     },
     methods: {
-      getList(page, params={}) {
+      getList(page, params = {}) {
         this.tableLoading = true
         fetchList(Object.assign({
           current: page.currentPage,
@@ -85,7 +88,7 @@
        * @detail 调用crud的handleadd方法即可
        *
        **/
-      handleAdd: function() {
+      handleAdd: function () {
         this.$refs.crud.rowAdd()
       },
       handleEdit(row, index) {
@@ -94,17 +97,15 @@
       handleDel(row, index) {
         this.$refs.crud.rowDel(row, index)
       },
-      rowDel: function(row, index) {
+      rowDel: function (row, index) {
         var _this = this
         this.$confirm('是否确认删除ID为' + row.id, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        })
-          .then(function() {
-            return delObj(row.id)
-          })
-          .then(data => {
+        }).then(function () {
+          return delObj(row.id)
+        }).then(data => {
           _this.tableData.splice(index, 1)
           _this.$message({
             showClose: true,
@@ -112,8 +113,8 @@
             type: 'success'
           })
           this.getList(this.page)
+        }).catch(function (err) {
         })
-      .catch(function(err) { })
       },
       /**
        * @title 数据更新
@@ -122,7 +123,7 @@
        * @param done 为表单关闭函数
        *
        **/
-      handleUpdate: function(row, index, done) {
+      handleUpdate: function (row, index, done) {
         putObj(row).then(data => {
           this.tableData.splice(index, 1, Object.assign({}, row))
           this.$message({
@@ -140,7 +141,7 @@
        * @param done 为表单关闭函数
        *
        **/
-      handleSave: function(row, done) {
+      handleSave: function (row, done) {
         addObj(row).then(data => {
           this.tableData.push(Object.assign({}, row))
           this.$message({

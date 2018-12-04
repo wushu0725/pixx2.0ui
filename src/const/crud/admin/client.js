@@ -25,16 +25,17 @@ const DIC = {
   }]
 }
 export const tableOption = {
-  'border': true,
-  'index': true,
-  'indexLabel': '序号',
-  'stripe': true,
-  'menuAlign': 'center',
-  'align': 'center',
-  'editBtn': false,
-  'delBtn': false,
-  'dic': [],
-  'column': [{
+  border: true,
+  index: true,
+  indexLabel: '序号',
+  stripe: true,
+  menuAlign: 'center',
+  align: 'center',
+  editBtn: false,
+  delBtn: false,
+  viewBtn: true,
+  dic: [],
+  column: [{
     width: 150,
     label: '编号',
     prop: 'clientId',
@@ -46,11 +47,12 @@ export const tableOption = {
       trigger: 'blur'
     }]
   }, {
-    width: 300,
     label: '密钥',
     prop: 'clientSecret',
     align: 'center',
     sortable: true,
+    overHidden: true,
+    width: 120,
     rules: [{
       required: true,
       message: '请输入clientSecret',
@@ -71,7 +73,7 @@ export const tableOption = {
     prop: 'authorizedGrantTypes',
     align: 'center',
     width: 150,
-    hide: true,
+    overHidden: true,
     rules: [{
       required: true,
       message: '请输入授权模式',
@@ -90,22 +92,20 @@ export const tableOption = {
     width: 150,
     hide: true
   }, {
-    label: '请求令牌',
+    label: '令牌时效',
     prop: 'accessTokenValidity',
     align: 'center',
-    width: 150,
-    hide: true
+    width: 80
   }, {
-    label: '刷新令牌',
+    label: '刷新时效',
     prop: 'refreshTokenValidity',
     align: 'center',
-    width: 150,
-    hide: true
+    width: 80
   }, {
     label: '扩展信息',
     prop: 'additionalInformation',
     align: 'center',
-    width: 150,
+    width: 80,
     hide: true
   }, {
     label: '自动放行',
@@ -113,7 +113,7 @@ export const tableOption = {
     align: 'center',
     type: 'radio',
     dicData: DIC.vaild,
-    width: 150,
+    width: 80,
     rules: [{
       required: true,
       message: '请选择是否放行',
@@ -123,6 +123,7 @@ export const tableOption = {
     label: '资源ID',
     prop: 'resourceIds',
     align: 'center',
+    hide: true,
     width: 150
   }]
 }

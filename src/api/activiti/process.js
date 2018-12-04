@@ -32,9 +32,9 @@ export function delObj(id) {
   })
 }
 
-export function status(id,type) {
-    return request({
-        url: '/act/process/status/' + id + "/" + type,
-        method: 'put'
-    })
+export function status(id, type) {
+  return request({
+    url: '/act/process/status/' + id + "/" + type,
+    method: 'put'
+  })
 }
