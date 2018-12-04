@@ -3,6 +3,7 @@
   "version": "1.8.0",
   "private": true,
   "scripts": {
+    "bootstrap": "yarn add --registry https://registry.npm.taobao.org || npm i --registry https://registry.npm.taobao.org ",
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
@@ -10,7 +11,7 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
-    "@smallwei/avue": "^1.4.6-beta3",
+    "@smallwei/avue": "^1.4.7",
     "avue-plugin-transfer": "^0.0.2",
     "avue-plugin-ueditor": "^0.0.1",
     "axios": "^0.18.0",
