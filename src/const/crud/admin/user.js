@@ -14,7 +14,7 @@
  * this software without specific prior written permission.
  * Author: lengleng (wangiegie@gmail.com)
  */
-import {getDetails} from "@/api/admin/user";
+import { getDetails } from '@/api/admin/user'
 
 var validateUsername = (rule, value, callback) => {
   getDetails(value).then(response => {
@@ -25,8 +25,8 @@ var validateUsername = (rule, value, callback) => {
     } else {
       callback()
     }
-  });
-};
+  })
+}
 export const tableOption = {
   border: true,
   index: true,
@@ -44,7 +44,7 @@ export const tableOption = {
     span: 24,
     hide: true,
     editDisabled: true,
-    addVisdiplay: false,
+    addVisdiplay: false
   }, {
     fixed: true,
     label: '用户名',
@@ -55,15 +55,15 @@ export const tableOption = {
     span: 24,
     rules: [{
       required: true,
-      message: "请输入用户名",
+      message: '请输入用户名'
     },
-      {
-        min: 3,
-        max: 20,
-        message: "长度在 3 到 20 个字符",
-        trigger: "blur"
-      },
-      {validator: validateUsername, trigger: 'blur'}
+    {
+      min: 3,
+      max: 20,
+      message: '长度在 3 到 20 个字符',
+      trigger: 'blur'
+    },
+    { validator: validateUsername, trigger: 'blur' }
     ]
   }, {
     label: '密码',
@@ -75,8 +75,8 @@ export const tableOption = {
     rules: [{
       min: 6,
       max: 20,
-      message: "长度在 6 到 20 个字符",
-      trigger: "blur"
+      message: '长度在 6 到 20 个字符',
+      trigger: 'blur'
     }]
   }, {
     label: '所属部门',
@@ -87,8 +87,8 @@ export const tableOption = {
     hide: true,
     rules: [{
       required: true,
-      message: "请选择部门",
-      trigger: "blur"
+      message: '请选择部门',
+      trigger: 'blur'
     }]
   }, {
     label: '手机号',
@@ -99,8 +99,8 @@ export const tableOption = {
     rules: [{
       min: 6,
       max: 20,
-      message: "长度在 11 个字符",
-      trigger: "blur"
+      message: '长度在 11 个字符',
+      trigger: 'blur'
     }]
   }, {
     label: '角色',
@@ -111,26 +111,26 @@ export const tableOption = {
     span: 24,
     rules: [{
       required: true,
-      message: "请选择角色",
-      trigger: "blur"
-    }],
+      message: '请选择角色',
+      trigger: 'blur'
+    }]
   }, {
     label: '状态',
-    prop: "lockFlag",
-    type: "select",
+    prop: 'lockFlag',
+    type: 'select',
     solt: true,
     span: 24,
     rules: [{
       required: true,
-      message: "请选择状态",
-      trigger: "blur"
+      message: '请选择状态',
+      trigger: 'blur'
     }],
     dicData: [{
       label: '有效',
-      value: "0"
+      value: '0'
     }, {
       label: '锁定',
-      value: "9"
+      value: '9'
     }]
   }, {
     width: 180,

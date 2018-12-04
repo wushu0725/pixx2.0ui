@@ -1,4 +1,4 @@
-function pluralize(time, label) {
+function pluralize (time, label) {
   if (time === 1) {
     return time + label
   }
@@ -8,32 +8,35 @@ function pluralize(time, label) {
 /**
  * 日期格式化
  */
-export function dateFormat(date) {
-  let format = 'yyyy-MM-dd hh:mm:ss';
+export function dateFormat (date) {
+  let format = 'yyyy-MM-dd hh:mm:ss'
   if (date != 'Invalid Date') {
     var o = {
-      "M+": date.getMonth() + 1, //month
-      "d+": date.getDate(), //day
-      "h+": date.getHours(), //hour
-      "m+": date.getMinutes(), //minute
-      "s+": date.getSeconds(), //second
-      "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
-      "S": date.getMilliseconds() //millisecond
+      'M+': date.getMonth() + 1, // month
+      'd+': date.getDate(), // day
+      'h+': date.getHours(), // hour
+      'm+': date.getMinutes(), // minute
+      's+': date.getSeconds(), // second
+      'q+': Math.floor((date.getMonth() + 3) / 3), // quarter
+      'S': date.getMilliseconds() // millisecond
     }
-    if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
-      (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-      if (new RegExp("(" + k + ")").test(format))
+    if (/(y+)/.test(format)) {
+      format = format.replace(RegExp.$1,
+        (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+    }
+    for (var k in o) {
+      if (new RegExp('(' + k + ')').test(format)) {
         format = format.replace(RegExp.$1,
-          RegExp.$1.length == 1 ? o[k] :
-            ("00" + o[k]).substr(("" + o[k]).length));
-    return format;
+          RegExp.$1.length == 1 ? o[k]
+            : ('00' + o[k]).substr(('' + o[k]).length))
+      }
+    }
+    return format
   }
-  return '';
-
+  return ''
 }
 
-export function timeAgo(time) {
+export function timeAgo (time) {
   const between = Date.now() / 1000 - Number(time)
   if (between < 3600) {
     return pluralize(~~(between / 60), ' minute')
@@ -44,7 +47,7 @@ export function timeAgo(time) {
   }
 }
 
-export function parseTime(time, cFormat) {
+export function parseTime (time, cFormat) {
   if (arguments.length === 0) {
     return null
   }
@@ -80,7 +83,7 @@ export function parseTime(time, cFormat) {
   return time_str
 }
 
-export function formatTime(time, option) {
+export function formatTime (time, option) {
   time = +time * 1000
   const d = new Date(time)
   const now = Date.now()
@@ -103,15 +106,15 @@ export function formatTime(time, option) {
   }
 }
 
-/* 数字 格式化*/
-export function nFormatter(num, digits) {
+/* 数字 格式化 */
+export function nFormatter (num, digits) {
   const si = [
-    {value: 1E18, symbol: 'E'},
-    {value: 1E15, symbol: 'P'},
-    {value: 1E12, symbol: 'T'},
-    {value: 1E9, symbol: 'G'},
-    {value: 1E6, symbol: 'M'},
-    {value: 1E3, symbol: 'k'}
+    { value: 1E18, symbol: 'E' },
+    { value: 1E15, symbol: 'P' },
+    { value: 1E12, symbol: 'T' },
+    { value: 1E9, symbol: 'G' },
+    { value: 1E6, symbol: 'M' },
+    { value: 1E3, symbol: 'k' }
   ]
   for (let i = 0; i < si.length; i++) {
     if (num >= si[i].value) {
@@ -121,12 +124,12 @@ export function nFormatter(num, digits) {
   return num.toString()
 }
 
-export function html2Text(val) {
+export function html2Text (val) {
   const div = document.createElement('div')
   div.innerHTML = val
   return div.textContent || div.innerText
 }
 
-export function toThousandslsFilter(num) {
+export function toThousandslsFilter (num) {
   return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
 }

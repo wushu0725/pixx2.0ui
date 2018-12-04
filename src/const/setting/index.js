@@ -34,7 +34,7 @@ export const list = [{
   commit: 'SET_SHOWMENU'
 }]
 export const option = (safe) => {
-  const _safe = safe;
+  const _safe = safe
   return {
     submitBtn: false,
     column: [{
@@ -43,8 +43,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }, {
       label: '日志',
@@ -52,8 +52,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }, {
       label: '主题',
@@ -61,8 +61,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }, {
       label: '主题色',
@@ -70,8 +70,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }, {
       label: '全屏',
@@ -79,8 +79,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }, {
       label: '锁屏',
@@ -88,8 +88,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }, {
       label: '搜索',
@@ -97,8 +97,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }, {
       label: '缩放',
@@ -106,8 +106,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }, {
       label: '顶部菜单',
@@ -115,8 +115,8 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
-        _safe.set(column.prop);
+      click: ({ column }) => {
+        _safe.set(column.prop)
       }
     }]
   }

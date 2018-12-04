@@ -19,10 +19,10 @@ const DIC = {
     label: '成功',
     value: 1
   },
-    {
-      label: '失败',
-      value: 0
-    }
+  {
+    label: '失败',
+    value: 0
+  }
   ]
 }
 
@@ -83,7 +83,7 @@ export const tableOption = {
       label: '执行结果',
       prop: 'isSuccess',
       type: 'select',
-      dicData: DIC.isSuccess,
+      dicData: DIC.isSuccess
     },
     {
       label: '开始时间',
@@ -93,6 +93,6 @@ export const tableOption = {
     {
       label: '完成时间',
       prop: 'completeTime'
-    },
+    }
   ]
 }

@@ -17,7 +17,7 @@
 
 import request from '@/router/axios'
 
-export function fetchList(query) {
+export function fetchList (query) {
   return request({
     url: '/act/model',
     method: 'get',
@@ -25,22 +25,21 @@ export function fetchList(query) {
   })
 }
 
-export function delObj(id) {
+export function delObj (id) {
   return request({
     url: '/act/model/' + id,
     method: 'delete'
   })
 }
 
-export function deploy(id) {
+export function deploy (id) {
   return request({
     url: '/act/model/deploy/' + id,
     method: 'post'
   })
 }
 
-
-export function addObj(obj) {
+export function addObj (obj) {
   return request({
     url: '/act/model/insert',
     method: 'post',
@@ -48,14 +47,14 @@ export function addObj(obj) {
   })
 }
 
-export function getObj(id) {
+export function getObj (id) {
   return request({
     url: '/admin/log/' + id,
     method: 'get'
   })
 }
 
-export function putObj(obj) {
+export function putObj (obj) {
   return request({
     url: '/admin/log/',
     method: 'put',

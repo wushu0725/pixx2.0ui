@@ -30,7 +30,7 @@ export const tableOption = {
     prop: 'roleId',
     span: 24,
     editDisabled: true,
-    addVisdiplay: false,
+    addVisdiplay: false
   }, {
     fixed: true,
     label: '角色名称',
@@ -41,12 +41,12 @@ export const tableOption = {
       message: '角色名称不能为空',
       trigger: 'blur'
     },
-      {
-        min: 3,
-        max: 20,
-        message: '长度在 3 到 20 个字符',
-        trigger: 'blur'
-      }
+    {
+      min: 3,
+      max: 20,
+      message: '长度在 3 到 20 个字符',
+      trigger: 'blur'
+    }
     ]
   }, {
     width: 150,
@@ -59,12 +59,12 @@ export const tableOption = {
       message: '角色标识不能为空',
       trigger: 'blur'
     },
-      {
-        min: 3,
-        max: 20,
-        message: '长度在 3 到 20 个字符',
-        trigger: 'blur'
-      }
+    {
+      min: 3,
+      max: 20,
+      message: '长度在 3 到 20 个字符',
+      trigger: 'blur'
+    }
     ]
   }, {
     width: 180,
@@ -73,7 +73,7 @@ export const tableOption = {
     overHidden: true,
     type: 'textarea',
     minRows: 6,
-    span: 24,
+    span: 24
   }, {
     width: 180,
     label: '创建时间',
@@ -83,6 +83,6 @@ export const tableOption = {
     valueFormat: 'yyyy-MM-dd HH:mm:ss',
     editDisabled: true,
     addVisdiplay: false,
-    span: 24,
+    span: 24
   }]
 }

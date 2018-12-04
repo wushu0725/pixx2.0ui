@@ -1,20 +1,20 @@
-import {removeToken, setToken} from '@/util/auth'
-import {getStore, setStore} from '@/util/store'
-import {isURL} from '@/util/validate'
-import {getUserInfo, loginByMobile, loginBySocial, loginByUsername, logout} from '@/api/login'
-import {deepClone, encryption} from '@/util/util'
-import webiste from '@/const/website';
-import {GetMenu} from '@/api/admin/menu'
+import { removeToken, setToken } from '@/util/auth'
+import { getStore, setStore } from '@/util/store'
+import { isURL } from '@/util/validate'
+import { getUserInfo, loginByMobile, loginBySocial, loginByUsername, logout } from '@/api/login'
+import { deepClone, encryption } from '@/util/util'
+import webiste from '@/const/website'
+import { GetMenu } from '@/api/admin/menu'
 
-function addPath(ele, first) {
-  const propsConfig = webiste.menu.props;
+function addPath (ele, first) {
+  const propsConfig = webiste.menu.props
   const propsDefault = {
     label: propsConfig.label || 'label',
     path: propsConfig.path || 'path',
     icon: propsConfig.icon || 'icon',
     children: propsConfig.children || 'children'
   }
-  const isChild = ele[propsDefault.children] && ele[propsDefault.children].length !== 0;
+  const isChild = ele[propsDefault.children] && ele[propsDefault.children].length !== 0
   if (!isChild && first) {
     ele[propsDefault.path] = ele[propsDefault.path] + '/index'
     return
@@ -23,7 +23,7 @@ function addPath(ele, first) {
     if (!isURL(child[propsDefault.path])) {
       child[propsDefault.path] = `${ele[propsDefault.path]}/${child[propsDefault.path] ? child[propsDefault.path] : 'index'}`
     }
-    addPath(child);
+    addPath(child)
   })
 }
 
@@ -44,8 +44,8 @@ const user = {
     }) || ''
   },
   actions: {
-    //根据用户名登录
-    LoginByUsername({commit}, userInfo) {
+    // 根据用户名登录
+    LoginByUsername ({ commit }, userInfo) {
       const user = encryption({
         data: userInfo,
         key: 'pigxpigxpigxpigx',
@@ -64,8 +64,8 @@ const user = {
         })
       })
     },
-    //根据手机号登录
-    LoginByPhone({commit}, userInfo) {
+    // 根据手机号登录
+    LoginByPhone ({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         loginByMobile(userInfo.mobile, userInfo.code).then(response => {
           const data = response.data
@@ -80,7 +80,7 @@ const user = {
       })
     },
     // 根据OpenId登录
-    LoginBySocial({commit}, param) {
+    LoginBySocial ({ commit }, param) {
       return new Promise((resolve, reject) => {
         loginBySocial(param.state, param.code).then(response => {
           const data = response.data
@@ -94,33 +94,33 @@ const user = {
         })
       })
     },
-    GetUserInfo({commit}) {
+    GetUserInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getUserInfo().then((res) => {
-          const data = res.data.data || {};
-          commit('SET_USERIFNO', data.sysUser);
-          commit('SET_ROLES', data.roles || []);
+          const data = res.data.data || {}
+          commit('SET_USERIFNO', data.sysUser)
+          commit('SET_ROLES', data.roles || [])
           commit('SET_PERMISSIONS', data.permissions || [])
-          resolve(data);
+          resolve(data)
         }).catch((err) => {
-          reject();
+          reject()
         })
       })
     },
-    //刷新token
-    RefeshToken({commit}) {
+    // 刷新token
+    RefeshToken ({ commit }) {
       return new Promise((resolve, reject) => {
         logout().then(() => {
-          commit('SET_TOKEN', new Date().getTime());
-          setToken();
-          resolve();
+          commit('SET_TOKEN', new Date().getTime())
+          setToken()
+          resolve()
         }).catch(error => {
           reject(error)
         })
       })
     },
     // 登出
-    LogOut({commit}) {
+    LogOut ({ commit }) {
       return new Promise((resolve, reject) => {
         logout().then(() => {
           commit('SET_MENU', [])
@@ -130,7 +130,7 @@ const user = {
           commit('SET_REFRESH_TOKEN', '')
           commit('SET_ROLES', [])
           commit('DEL_ALL_TAG')
-          commit('CLEAR_LOCK');
+          commit('CLEAR_LOCK')
           removeToken()
           resolve()
         }).catch(error => {
@@ -138,8 +138,8 @@ const user = {
         })
       })
     },
-    //注销session
-    FedLogOut({commit}) {
+    // 注销session
+    FedLogOut ({ commit }) {
       return new Promise(resolve => {
         commit('SET_MENU', [])
         commit('SET_PERMISSIONS', [])
@@ -148,21 +148,21 @@ const user = {
         commit('SET_REFRESH_TOKEN', '')
         commit('SET_ROLES', [])
         commit('DEL_ALL_TAG')
-        commit('CLEAR_LOCK');
+        commit('CLEAR_LOCK')
         removeToken()
         resolve()
       })
     },
-    //获取系统菜单
-    GetMenu({
-              commit
-            }) {
+    // 获取系统菜单
+    GetMenu ({
+      commit
+    }) {
       return new Promise(resolve => {
         GetMenu().then((res) => {
           const data = res.data.data
-          let menu = deepClone(data);
+          let menu = deepClone(data)
           menu.forEach(ele => {
-            addPath(ele);
+            addPath(ele)
           })
           commit('SET_MENU', menu)
           resolve(menu)
@@ -189,7 +189,7 @@ const user = {
       })
     },
     SET_USERIFNO: (state, userInfo) => {
-      state.userInfo = userInfo;
+      state.userInfo = userInfo
     },
     SET_MENU: (state, menu) => {
       state.menu = menu
@@ -198,13 +198,12 @@ const user = {
         content: state.menu,
         type: 'session'
       })
-
     },
     SET_MENU_ALL: (state, menuAll) => {
-      state.menuAll = menuAll;
+      state.menuAll = menuAll
     },
     SET_ROLES: (state, roles) => {
-      state.roles = roles;
+      state.roles = roles
     },
     SET_PERMISSIONS: (state, permissions) => {
       const list = {}

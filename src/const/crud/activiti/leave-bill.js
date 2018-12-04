@@ -51,7 +51,7 @@ export const tableOption = {
       type: 'datetime',
       overHidden: true,
       format: 'yyyy-MM-dd HH:mm',
-      valueFormat: "yyyy-MM-dd hh:mm:ss"
+      valueFormat: 'yyyy-MM-dd hh:mm:ss'
     },
     {
       label: '提交时间',

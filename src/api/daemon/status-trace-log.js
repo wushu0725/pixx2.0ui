@@ -17,7 +17,7 @@
 
 import request from '@/router/axios'
 
-export function fetchList(query) {
+export function fetchList (query) {
   return request({
     url: '/daemon/status-trace-log/page',
     method: 'get',
@@ -25,7 +25,7 @@ export function fetchList(query) {
   })
 }
 
-export function addObj(obj) {
+export function addObj (obj) {
   return request({
     url: '/daemon/status-trace-log',
     method: 'post',
@@ -33,21 +33,21 @@ export function addObj(obj) {
   })
 }
 
-export function getObj(id) {
+export function getObj (id) {
   return request({
     url: '/daemon/status-trace-log/' + id,
     method: 'get'
   })
 }
 
-export function delObj(id) {
+export function delObj (id) {
   return request({
     url: '/daemon/statustracelog/' + id,
     method: 'delete'
   })
 }
 
-export function putObj(obj) {
+export function putObj (obj) {
   return request({
     url: '/daemon/status-trace-log',
     method: 'put',

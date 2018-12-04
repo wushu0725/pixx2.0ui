@@ -47,34 +47,34 @@ export const tableOption = {
     label: '模型名称',
     prop: 'name'
   },
-    {
-      label: '描述',
-      prop: 'desc',
-      hide: true,
-      editDisabled: false,
-      addVisdiplay: true
-    }, {
-      label: '版本号',
-      prop: 'version',
-      editDisabled: true,
-      addVisdiplay: false
-    }, {
-      width: 150,
-      label: '创建时间',
-      prop: 'createTime',
-      type: 'datetime',
-      format: 'yyyy-MM-dd HH:mm',
-      valueFormat: 'timestamp',
-      editDisabled: true,
-      addVisdiplay: false
-    }, {
-      width: 150,
-      label: '最后更新时间',
-      prop: 'lastUpdateTime',
-      type: 'datetime',
-      format: 'yyyy-MM-dd HH:mm',
-      valueFormat: 'timestamp',
-      editDisabled: true,
-      addVisdiplay: false
-    }]
+  {
+    label: '描述',
+    prop: 'desc',
+    hide: true,
+    editDisabled: false,
+    addVisdiplay: true
+  }, {
+    label: '版本号',
+    prop: 'version',
+    editDisabled: true,
+    addVisdiplay: false
+  }, {
+    width: 150,
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'datetime',
+    format: 'yyyy-MM-dd HH:mm',
+    valueFormat: 'timestamp',
+    editDisabled: true,
+    addVisdiplay: false
+  }, {
+    width: 150,
+    label: '最后更新时间',
+    prop: 'lastUpdateTime',
+    type: 'datetime',
+    format: 'yyyy-MM-dd HH:mm',
+    valueFormat: 'timestamp',
+    editDisabled: true,
+    addVisdiplay: false
+  }]
 }

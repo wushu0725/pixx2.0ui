@@ -26,7 +26,7 @@ export const loginByUsername = (username, password, code, randomStr) => {
       'Authorization': 'Basic cGlnOnBpZw=='
     },
     method: 'post',
-    params: {username, password, randomStr, code, grant_type, scope}
+    params: { username, password, randomStr, code, grant_type, scope }
   })
 }
 
@@ -39,7 +39,7 @@ export const loginByMobile = (mobile, code) => {
       'Authorization': 'Basic cGlnOnBpZw=='
     },
     method: 'post',
-    params: {mobile: 'SMS@' + mobile, code: code, grant_type}
+    params: { mobile: 'SMS@' + mobile, code: code, grant_type }
   })
 }
 
@@ -52,7 +52,7 @@ export const loginBySocial = (state, code) => {
       'Authorization': 'Basic cGlnOnBpZw=='
     },
     method: 'post',
-    params: {mobile: state + '@' + code, grant_type}
+    params: { mobile: state + '@' + code, grant_type }
   })
 }
 

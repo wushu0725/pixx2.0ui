@@ -20,11 +20,11 @@ export default {
     label: '地址',
     width: 200,
     prop: 'url',
-    overHidden: true,
+    overHidden: true
   }, {
     label: '内容',
     prop: 'message',
-    overHidden: true,
+    overHidden: true
   }, {
     label: '错误堆栈',
     prop: 'stack',
@@ -33,6 +33,6 @@ export default {
     label: '时间',
     align: 'center',
     prop: 'time',
-    width: 200,
+    width: 200
   }]
 }

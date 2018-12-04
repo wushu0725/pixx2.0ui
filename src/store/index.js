@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     logs,
     tags
   },
-  getters,
+  getters
 })
 
 export default store

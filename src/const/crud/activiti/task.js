@@ -54,28 +54,28 @@ export const formOption = {
   span: 12,
   column: [
     {
-      label: "任务编号",
-      prop: "taskId",
+      label: '任务编号',
+      prop: 'taskId',
       disabled: true
     },
     {
-      label: "任务名称",
-      prop: "taskName",
+      label: '任务名称',
+      prop: 'taskName',
       disabled: true
     },
     {
-      label: "申请人",
-      prop: "username",
+      label: '申请人',
+      prop: 'username',
       disabled: true
     },
     {
-      label: "请假时长",
-      prop: "days",
+      label: '请假时长',
+      prop: 'days',
       disabled: true
     },
     {
-      label: "请假时间",
-      prop: "createTime",
+      label: '请假时间',
+      prop: 'createTime',
       type: 'datetime',
       format: 'yyyy-MM-dd HH:mm',
       disabled: true
@@ -105,8 +105,8 @@ export const formOption = {
       span: 24,
       rules: [{
         required: true,
-        message: "请输入备注",
-        trigger: "blur"
+        message: '请输入备注',
+        trigger: 'blur'
       }]
     }
   ]
@@ -132,11 +132,11 @@ export const taskOption = {
       label: '批注',
       prop: 'fullMessage'
     }, {
-      label: "操作时间",
-      prop: "time",
-      type: "datetime",
-      format: "yyyy-MM-dd hh:mm:ss",
-      valueFormat: "yyyy-MM-dd hh:mm:ss",
+      label: '操作时间',
+      prop: 'time',
+      type: 'datetime',
+      format: 'yyyy-MM-dd hh:mm:ss',
+      valueFormat: 'yyyy-MM-dd hh:mm:ss'
     }
   ]
 }

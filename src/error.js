@@ -1,8 +1,7 @@
-import Vue from 'vue';
+import Vue from 'vue'
 import store from './store'
 
 Vue.config.errorHandler = function (err, vm, info) {
-
   Vue.nextTick(() => {
     store.commit('ADD_LOGS', {
       type: 'error',
@@ -13,13 +12,13 @@ Vue.config.errorHandler = function (err, vm, info) {
     if (process.env.NODE_ENV === 'development') {
       console.group('>>>>>> 错误信息 >>>>>>')
       console.log(info)
-      console.groupEnd();
+      console.groupEnd()
       console.group('>>>>>> Vue 实例 >>>>>>')
       console.log(vm)
-      console.groupEnd();
+      console.groupEnd()
       console.group('>>>>>> Error >>>>>>')
       console.log(err)
-      console.groupEnd();
+      console.groupEnd()
     }
   })
 }

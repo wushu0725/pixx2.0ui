@@ -4,44 +4,44 @@
  */
 import router from './router/router'
 import store from './store'
-import {validatenull} from '@/util/validate'
-import {getToken} from '@/util/auth'
+import { validatenull } from '@/util/validate'
+import { getToken } from '@/util/auth'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-NProgress.configure({showSpinner: false});
-const lockPage = store.getters.website.lockPage; //锁屏页
+NProgress.configure({ showSpinner: false })
+const lockPage = store.getters.website.lockPage // 锁屏页
 router.beforeEach((to, from, next) => {
-  //缓冲设置
+  // 缓冲设置
   if (to.meta.keepAlive === true && store.state.tags.tagList.some(ele => {
-    return ele.value === to.fullPath;
+    return ele.value === to.fullPath
   })) {
-    to.meta.$keepAlive = true;
+    to.meta.$keepAlive = true
   } else {
     NProgress.start()
     if (to.meta.keepAlive === true && validatenull(to.meta.$keepAlive)) {
-      to.meta.$keepAlive = true;
+      to.meta.$keepAlive = true
     } else {
-      to.meta.$keepAlive = false;
+      to.meta.$keepAlive = false
     }
   }
-  const meta = to.meta || {};
+  const meta = to.meta || {}
   if (getToken()) {
     if (store.getters.isLock && to.path != lockPage) {
-      next({path: lockPage})
+      next({ path: lockPage })
     } else if (to.path === '/login') {
-      next({path: '/'})
+      next({ path: '/' })
     } else {
       if (store.getters.roles.length === 0) {
         store.dispatch('GetUserInfo').then(() => {
-          next({...to, replace: true})
+          next({ ...to, replace: true })
         }).catch(() => {
           store.dispatch('FedLogOut').then(() => {
-            next({path: '/login'})
+            next({ path: '/login' })
           })
         })
       } else {
-        const value = to.query.src || to.fullPath;
-        const label = to.query.name || to.name;
+        const value = to.query.src || to.fullPath
+        const label = to.query.name || to.name
         if (meta.isTab !== false && !validatenull(value) && !validatenull(label)) {
           store.commit('ADD_TAG', {
             label: label,
@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
             params: to.params,
             query: to.query,
             group: router.$avueRouter.group || []
-          });
+          })
         }
         next()
       }
@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
-  NProgress.done();
-  const title = store.getters.tag.label;
-  router.$avueRouter.setTitle(title);
-});
+  NProgress.done()
+  const title = store.getters.tag.label
+  router.$avueRouter.setTitle(title)
+})
