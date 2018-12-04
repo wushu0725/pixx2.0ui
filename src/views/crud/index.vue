@@ -47,7 +47,7 @@
               <a :href='props.row.address'
                  target="_blank">
                 <img :src="props.row.stars"
-                     alt='star' />
+                     alt='star'/>
               </a>
             </el-form-item>
           </el-form>
@@ -61,7 +61,7 @@
           <a :href='scope.row.git'
              target="_blank">
             <img :src="scope.row.stars"
-                 alt='star' />
+                 alt='star'/>
           </a>
         </template>
         <template slot-scope="scope"
@@ -75,82 +75,87 @@
 </template>
 
 <script>
-import { tableOption } from '@/const/crud/option'
-import { tableData } from '@/const/crud/data'
-export default {
-  name: 'crud',
-  data () {
-    return {
-      tableData: tableData,
-      tableOption: tableOption
-    }
-  },
-  mounted: function () { },
-  methods: {
-    handleDel: function (row, index) {
-      var _this = this
-      this.$confirm('是否确认删除序号为' + row.username, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(function () {
-          _this.tableData.splice(index, 1)
-          _this.$message({
-            showClose: true,
-            message: '删除成功',
-            type: 'success'
-          })
+  import {tableOption} from '@/const/crud/option'
+  import {tableData} from '@/const/crud/data'
+
+  export default {
+    name: 'crud',
+    data() {
+      return {
+        tableData: tableData,
+        tableOption: tableOption
+      }
+    },
+    mounted: function () {
+    },
+    methods: {
+      handleDel: function (row, index) {
+        var _this = this
+        this.$confirm('是否确认删除序号为' + row.username, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         })
-        .catch(function (err) { })
-    },
-    /**
-     * @title 数据更新
-     * @param row 为当前的数据
-     * @param index 为当前更新数据的行数
-     * @param done 为表单关闭函数
-     *
-     **/
-    handleUpdate: function (row, index, done) {
-      this.tableData.splice(index, 1, Object.assign({}, row))
-      this.$message({
-        showClose: true,
-        message: '修改成功',
-        type: 'success'
-      })
-      done()
-    },
-    /**
-     * @title 数据添加
-     * @param row 为当前的数据
-     * @param done 为表单关闭函数
-     *
-     **/
-    handleSave: function (row, done) {
-      this.tableData.push(Object.assign({}, row))
-      this.$message({
-        showClose: true,
-        message: '添加成功',
-        type: 'success'
-      })
-      done()
+          .then(function () {
+            _this.tableData.splice(index, 1)
+            _this.$message({
+              showClose: true,
+              message: '删除成功',
+              type: 'success'
+            })
+          })
+          .catch(function (err) {
+          })
+      },
+      /**
+       * @title 数据更新
+       * @param row 为当前的数据
+       * @param index 为当前更新数据的行数
+       * @param done 为表单关闭函数
+       *
+       **/
+      handleUpdate: function (row, index, done) {
+        this.tableData.splice(index, 1, Object.assign({}, row))
+        this.$message({
+          showClose: true,
+          message: '修改成功',
+          type: 'success'
+        })
+        done()
+      },
+      /**
+       * @title 数据添加
+       * @param row 为当前的数据
+       * @param done 为表单关闭函数
+       *
+       **/
+      handleSave: function (row, done) {
+        this.tableData.push(Object.assign({}, row))
+        this.$message({
+          showClose: true,
+          message: '添加成功',
+          type: 'success'
+        })
+        done()
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-.demo-table-expand {
-  font-size: 0;
-}
-.demo-table-expand label {
-  width: 90px;
-  color: #99a9bf;
-}
-.demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 50%;
-}
+  .demo-table-expand {
+    font-size: 0;
+  }
+
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
 </style>
 

@@ -24,10 +24,11 @@ export function fetchList(query) {
     params: query
   })
 }
+
 export function putObj(obj) {
-    return request({
-        url: '/admin/route',
-        method: 'put',
-        data: obj
-    })
+  return request({
+    url: '/admin/route',
+    method: 'put',
+    data: obj
+  })
 }

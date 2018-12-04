@@ -16,12 +16,14 @@
  */
 
 import request from '@/router/axios'
+
 export function GetMenu() {
   return request({
     url: '/admin/menu',
     method: 'get'
   })
 }
+
 export function fetchTree(query) {
   return request({
     url: '/admin/menu/tree',

@@ -57,7 +57,6 @@
       </el-row>
 
     </el-form-item>
-    <el-checkbox v-model="checked">记住账号</el-checkbox>
     <el-form-item>
       <el-button type="primary"
                  size="small"

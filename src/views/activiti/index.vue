@@ -32,13 +32,16 @@
                   slot="menuBtn">
           <el-dropdown-item divided
                             v-if="permissions.act_model_manage"
-                            @click.native="handleView(scope.row,scope.index)">模型图</el-dropdown-item>
+                            @click.native="handleView(scope.row,scope.index)">模型图
+          </el-dropdown-item>
           <el-dropdown-item divided
                             v-if="permissions.act_model_manage"
-                            @click.native="handleDeploy(scope.row,scope.index)">部署</el-dropdown-item>
+                            @click.native="handleDeploy(scope.row,scope.index)">部署
+          </el-dropdown-item>
           <el-dropdown-item divided
                             v-if="permissions.act_model_manage"
-                            @click.native="handleDel(scope.row,scope.index)">删除</el-dropdown-item>
+                            @click.native="handleDel(scope.row,scope.index)">删除
+          </el-dropdown-item>
 
         </template>
       </avue-crud>
@@ -47,126 +50,125 @@
 </template>
 
 <script>
-import { fetchList, delObj, addObj, deploy } from '@/api/activiti/activiti'
-import { tableOption } from '@/const/crud/activiti/activiti'
-import { mapGetters } from 'vuex'
-export default {
-  name: 'activiti',
-  data () {
-    return {
-      tableData: [],
-      page: {
-        total: 0, // 总页数
-        currentPage: 1, // 当前页数
-        pageSize: 20 // 每页显示多少条
-      },
-      tableLoading: false,
-      tableOption: tableOption
-    }
-  },
-  created () {
-  },
-  mounted: function () { },
-  computed: {
-    ...mapGetters(['permissions'])
-  },
-  methods: {
-    getList (page,params) {
-      this.tableLoading = true
-      fetchList(Object.assign({
+  import {addObj, delObj, deploy, fetchList} from '@/api/activiti/activiti'
+  import {tableOption} from '@/const/crud/activiti/activiti'
+  import {mapGetters} from 'vuex'
+
+  export default {
+    name: 'activiti',
+    data() {
+      return {
+        tableData: [],
+        page: {
+          total: 0, // 总页数
+          currentPage: 1, // 当前页数
+          pageSize: 20 // 每页显示多少条
+        },
+        tableLoading: false,
+        tableOption: tableOption
+      }
+    },
+    created() {
+    },
+    mounted: function () {
+    },
+    computed: {
+      ...mapGetters(['permissions'])
+    },
+    methods: {
+      getList(page, params) {
+        this.tableLoading = true
+        fetchList(Object.assign({
           descs: 'create_time',
           current: page.currentPage,
           size: page.pageSize
-      }, params)).then(response => {
-        this.tableData = response.data.data.records
-        this.page.total = response.data.data.total
-        this.tableLoading = false
-      })
-    },
-    handleView (row, index) {
-      const name = `模型id为${row.id}的${row.name}流程图`,
-        src = `/activti/detail/${row.id}`;
-      this.$router.push({
-        path: src,
-        query: {
-          name: name
-        }
-      })
-    },
-    handleDel (row, index) {
-      this.$refs.crud.rowDel(row, index)
-    },
-    handleDeploy: function (row, index) {
-      var _this = this
-      this.$confirm('是否确认部署ID为"' + row.id + '"的模型?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(function () {
-        return deploy(row.id)
-      })
-        .then(data => {
+        }, params)).then(response => {
+          this.tableData = response.data.data.records
+          this.page.total = response.data.data.total
+          this.tableLoading = false
+        })
+      },
+      handleView(row, index) {
+        const name = `模型id为${row.id}的${row.name}流程图`,
+          src = `/activti/detail/${row.id}`;
+        this.$router.push({
+          path: src,
+          query: {
+            name: name
+          }
+        })
+      },
+      handleDel(row, index) {
+        this.$refs.crud.rowDel(row, index)
+      },
+      handleDeploy: function (row, index) {
+        var _this = this
+        this.$confirm('是否确认部署ID为"' + row.id + '"的模型?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(function () {
+          return deploy(row.id)
+        }).then(data => {
           this.getList(this.page)
           _this.$message({
             showClose: true,
             message: '部署成功',
             type: 'success'
           })
+        }).catch(function (err) {
         })
-        .catch(function (err) { })
-    },
-    rowDel: function (row, index) {
-      var _this = this
-      this.$confirm('是否确认删除ID为"' + row.id + '"的模型?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(function () {
+      },
+      rowDel: function (row, index) {
+        var _this = this
+        this.$confirm('是否确认删除ID为"' + row.id + '"的模型?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(function () {
           return delObj(row.id)
-        })
-        .then(data => {
+        }).then(data => {
           this.getList(this.page)
           _this.$message({
             showClose: true,
             message: '删除成功',
             type: 'success'
           })
+        }).catch(function (err) {
         })
-        .catch(function (err) { })
-    },
-    /**
-     * @title 数据添加
-     * @param row 为当前的数据
-     * @param done 为表单关闭函数
-     *
-     **/
-    handleSave: function (row, done) {
-      addObj(row).then(data => {
-        this.tableData.push(Object.assign({}, row))
-        this.$message({
-          showClose: true,
-          message: '添加成功',
-          type: 'success'
+      },
+      /**
+       * @title 数据添加
+       * @param row 为当前的数据
+       * @param done 为表单关闭函数
+       *
+       **/
+      handleSave: function (row, done) {
+        addObj(row).then(data => {
+          this.tableData.push(Object.assign({}, row))
+          this.$message({
+            showClose: true,
+            message: '添加成功',
+            type: 'success'
+          })
+          done()
+          this.getList(this.page)
         })
-        done()
+      },
+      /**
+       * 搜索回调
+       */
+      searchChange(form) {
+        this.getList(this.page, form)
+      },
+      /**
+       * 刷新回调
+       */
+      refreshChange() {
         this.getList(this.page)
-      })
-    },
-    /**
-     * 搜索回调
-     */
-    searchChange (form) {
-      this.getList(this.page,form)
-    },
-    /**
-     * 刷新回调
-     */
-    refreshChange () {
-      this.getList(this.page)
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>

@@ -20,11 +20,10 @@
               class="login-select animated fadeIn"
               v-model="active"
               @change="handleCommand"
-              placeholder="请选择租户，不选为默认"
-              size="mini"
-            >
-              <el-option label="租户1" value="1"></el-option>
-              <el-option label="租户2" value="2"></el-option>
+              placeholder="点击请选择租户"
+              size="mini">
+              <el-option label="租户1 用户登录" value="1"></el-option>
+              <el-option label="租户2 用户登录" value="2"></el-option>
             </el-select>
           </h4>
           <userLogin v-if="activeName==='user'"></userLogin>

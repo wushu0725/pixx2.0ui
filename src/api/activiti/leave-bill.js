@@ -41,10 +41,10 @@ export function getObj(id) {
 }
 
 export function submit(id) {
-    return request({
-        url: '/act/leave-bill/submit/' + id,
-        method: 'get'
-    })
+  return request({
+    url: '/act/leave-bill/submit/' + id,
+    method: 'get'
+  })
 }
 
 export function delObj(id) {

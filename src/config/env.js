@@ -15,10 +15,10 @@ if (env.NODE_ENV == 'development') {
 
 }
 export {
-    baseUrl,
-    actUrl,
-    iconfontUrl,
-    iconfontVersion,
-    codeUrl,
-    env
+  baseUrl,
+  actUrl,
+  iconfontUrl,
+  iconfontVersion,
+  codeUrl,
+  env
 }

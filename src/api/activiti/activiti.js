@@ -33,10 +33,10 @@ export function delObj(id) {
 }
 
 export function deploy(id) {
-    return request({
-        url: '/act/model/deploy/' + id,
-        method: 'post'
-    })
+  return request({
+    url: '/act/model/deploy/' + id,
+    method: 'post'
+  })
 }
 
 
