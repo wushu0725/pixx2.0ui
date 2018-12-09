@@ -127,8 +127,8 @@
                            :disabled="formEdit"
                            active-color="#13ce66"
                            inactive-color="#ff4949"
-                           :active-value='"0"'
-                           :inactive-value='"1"'>
+                           :active-value='"1"'
+                           :inactive-value='"0"'>
                 </el-switch>
               </el-form-item>
               <el-form-item v-if="formStatus == 'update'">

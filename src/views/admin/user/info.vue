@@ -78,9 +78,6 @@
   import request from '@/router/axios'
 
   export default {
-    components: {
-      ElFormItem
-    },
     data() {
       var validatePass = (rule, value, callback) => {
         if (this.ruleForm2.password !== '') {
