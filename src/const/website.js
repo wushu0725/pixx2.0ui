@@ -17,7 +17,6 @@ export default {
     ]
   },
   // http的status默认放行不才用统一处理的,
-  statusWhiteList: [400, 500, 401],
   // 配置首页不可关闭
   isFirstPage: false,
   fistPage: {

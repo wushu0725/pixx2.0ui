@@ -5,15 +5,14 @@
  * serialize是否开启form表单提交
  * isToken是否需要token
  */
-import axios from 'axios'
-import { serialize } from '@/util/util'
+import {serialize} from '@/util/util'
 import website from '@/const/website'
 import store from '../store'
-import { getStore } from '../util/store'
-import { getToken } from '@/util/auth'
+import {getStore} from '../util/store'
+import {getToken} from '@/util/auth'
 import NProgress from 'nprogress' // progress bar
 import errorCode from '@/const/errorCode'
-import { Message } from 'element-ui'
+import {Message} from 'element-ui'
 import 'nprogress/nprogress.css' // progress bar style
 axios.defaults.timeout = 30000
 // 返回其他状态吗
@@ -33,7 +32,7 @@ axios.interceptors.request.use(config => {
   if (store.getters.access_token && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
   }
-  const TENANT_ID = getStore({ name: 'tenantId' })
+  const TENANT_ID = getStore({name: 'tenantId'})
   if (TENANT_ID) {
     config.headers['TENANT_ID'] = TENANT_ID // 租户ID
   }
@@ -50,16 +49,22 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(res => {
   NProgress.done()
   const status = Number(res.status) || 200
-  const statusWhiteList = website.statusWhiteList || []
-  const message = res.data.message || errorCode[status] || errorCode['default']
-  if (status !== 200 & !statusWhiteList.includes(status)) {
+  const message = res.data.msg || errorCode[status] || errorCode['default']
+  if (res.data.code === 1) {
     Message({
       message: message,
       type: 'error'
     })
     return Promise.reject(new Error(message))
   }
-  if (status !== 200) return Promise.reject(res)
+  if (status !== 200) {
+    Message({
+      message: message,
+      type: 'error'
+    })
+    return Promise.reject(new Error(message))
+  }
+
   return res
 }, error => {
   NProgress.done()
