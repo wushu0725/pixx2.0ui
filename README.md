@@ -1,48 +1,37 @@
-# avue-cli
+## pigx 2.0
+[pigx 2.0 部署文档](doc/md/deploy.md)  
+[pigx 2.0 新特性说明  ](https://www.bilibili.com/video/av37786337)   
+[pigx 2.0 从检出到启动](https://www.bilibili.com/video/av37695530)  
+[pigx pro新建微服务模块（一）](https://www.bilibili.com/video/av37737139)  
+[pigx pro新建微服务模块（二）](https://www.bilibili.com/video/av37740030)  
+[pigx pro新建微服务模块（三）](https://www.bilibili.com/video/av37743341)  
+[pigx pro新建微服务模块（四）](https://www.bilibili.com/video/av37774264)  
 
-这是基于vue-cli@3.0改的一个脚手架  
 
-## Run vueUI
-* 1.npm install -g @vue/cli  全局安装vue脚手架最新版
-* 2.vue --version 查看版本是否为3.x版本
-* 3.vue-ui 运行管理工具，导入avue-cli项目
-* 4.剩下的自己摸索吧，下面时图示
+## 协议和授权
 
-![图例1](https://gitee.wang/avue/avue-cli/raw/master/public/img/mock/cli/1.png)  
-![图例2](https://gitee.wang/avue/avue-cli/raw/master/public/img/mock/cli/2.png)  
-![图例3](https://gitee.wang/avue/avue-cli/raw/master/public/img/mock/cli/3.png)  
+pigX并非一个开源软件，作者保留全部的权利。
 
-## Run setup
-```
-cd avue-cli
-```
+### 🌹权益
 
-## Project setup
-```
-npm install
-```
+1. 个人使用
+2. 允许用于学习、毕设等。
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### 🚫禁止  
 
-### Compiles and minifies for production
-```
-npm run build
-```
+1. 将本项目的部分或全部代码和资源进行任何形式的再发行（尤其上传GitHub、Gitee ）
+2. 利用本项目的部分或全部代码和资源进行`任何商业行为`
 
-### Lints and fixes files
-```
-npm run lint
-```
+## 贡献代码
 
-### Run your unit tests
-```
-npm run test:unit
-```
+pigX并非一个开源项目，也不是社区共同创造，其全部功能由作者独立完成。
 
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
+如果你愿意放弃所有权利，并将权利无条件转让给pigX作者，欢迎您贡献代码,当然会给予不等金额奖励。
+
+## 提交反馈
+
+1. 欢迎提交 issue，请写清楚遇到问题的原因，浏览器和操作系统环境，重现的流程。
+如果有开发能力，建议在本地调试出出错的代码。
+
+2. 不接受`功能请求`的 issue，功能请求可能会被直接关闭，请谅解（正确的方式是打赏并附言）。
+
