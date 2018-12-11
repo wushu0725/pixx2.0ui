@@ -12,6 +12,7 @@ import {getStore} from '../util/store'
 import {getToken} from '@/util/auth'
 import NProgress from 'nprogress' // progress bar
 import errorCode from '@/const/errorCode'
+import router from "@/router/router"
 import {Message} from 'element-ui'
 import 'nprogress/nprogress.css' // progress bar style
 axios.defaults.timeout = 30000
@@ -57,13 +58,16 @@ axios.interceptors.response.use(res => {
     })
     return Promise.reject(new Error(message))
   }
+
   if (status === 401) {
     store.dispatch('FedLogOut').then(() => {
       router.push({
         path: '/login'
       })
     })
+    return
   }
+
   if (status !== 200) {
     Message({
       message: message,
