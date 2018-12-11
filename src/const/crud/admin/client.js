@@ -62,7 +62,6 @@ export const tableOption = {
     label: '域',
     prop: 'scope',
     align: 'center',
-    width: 150,
     rules: [{
       required: true,
       message: '请输入scope',
@@ -72,7 +71,6 @@ export const tableOption = {
     label: '授权模式',
     prop: 'authorizedGrantTypes',
     align: 'center',
-    width: 150,
     overHidden: true,
     rules: [{
       required: true,
@@ -83,29 +81,11 @@ export const tableOption = {
     label: '回调地址',
     prop: 'webServerRedirectUri',
     align: 'center',
-    width: 150,
     hide: true
   }, {
     label: '权限',
     prop: 'authorities',
     align: 'center',
-    width: 150,
-    hide: true
-  }, {
-    label: '令牌时效',
-    prop: 'accessTokenValidity',
-    align: 'center',
-    width: 80
-  }, {
-    label: '刷新时效',
-    prop: 'refreshTokenValidity',
-    align: 'center',
-    width: 80
-  }, {
-    label: '扩展信息',
-    prop: 'additionalInformation',
-    align: 'center',
-    width: 80,
     hide: true
   }, {
     label: '自动放行',
@@ -113,17 +93,28 @@ export const tableOption = {
     align: 'center',
     type: 'radio',
     dicData: DIC.vaild,
-    width: 80,
     rules: [{
       required: true,
       message: '请选择是否放行',
       trigger: 'blur'
     }]
   }, {
+    label: '令牌时效',
+    prop: 'accessTokenValidity',
+    align: 'center',
+  }, {
+    label: '刷新时效',
+    prop: 'refreshTokenValidity',
+    align: 'center',
+  }, {
+    label: '扩展信息',
+    prop: 'additionalInformation',
+    align: 'center',
+    hide: true
+  }, {
     label: '资源ID',
     prop: 'resourceIds',
     align: 'center',
-    hide: true,
-    width: 150
+    hide: true
   }]
 }
